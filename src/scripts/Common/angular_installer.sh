@@ -55,7 +55,9 @@ if check_internet; then
     log_message "INFO" "Activating NVM Environment"
     echo "-> Activating NVM Environment..."
     sleep 1
-    source ~/.bashrc || handle_error "Failed to Activate NVM Environment" 
+    source $HOME/.bashrc || handle_error "Failed to Activate NVM Environment" 
+    source ~/.nvm/nvm.sh || handle_error "Failed to Activate NVM Environment"
+    source ~/.profile    || handle_error "Failed to Activate NVM Environment"
 
     log_message "INFO" "Installing Node.js 18 LTS"
     echo "-> Installing Node.js 18 LTS..."
