@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Script Paths
+declare -A scriptPaths=(
+    ["angular_installer"]="src/scripts/Common/angular_installer.sh"
+    ["android_studio_installer"]="src/scripts/Ubuntu/android_studio_installer.sh"
+    ["nvidia_driver_installer"]="src/scripts/Ubuntu/nvidia_installer.sh"
+)
 
 # Function that log every step taken for easier debugging
 # Parameters :
@@ -35,7 +41,7 @@ invalidOption() {
     echo "Press Enter To Continue ..."
     read
     if [ $# -gt 0 ]; then
-    "$1"
+        "$1"
     fi
 }
 
@@ -43,4 +49,115 @@ invalidOption() {
 check_internet() {
     ping -c 1 -q google.com >&/dev/null
     return $?
+}
+
+# Function that prints the Menu of different versions of a selected distro
+# Parameters : 
+# $1 : Menu Title
+# $@ : Menu Options
+# Example : 
+# showMenu "Title" "Option 1" "Option 2" ...
+showMenu() {
+    local title="$1"
+    shift
+    clear
+    echo "--------------------------------------"
+    echo " $title "
+    echo "--------------------------------------"
+    local index=1
+    for option in "$@"; do
+        echo "$index. $option"
+        ((index++))
+    done
+    echo -n "Enter Option: "
+}
+
+# Function that prints the menu of a selected option
+# Parameters :
+# $1 : Title of the Selected Option
+# $2 : /path/to/script_installer.sh
+# $3 : /path/to/script_remover.sh
+# $4 : Previous Menu to the Current One
+optionMenu() {
+    local selectedOption=$1
+    local installScript=$2
+    local removeScript=$3
+    local previousMenu=$4
+    while true; do
+        log_message "INFO" "Displaying $selectedOption Menu"
+        clear
+        echo "-------------------------------------------------"
+        echo " $selectedOption   "
+        echo "-------------------------------------------------"
+        echo "1. Install"
+        echo "2. Remove"
+        echo "3. Return To Previous Menu"
+        echo -n "Enter Option: "
+        read option
+        log_message "INFO" "User selected option $option in the $selectedOption Menu"
+        case $option in
+            1)
+                log_message "INFO" "User chose to Install $selectedOption" 
+                bash "$installScript" 
+                ;;
+            2)
+                log_message "INFO" "User chose to Remove $selectedOption"
+                bash "$removeScript" 
+                ;;
+            3)
+                log_message "INFO" "User chose to Return to Previous Menu"
+                "$previousMenu"
+                return 
+                ;;
+            *)
+                log_message "WARN" "User chose an invalid option : $option"
+                invalidOption 
+                optionMenu "$selectedOption" "$installScript" "$removeScript" "$previousMenu"
+                ;;
+        esac
+    done
+}
+
+
+# Function that prints the menu of available distributions of a selected option
+# Parameters :
+# $1 : Title of the Selected Option
+# $2 : /path/to/script_installer.sh
+# $3 : Previous Menu to the Current One
+distroMenu() {
+    # System Release
+    system_release=$(cat /etc/issue)
+
+    local selectedOption=$1
+    local ubuntuScriptInstaller=$2
+    local previousMenu=$3
+    while true; do
+        log_message "INFO" "Displaying $selectedOption Menu"
+        clear
+        echo "-------------------------------------------------"
+        echo " $selectedOption   "
+        echo "-------------------------------------------------"
+        echo "Select Your Linux Distribution : ( Distribution In Use -> '${system_release:0:-6}' )"
+        echo "1. Ubuntu or Ubuntu-Based"
+        echo "2. Return To Previous Menu"
+        echo -n "Enter Option: "
+        read option
+        log_message "INFO" "User selected option $option in the $selectedOption Menu"
+        case $option in
+            1)
+                log_message "INFO" "User chose Ubuntu or Ubuntu-Based" 
+                optionMenu "$selectedOption" "$ubuntuScriptInstaller" "" "$previousMenu"
+                ;;
+            2)
+                log_message "INFO" "User chose to Return to Previous Menu"
+                "$previousMenu"
+                return 
+                ;;
+            *)
+                log_message "WARN" "User chose an invalid option : $option"
+                invalidOption 
+                distroMenu "$selectedOption" "$ubuntuScriptInstaller" "$previousMenu"
+                ;;
+        esac
+    done
 }
