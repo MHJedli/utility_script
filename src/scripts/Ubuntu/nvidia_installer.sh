@@ -53,39 +53,48 @@ echo "Continue script execution in NVIDIA Driver Installation at $(date)" >> "$L
 if check_internet; then
 
     log_message "INFO" "Purging Current NVIDIA Installation if Existed"
-    echo "Purging Current NVIDIA Installation if Existed..."
+    echo "-> Purging Current NVIDIA Installation if Existed..."
     sleep 1
     sudo apt autoremove nvidia* --purge -y || handle_error "Failed to Purge NVIDIA"
 
     log_message "INFO" "Refreshing Package Cache"
-    echo "Refreshing Package Cache..."
+    echo "-> Refreshing Package Cache..."
     sleep 1
     sudo apt update || handle_error "Failed to Refresh Package Cache"
 
     log_message "INFO" "Updating System"
-    echo "Updating System Packages..."
+    echo "-> Updating System Packages..."
     sleep 1
     sudo apt upgrade -y || handle_error "Failed to Upgrade System Packages"
 
     log_message "INFO" "Installing Required Dependencies"
-    echo "Installing Required Dependencies..."
+    echo "-> Installing Required Dependencies..."
     sleep 1
     sudo apt install software-properties-common -y || handle_error "Failed To Install Required Dependencies"
 
     log_message "INFO" "Adding the graphics-drivers PPA"
-    echo "Adding the graphics-drivers PPA..."
+    echo "-> Adding the graphics-drivers PPA..."
     sleep 1
     sudo add-apt-repository ppa:graphics-drivers/ppa -y || handle_error "Failed to Add the graphics-drivers PPA"
 
     log_message "INFO" "Refreshing Package Cache"
-    echo "Refreshing Package Cache..."
+    echo "-> Refreshing Package Cache..."
     sleep 1
     sudo apt update || handle_error "Failed to Refresh Package Cache"
 
     log_message "INFO" "Installing NVIDIA Driver"
-    echo "Installing NVIDIA Driver..."
+    echo "-> Installing NVIDIA Driver..."
     sleep 1
     installDriver
+
+    echo -n "All Done ! Want to reboot now (Y/n) : "
+    read a
+    if [[ "$a" == "Y" || "$a" == "y" || "$a" == "" ]]; then
+        echo "Reboot in 3 seconds..."
+        reboot
+    fi
+
+    log_message "INFO" "NVIDIA Driver Installation Completed Successfully"
 
 else 
 
