@@ -25,6 +25,11 @@ if check_internet; then
     sleep 1
     java --version || handle_error "Failed to Check Installed Java Version"
 
+    log_message "INFO" "Installing Required Dependencies"
+    echo "-> Installing Required Dependencies..."
+    sleep 1
+    sudo apt install software-properties-common -y || handle_error "Failed To Install Required Dependencies"
+
     log_message "INFO" "Importing Android Studio Repository"
     echo "Importing Android Studio Repository..."
     sleep 1
