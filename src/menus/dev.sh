@@ -11,6 +11,7 @@ showDevelopmentMenu(){
     "         Development Menu" \
     "Install Angular CLI" \
     "Install Android Studio" \
+    "Setup Flutter" \
     "Return to Previous Menu"
 
     echo -n "Enter Option : "
@@ -27,6 +28,10 @@ showDevelopmentMenu(){
             showAndroidStudioMenu
             ;;
         3)
+            log_message "INFO" "User chose to setup flutter"
+            showFlutterMenu
+            ;;
+        4)
             log_message "INFO" "User chose To Return to Main Menu"
             showMainMenu
             ;;
@@ -51,4 +56,12 @@ showAndroidStudioMenu(){
                "${scriptPaths["android_studio_installer"]}" \
                "showDevelopmentMenu" \
 
+}
+
+showFlutterMenu(){
+    log_message "INFO" "Displaying Flutter Menu"
+    optionMenu "                    Flutter" \
+               "${scriptPaths["flutter_installer"]}" \
+               "" \
+               "showDevelopmentMenu"   
 }
