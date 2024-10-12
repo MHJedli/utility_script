@@ -71,7 +71,6 @@ showMenu() {
         echo "$index. $option"
         ((index++))
     done
-    echo -n "Enter Option: "
 }
 
 # Function that prints the menu of a selected option
