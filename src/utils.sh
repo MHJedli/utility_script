@@ -5,6 +5,7 @@ declare -A scriptPaths=(
     ["angular_installer"]="src/scripts/Common/angular_installer.sh"
     ["android_studio_installer"]="src/scripts/Ubuntu/android_studio_installer.sh"
     ["nvidia_driver_installer"]="src/scripts/Ubuntu/nvidia_installer.sh"
+    ["flutter_installer"]="src/scripts/Common/flutter_installer.sh"
 )
 
 # Function that log every step taken for easier debugging
