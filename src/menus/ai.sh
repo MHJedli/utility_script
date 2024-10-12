@@ -43,12 +43,30 @@ showAIMenu(){
 
 showPyTorchMenu(){
 
+    log_message "INFO" "Displaying PyTorch Menu"
+        optionMenu "                   PyTorch" \
+                   "" \
+                   "" \
+                   "showAIMenu"
+
 }
 
 showCondaMenu(){
 
+    log_message "INFO" "Displaying Conda Menu"
+    optionMenu "                    Conda" \
+               "" \
+               "" \
+               "showAIMenu"
+
 }
 
 showTensorFlowMenu(){
+
+    log_message "INFO" "Displaying Tensor Flow Menu"
+    optionMenu "                  Tensor Flow" \
+               "" \
+               "" \
+               "showAIMenu"
     
 }
