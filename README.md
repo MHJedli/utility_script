@@ -41,3 +41,12 @@ scripts
 ![Screenshot from 2024-10-13 16-50-56](https://github.com/user-attachments/assets/62a0657e-f7a8-444b-b470-c3951080818a)
 
 <br>
+To run the script :
+<pre>
+    $ git clone 
+    $ cd utility_script/
+    $ bash utility_script.sh
+</pre>
+
+# NOTE :
+*    The script is improving by time. Expect new features in the future.
