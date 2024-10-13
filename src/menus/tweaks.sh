@@ -32,7 +32,7 @@ showSystemTweaksMenu(){
             log_message "INFO" "User chose to Install NVIDIA CUDA Toolkit"
             log_message "INFO" "Displaying NVIDIA CUDA Toolkit Menu"
             optionMenu "              NVIDIA CUDA Toolkit" \
-               "" \
+               "${scriptPaths["cuda_installer"]}" \
                "" \
                "showSystemTweaksMenu"
             ;;

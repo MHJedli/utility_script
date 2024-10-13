@@ -6,6 +6,7 @@ declare -A scriptPaths=(
     ["android_studio_installer"]="src/scripts/dev/android_studio_installer.sh"
     ["flutter_installer"]="src/scripts/dev/flutter_installer.sh"
     ["nvidia_driver_installer"]="src/scripts/tweaks/nvidia_installer.sh"
+    ["cuda_installer"]="src/scripts/tweaks/cuda_installer.sh"
     
 )
 
