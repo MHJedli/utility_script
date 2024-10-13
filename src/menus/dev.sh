@@ -52,9 +52,10 @@ showAngularMenu(){
 
 showAndroidStudioMenu(){
     log_message "INFO" "Displaying Android Studio Menu"
-    distroMenu "                Android Studio" \
+    optionMenu "                Android Studio" \
                "${scriptPaths["android_studio_installer"]}" \
-               "showDevelopmentMenu" \
+               "" \
+               "showDevelopmentMenu"
 
 }
 
