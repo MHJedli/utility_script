@@ -8,6 +8,7 @@ declare -A scriptPaths=(
     ["nvidia_driver_installer"]="src/scripts/tweaks/nvidia_installer.sh"
     ["cuda_installer"]="src/scripts/tweaks/cuda_installer.sh"
     ["conda_installer"]="src/scripts/ai/conda_installer.sh"
+    ["pytorch_installer"]="src/scripts/ai/pytorch_installer.sh"
     
 )
 

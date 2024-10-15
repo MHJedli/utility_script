@@ -45,7 +45,7 @@ showPyTorchMenu(){
 
     log_message "INFO" "Displaying PyTorch Menu"
         optionMenu "                   PyTorch" \
-                   "" \
+                   "${scriptPaths["pytorch_installer"]}" \
                    "" \
                    "showAIMenu"
 
