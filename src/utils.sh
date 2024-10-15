@@ -7,6 +7,7 @@ declare -A scriptPaths=(
     ["flutter_installer"]="src/scripts/dev/flutter_installer.sh"
     ["nvidia_driver_installer"]="src/scripts/tweaks/nvidia_installer.sh"
     ["cuda_installer"]="src/scripts/tweaks/cuda_installer.sh"
+    ["conda_installer"]="src/scripts/ai/conda_installer.sh"
     
 )
 
