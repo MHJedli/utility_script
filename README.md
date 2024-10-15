@@ -54,7 +54,7 @@ https://github.com/user-attachments/assets/cb23403f-8ee3-49e7-bf38-89c38ffed16d
 
 To run the script :
 <pre>
-    $ git clone 
+    $ git clone https://github.com/MHJedli/utility_script.git
     $ cd utility_script/
     $ bash utility_script.sh
 </pre>
