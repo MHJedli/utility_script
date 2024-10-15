@@ -1,5 +1,6 @@
 # My Utility Script :
 *  A TUI script that helps you install development tools depending on your use case.
+*  This script is meant for ubuntu or ubuntu-based users (Maybe port for other distros)
 <br><br>
 *  Current Script Directory Structure :
 ```
@@ -20,6 +21,7 @@
 ```
 scripts
 ├── ai
+|   └── conda_installer.sh
 ├── dev
 │   ├── android_studio_installer.sh
 │   ├── angular_installer.sh
@@ -41,6 +43,15 @@ scripts
 ![Screenshot from 2024-10-13 16-50-56](https://github.com/user-attachments/assets/62a0657e-f7a8-444b-b470-c3951080818a)
 
 <br>
+* DEMO :<br>
+Live Script Installation of Conda on Ubuntu 24.04 :
+  
+
+https://github.com/user-attachments/assets/cb23403f-8ee3-49e7-bf38-89c38ffed16d
+
+
+
+
 To run the script :
 <pre>
     $ git clone 
