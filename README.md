@@ -21,6 +21,7 @@
 ```
 scripts
 ├── ai
+|   ├── pytorch_installer.sh
 |   └── conda_installer.sh
 ├── dev
 │   ├── android_studio_installer.sh
