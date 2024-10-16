@@ -12,6 +12,7 @@ showDevelopmentMenu(){
     "Install Angular CLI" \
     "Install Android Studio" \
     "Setup Flutter" \
+    "Install Oracle VirtualBox" \
     "Return to Previous Menu"
 
     echo -n "Enter Option : "
@@ -32,6 +33,10 @@ showDevelopmentMenu(){
             showFlutterMenu
             ;;
         4)
+            log_message "INFO" "User chose to install Oracle VirtualBox"
+            showVirtualBoxMenu
+            ;;
+        5)
             log_message "INFO" "User chose To Return to Main Menu"
             showMainMenu
             ;;
@@ -65,4 +70,11 @@ showFlutterMenu(){
                "${scriptPaths["flutter_installer"]}" \
                "" \
                "showDevelopmentMenu"   
+}
+showVirtualBoxMenu(){
+    log_message "INFO" "Displaying Flutter Menu"
+    optionMenu "               Oracle VirtualBox" \
+               "${scriptPaths[""]}" \
+               "" \
+               "showDevelopmentMenu"    
 }
