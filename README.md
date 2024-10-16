@@ -27,6 +27,7 @@ scripts
 ├── dev
 │   ├── android_studio_installer
 │   ├── angular_installer
+|   ├── oracle_vm_installer
 │   └── flutter_installer
 └── tweaks
     ├── cuda_installer
