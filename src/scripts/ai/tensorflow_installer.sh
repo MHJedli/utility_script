@@ -25,13 +25,15 @@ installTensorFlow(){
 		    echo -n "-> Do you want to check if tensorflow is installed ? (Y/n) : "
 		    read r
 		    if [[ "$r" == "Y" || "$r" == "y" || "$r" == "" ]]; then
+
 		    	log_message "INFO" "User chose to check if tensorflow is installed" 
-			echo "-> Executing python -c 'import tensorflow as tf; print(tf.random.normal([5, 5]))' "
-			echo "-> If returned a result, then tensorflow is installed"
-			echo "Press [ENTER] to continue..."
-			read
-			sleep 1
-			python -c "import tensorflow as tf; print(tf.random.normal([5, 5]))" || handle_error "Failed to check if tensorflow is installed"
+				echo "-> Executing python -c 'import tensorflow as tf; print(tf.random.normal([5, 5]))' "
+				echo "-> If returned a result, then tensorflow is installed"
+				echo "Press [ENTER] to continue..."
+				read
+				sleep 1
+				python -c "import tensorflow as tf; print(tf.random.normal([5, 5]))" || handle_error "Failed to check if tensorflow is installed"
+				
 		    fi
 		    return
 		    ;;
@@ -56,13 +58,15 @@ installTensorFlow(){
 		    echo -n "-> Do you want to check if tensorflow with cuda is installed ? (Y/n) : "
 		    read r
 		    if [[ "$r" == "Y" || "$r" == "y" || "$r" == "" ]]; then
-			echo "-> Executing python -c 'import tensorflow as tf; print(tf.test.is_built_with_cuda())' "
-			echo "-> If Returned True, then Tensorflow is installed with CUDA Support"
-			echo "Press [ENTER] to continue..."
-			read
-			sleep 1
-			python -c "import tensorflow as tf; print(tf.test.is_built_with_cuda())"
-			read
+			
+				echo "-> Executing python -c 'import tensorflow as tf; print(tf.test.is_built_with_cuda())' "
+				echo "-> If Returned True, then Tensorflow is installed with CUDA Support"
+				echo "Press [ENTER] to continue..."
+				read
+				sleep 1
+				python -c "import tensorflow as tf; print(tf.test.is_built_with_cuda())" || handle_error "Failed to check if Tensorflow with CUDA Support is installed"
+				read
+
 		    fi
 		    return
 		    ;;
@@ -76,37 +80,46 @@ installTensorFlow(){
 
 }
 
-echo "# Before Proceeding to the installation of PyTorch"
+echo "# Before Proceeding to the installation of Tensorflow"
 echo "# Make sure that : "
 echo "# 1. Conda is Installed on your machine"
 echo "# 2. The base conda environment of current shell session is (base)"
 echo "PRESS [ENTER] to Continue..."
 read
 
-log_message "INFO" "Creating The working Environment"
-echo "-> Creating The working Environment..."
-sleep 1
-echo -n "Type your environment Name : "
-read env_name
-conda create --name $env_name python=3.10 || handle_error "Failed to create $env_name environment"
+if check_internet; then
+	log_message "INFO" "Internet Connection Detected. Proceeding with Tensorflow Installation"
 
-log_message "INFO" "Activating The Working Environment : $env_name"
-echo "-> Activating The Working Environment : $env_name..."
-sleep 1
-source activate base || handle_error "Failed to Activate $env_name Environment"
-conda activate $env_name || handle_error "Failed to Activate $env_name Environment"
+	log_message "INFO" "Creating The working Environment"
+	echo "-> Creating The working Environment..."
+	sleep 1
+	echo -n "Type your environment Name : "
+	read env_name
+	conda create --name $env_name python=3.10 || handle_error "Failed to create $env_name environment"
 
-log_message "INFO" "Configuring System Paths for CONDA Environment"
-echo "-> Configuring System Paths for CONDA Environment"
-sleep 1
-mkdir -p $CONDA_PREFIX/etc/conda/activate.d || handle_error "Failed to Configure System Paths for CONDA Environment"
-echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/' > $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh || handle_error "Failed to Configure System Paths for CONDA Environment"
+	log_message "INFO" "Activating The Working Environment : $env_name"
+	echo "-> Activating The Working Environment : $env_name..."
+	sleep 1
+	source activate base || handle_error "Failed to Activate $env_name Environment"
+	conda activate $env_name || handle_error "Failed to Activate $env_name Environment"
 
-log_message "INFO" "Installing Tensorflow"
-installTensorFlow
+	log_message "INFO" "Configuring System Paths for CONDA Environment"
+	echo "-> Configuring System Paths for CONDA Environment"
+	sleep 1
+	mkdir -p $CONDA_PREFIX/etc/conda/activate.d || handle_error "Failed to Configure System Paths for CONDA Environment"
+	echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/' > $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh || handle_error "Failed to Configure System Paths for CONDA Environment"
 
-echo "Tensorflow Installation Completed Successfully at $(date)" >> "$LOG_FILE"
-echo "To activate this environment, Open terminal and Type the following :"
-echo "conda activate $env_name"
-echo "PRESS [ENTER] to exit..."
-read
+	log_message "INFO" "Installing Tensorflow"
+	installTensorFlow
+
+	echo "Tensorflow Installation Completed Successfully at $(date)" >> "$LOG_FILE"
+	echo "To activate this environment, Open terminal and Type the following :"
+	echo "conda activate $env_name"
+	echo "PRESS [ENTER] to exit..."
+	read
+
+else
+
+    handle_error "No Internet Connection Available, Exiting..."
+
+fi
