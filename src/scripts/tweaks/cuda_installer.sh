@@ -69,7 +69,7 @@ installCUDA(){
 
             echo "NVIDIA CUDA Toolkit Script Completed Successfully at $(date)" >> "$LOG_FILE"
             echo "-> NVIDIA CUDA Toolkit Script Completed Successfully"
-            echo "Press [ENTER] to exit flutter installer..."
+            echo "Press [ENTER] to exit..."
             read
             return
 
@@ -83,6 +83,7 @@ installCUDA(){
 }
 
 if check_internet; then
+
     log_message "INFO" "Internet Connection Detected. Proceeding with NVIDIA CUDA ToolKit Installation"
 
     log_message "INFO" "Refreshing Package Cache"
