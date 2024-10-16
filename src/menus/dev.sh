@@ -74,7 +74,7 @@ showFlutterMenu(){
 showVirtualBoxMenu(){
     log_message "INFO" "Displaying Flutter Menu"
     optionMenu "               Oracle VirtualBox" \
-               "${scriptPaths[""]}" \
+               "${scriptPaths["oracle_vm_installer"]}" \
                "" \
                "showDevelopmentMenu"    
 }

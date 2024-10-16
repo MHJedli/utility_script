@@ -7,6 +7,7 @@ declare -A scriptPaths=(
     ["angular_installer"]="src/scripts/dev/angular_installer.sh"
     ["android_studio_installer"]="src/scripts/dev/android_studio_installer.sh"
     ["flutter_installer"]="src/scripts/dev/flutter_installer.sh"
+    ["oracle_vm_installer"]="src/scripts/dev/oracle_vm_installer.sh"
 
     # Tweaks Scripts
     ["nvidia_driver_installer"]="src/scripts/tweaks/nvidia_installer.sh"
