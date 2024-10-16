@@ -21,16 +21,16 @@
 ```
 scripts
 ├── ai
-|   ├── pytorch_installer.sh
-|   ├── tensorflow_installer.sh
-|   └── conda_installer.sh
+|   ├── pytorch_installer
+|   ├── tensorflow_installer
+|   └── conda_installer
 ├── dev
-│   ├── android_studio_installer.sh
-│   ├── angular_installer.sh
-│   └── flutter_installer.sh
+│   ├── android_studio_installer
+│   ├── angular_installer
+│   └── flutter_installer
 └── tweaks
-    ├── cuda_installer.sh
-    └── nvidia_installer.sh
+    ├── cuda_installer
+    └── nvidia_installer
 ```
 <br>
 *  Screenshots of the script :
