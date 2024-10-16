@@ -9,7 +9,7 @@ echo "Continue script execution in Flutter SDK Installation at $(date)" >> "$LOG
 
 installFlutter(){
 
-    declare -A versions=(
+    declare -A flutterVersions=(
         ["3.24.3"]=1
         ["3.24.2"]=1
         ["3.24.1"]=1
@@ -28,11 +28,12 @@ installFlutter(){
     )
     while true; do
 
-        local version="3.24.3"
         echo -n "Install the Latest Flutter SDK Version ? (Y/n) : "
         read option
         log_message "INFO" "User chose option $option"
+
         if [[ "$option" == "Y" || "$option" == "y" || "$option" == "" ]]; then
+
             log_message "INFO" "User Chose to Install The Latest Flutter version"
 
             log_message "INFO" "Downloading Flutter SDK 3.24.3"
@@ -50,26 +51,38 @@ installFlutter(){
 
             log_message "INFO" "User Chose to Install an Another Flutter Version"
 
-            echo -n "What Flutter Version do you want to install ? (min=3.19.0) : "
-            read version
-            log_message "INFO" "User chose flutter version $version"
-            if [[ -v versions["$version"] ]]; then
-                log_message "INFO" "User chose to install flutter version $version"
+            echo "What Flutter Version do you want to install ?"
+            echo "1. Show Versions"
+            echo -n "Select Option/Version : "
+            read ov
+            log_message "INFO" "User chose option/version $ov"
 
-                log_message "INFO" "Downloading Flutter SDK version $version"
-                echo "-> Downloading Flutter SDK $version"
+            if [[ "$ov" == "1" ]]; then
+
+                log_message "INFO" "Printing Flutter Versions"
+                for key in "${!flutterVersions[@]}"; do
+                    echo "$key"
+                done
+                echo -n "Press [ENTER] to continue..."
+                read
+
+            elif [[ -v flutterVersions["$ov"] ]]; then
+                log_message "INFO" "User chose to install flutter version $ov"
+
+                log_message "INFO" "Downloading Flutter SDK version $ov"
+                echo "-> Downloading Flutter SDK $ov"
                 sleep 1
-                wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_$version-stable.tar.xz || handle_error "Failed to Download Flutter SDK"
+                wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_$ov-stable.tar.xz || handle_error "Failed to Download Flutter SDK version $ov"
 
                 log_message "INFO" "Extracting Flutter SDK to ~/"
                 echo "-> Extracting Flutter SDK to ~/"
                 sleep 1
-                tar -xvf flutter_linux_$version-stable.tar.xz -C ~/ || handle_error "Failed to Extract Flutter SDK to ~/"
+                tar -xvf flutter_linux_$ov-stable.tar.xz -C ~/ || handle_error "Failed to Extract Flutter SDK to ~/"
                 return
 
             else
 
-                log_message "WARN" "User chose a wrong version : $version"
+                log_message "WARN" "User chose a wrong version : $ov"
                 echo "Wrong Flutter SDK Version Selected !"
                 echo "Press [ENTER] to Continue"
                 read
@@ -123,7 +136,7 @@ if check_internet; then
     flutter doctor -v || handle_error "Failed to Execute flutter doctor -v"
 
     log_message "INFO" "Flutter SDK Installer Script Completed Successfully"
-    echo "Press [ENTER] to exit flutter installer..."
+    echo "Press [ENTER] to exit..."
     read
 
 else
