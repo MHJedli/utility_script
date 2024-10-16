@@ -2,13 +2,20 @@
 
 # Script Paths
 declare -A scriptPaths=(
+
+    # Dev Scripts
     ["angular_installer"]="src/scripts/dev/angular_installer.sh"
     ["android_studio_installer"]="src/scripts/dev/android_studio_installer.sh"
     ["flutter_installer"]="src/scripts/dev/flutter_installer.sh"
+
+    # Tweaks Scripts
     ["nvidia_driver_installer"]="src/scripts/tweaks/nvidia_installer.sh"
     ["cuda_installer"]="src/scripts/tweaks/cuda_installer.sh"
+    
+    # AI Scripts
     ["conda_installer"]="src/scripts/ai/conda_installer.sh"
     ["pytorch_installer"]="src/scripts/ai/pytorch_installer.sh"
+    ["tensorflow_installer"]="src/scripts/ai/tensorflow_installer.sh"
     
 )
 

@@ -65,7 +65,7 @@ showTensorFlowMenu(){
 
     log_message "INFO" "Displaying Tensor Flow Menu"
     optionMenu "                  Tensor Flow" \
-               "" \
+               "${scriptPaths["tensorflow_installer"]}" \
                "" \
                "showAIMenu"
     
