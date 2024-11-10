@@ -10,6 +10,7 @@ echo "Continue script execution in Flutter SDK Installation at $(date)" >> "$LOG
 installFlutter(){
 
     declare -A flutterVersions=(
+        ["3.24.4"]=1
         ["3.24.3"]=1
         ["3.24.2"]=1
         ["3.24.1"]=1
@@ -36,15 +37,15 @@ installFlutter(){
 
             log_message "INFO" "User Chose to Install The Latest Flutter version"
 
-            log_message "INFO" "Downloading Flutter SDK 3.24.3"
-            echo "-> Downloading Flutter SDK 3.24.3..."
+            log_message "INFO" "Downloading Flutter SDK 3.24.4"
+            echo "-> Downloading Flutter SDK 3.24.4..."
             sleep 1
-            wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.3-stable.tar.xz || handle_error "Failed to Download Flutter SDK"
+            wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.4-stable.tar.xz || handle_error "Failed to Download Flutter SDK"
 
             log_message "INFO" "Extracting Flutter SDK to ~/"
             echo "-> Extracting Flutter SDK to ~/"
             sleep 1
-            tar -xvf flutter_linux_3.24.3-stable.tar.xz -C ~/ || handle_error "Failed to Extract Flutter SDK to ~/"
+            tar -xvf flutter_linux_3.24.4-stable.tar.xz -C ~/ || handle_error "Failed to Extract Flutter SDK to ~/"
             return
 
         elif [[ "$option" == "n" || "$option" == "N" ]]; then
@@ -61,7 +62,7 @@ installFlutter(){
 
                 log_message "INFO" "Printing Flutter Versions"
                 for key in "${!flutterVersions[@]}"; do
-                    echo "$key"
+                    echo "Flutter SDK Version : $key"
                 done
                 echo -n "Press [ENTER] to continue..."
                 read
@@ -142,6 +143,7 @@ if check_internet; then
     flutter doctor -v || handle_error "Failed to Execute flutter doctor -v"
 
     log_message "INFO" "Flutter SDK Installer Script Completed Successfully"
+    echo "-> Flutter SDK Installer Script Completed Successfully..."
     echo "Press [ENTER] to exit..."
     read
 
