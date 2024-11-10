@@ -44,8 +44,13 @@ installAngular(){
     done
 }
 
+echo "-> Checking for Internet Connection..."
+sleep 1
+
 if check_internet; then
+
     log_message "INFO" "Internet Connection Detected. Proceeding with Angular Installation"
+    echo "-> Internet Connection Detected. Proceeding with Angular Installation..."
 
     log_message "INFO" "Installing NVM"
     echo "-> Installing NVM..."

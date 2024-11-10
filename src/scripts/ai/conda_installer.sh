@@ -7,8 +7,13 @@ trap 'handle_error "An unexpected error occurred."' ERR
 clear
 echo "Continue script execution in Conda Installation at $(date)" >> "$LOG_FILE"
 
+echo "-> Checking for Internet Connection..."
+sleep 1
 if check_internet; then
+
     log_message "INFO" "Internet Connection Detected. Proceeding with Conda Installation"
+    echo "-> Internet Connection Detected. Proceeding with Conda Installation..."
+    sleep 1
 
     log_message "INFO" "Refreshing Package Cache"
     echo "-> Refreshing Package Cache..."

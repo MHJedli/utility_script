@@ -57,9 +57,14 @@ installVirtualBox(){
     read
 }
 
+echo "-> Checking for Internet Connection..."
+sleep 1
+
 if check_internet; then
 
     log_message "INFO" "Internet Connection Detected. Proceeding with Oracle VirtualBox Installation"
+    echo "-> Internet Connection Detected. Proceeding with Oracle VirtualBox Installation..."
+    sleep 1
 
     log_message "INFO" "Refreshing Package Cache"
     echo "-> Refreshing Package Cache..."

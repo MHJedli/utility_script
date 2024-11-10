@@ -87,8 +87,14 @@ echo "# 2. The base conda environment of current shell session is (base)"
 echo "PRESS [ENTER] to Continue..."
 read
 
+echo "-> Checking for Internet Connection..."
+sleep 1
+
 if check_internet; then
+
 	log_message "INFO" "Internet Connection Detected. Proceeding with Tensorflow Installation"
+	echo "-> Internet Connection Detected. Proceeding with Tensorflow Installation..."
+	sleep 1
 
 	log_message "INFO" "Creating The working Environment"
 	echo "-> Creating The working Environment..."

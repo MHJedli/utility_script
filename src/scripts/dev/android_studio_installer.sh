@@ -7,8 +7,14 @@ trap 'handle_error "An unexpected error occurred."' ERR
 clear
 echo "Continue script execution in Android Studio Installation at $(date)" >> "$LOG_FILE"
 
+echo "-> Checking for Internet Connection"
+sleep 1
+
 if check_internet; then
+
     log_message "INFO" "Internet Connection Detected. Proceeding with Android Studio Installation"
+    echo "-> Internet Connection Detected. Proceeding with Android Studio Installation..."
+    sleep 1
 
     log_message "INFO" "Refreshing Package Cache"
     echo "Refreshing Package Cache..."
