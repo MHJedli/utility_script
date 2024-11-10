@@ -22,6 +22,11 @@ installCUDA(){
         ["11.6.2"]="wget https://developer.download.nvidia.com/compute/cuda/11.6.2/local_installers/cuda_11.6.2_510.47.03_linux.run"
     )
 
+    log_message "INFO" "Removing CUDA Installers"
+    echo "-> Removing CUDA Installers..."
+    sleep 1
+    rm $(pwd)/$(find -name "cuda*.run") || handle_error "Failed to Remove CUDA Installers"
+
     while true; do
 
         echo "What NVIDIA CUDA Toolkit version do you want to install ?"
@@ -89,12 +94,12 @@ if check_internet; then
     log_message "INFO" "Refreshing Package Cache"
     echo "-> Refreshing Package Cache..."
     sleep 1
-    sudo apt update || handle_error "Failed to Refresh Package Cache"
+    #sudo apt update || handle_error "Failed to Refresh Package Cache"
 
     log_message "INFO" "Updating System Packages"
     echo "-> Updating System Packages..."
     sleep 1
-    sudo apt upgrade -y || handle_error "Failed to Update System Packages"
+    #sudo apt upgrade -y || handle_error "Failed to Update System Packages"
 
     log_message "INFO" "Installing NVIDIA CUDA ToolKit"
     echo "-> Installing NVIDIA CUDA ToolKit..."
