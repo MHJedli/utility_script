@@ -53,7 +53,7 @@ installCUDA(){
             log_message "INFO" "Exporting CUDA Path"
             echo "Exporting CUDA Path..."
             sleep 1
-            echo 'CUDA PATH' >> ~/.bashrc || handle_error "Failed to add CUDA Path"
+            echo '# CUDA PATH' >> ~/.bashrc || handle_error "Failed to add CUDA Path"
             echo export PATH=/usr/local/cuda-$option/bin'${PATH:+:${PATH}}' >> ~/.bashrc || handle_error "Failed to add CUDA Path"
             echo export LD_LIBRARY_PATH=/usr/local/cuda-$option/lib64'\ {LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}' >> ~/.bashrc || handle_error "Failed to add CUDA Path"
 
