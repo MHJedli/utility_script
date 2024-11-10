@@ -5,7 +5,8 @@ LOG_FILE=$(pwd)/src/logfile.log
 
 
 installDriver(){
-    declare -A versions=(
+
+    declare -A nvidiaVersions=(
     ["560"]=1
     ["550"]=1
     ["545"]=1
@@ -19,27 +20,47 @@ installDriver(){
     ["450"]=1
     ["390"]=1
     )
+    
     while true; do
-        echo "What NVIDIA Driver version do you want to install ? (560, 550, 545, 535, 530, 525, 520, 515, 510, 470, 450, 390)"
-        echo -n "NVIDIA Driver Version [DEFAULT=560]: "
+
+        echo "What NVIDIA Driver version do you want to install ?"
+        echo "1. Show Available versions"
+        echo -n "NVIDIA Driver Version [DEFAULT=560] : "
         read version
         log_message "INFO" "User selected option $version"
-        if [[ "$version" == "" ]]; then
+
+        if [[ "$version" == "1" ]]; then
+
+            log_message "INFO" "Showing Available Version of NVIDIA Driver"
+            echo "Available NVIDIA Version to Install :"
+            for key in "${!nvidiaVersions[@]}"; do
+                echo "$key"
+            done
+            echo -n "Press [ENTER] to continue..."
+            read
+
+        elif [[ "$version" == "" ]]; then
+
             log_message "INFO" "User chose the Default NVIDIA Driver Version"
             echo "Installing NVIDIA Driver Version 560..."
             sudo apt install nvidia-driver-560 -y || handle_error "Failed to Install NVIDIA Driver 560"
             return
-        elif [[ -v versions["$version"] ]]; then
+
+        elif [[ -v nvidiaVersions["$version"] ]]; then
+
             log_message "INFO" "User chose NVIDIA Driver Version $version"
             echo "Installing NVIDIA Driver Version $version"
             sudo apt install nvidia-driver-$version -y || handle_error "Failed to Install NVIDIA Driver $version"
             return
+
         else
+
             log_message "WARN" "User chose invalid NVIDIA Driver Version : $version"
-            echo "Wrong Version Selected !"
-            read
+            invalidOption
             clear
+
         fi
+
     done
 
 }
@@ -49,8 +70,13 @@ trap 'handle_error "An unexpected error occurred."' ERR
 clear
 
 echo "Continue script execution in NVIDIA Driver Installation at $(date)" >> "$LOG_FILE"
+sleep 1
 
+echo "-> Checking for Internet Connection"
 if check_internet; then
+
+    log_message "INFO" "Internet Connection Detected. Proceeding with NVIDIA Driver Installation"
+    echo "Internet Connection Detected. Proceeding with NVIDIA Driver Installation"
 
     log_message "INFO" "Purging Current NVIDIA Installation if Existed"
     echo "-> Purging Current NVIDIA Installation if Existed..."
@@ -87,14 +113,13 @@ if check_internet; then
     sleep 1
     installDriver
 
+    log_message "INFO" "NVIDIA Driver Installation Completed Successfully"
     echo -n "All Done ! Want to reboot now (Y/n) : "
     read a
     if [[ "$a" == "Y" || "$a" == "y" || "$a" == "" ]]; then
         echo "Reboot in 3 seconds..."
         reboot
     fi
-
-    log_message "INFO" "NVIDIA Driver Installation Completed Successfully"
 
 else 
 
