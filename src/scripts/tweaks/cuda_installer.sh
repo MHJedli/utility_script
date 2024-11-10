@@ -26,7 +26,7 @@ installCUDA(){
     echo "-> Removing CUDA Installers..."
     sleep 1
     rm $(pwd)/cuda*.run >&/dev/null
-
+    
     while true; do
 
         echo "What NVIDIA CUDA Toolkit version do you want to install ?"
@@ -41,7 +41,7 @@ installCUDA(){
                 echo "NVIDIA CUDA Toolkit Version : $key"
             done
             echo -n "Press [ENTER] to continue..."
-            read
+            read 
 
         elif [[ -v cudaVersions["$option"] ]]; then
 
@@ -53,9 +53,19 @@ installCUDA(){
             log_message "INFO" "Installing NVIDIA CUDA ToolKit in Silent Mode"
             echo "-> Installing NVIDIA CUDA ToolKit in Silent Mode..."
             sleep 1
-            sudo sh cuda_$option_*.run --silent --toolkit --toolkitpath=/usr/local/cuda-$option
+            sudo sh cuda_$option_*.run --silent --toolkit --toolkitpath=/usr/local/cuda-$option || handle_error "Failed to Install NVIDIA CUDA Toolkit"
 
-            log_message "INFO" "Exporting CUDA Path"
+            log_message "INFO" "Removing Old CUDA Path"
+            echo "-> Removing Old CUDA Path"
+            sleep 1
+            local oldCudaPath=$(cat ~/.bashrc | grep "export PATH=/usr/local/cuda*")
+            sed -i "s|$oldCudaPath||g" ~/.bashrc
+
+            local oldCudaLDPath=$(cat ~/.bashrc | grep "export LD_LIBRARY_PATH=/usr/local/cuda*")
+            local escapedOldCudaLDPath=$(printf '%s' "$oldCudaLDPath" | sed 's/[&/\]/\\&/g')
+            sed -i "s/$escapedOldCudaLDPath//g" ~/.bashrc
+
+            log_message "INFO" "Exporting new CUDA Path"
             echo "Exporting CUDA Path..."
             sleep 1
             echo '# CUDA PATH' >> ~/.bashrc || handle_error "Failed to add CUDA Path"
@@ -87,10 +97,14 @@ installCUDA(){
     done
 }
 
+echo "-> Checking for Internet Connection"
+sleep 1
 if check_internet; then
 
     log_message "INFO" "Internet Connection Detected. Proceeding with NVIDIA CUDA ToolKit Installation"
-
+    echo "Internet Connection Detected. Proceeding with NVIDIA CUDA ToolKit Installation"
+    sleep 1
+    
     log_message "INFO" "Refreshing Package Cache"
     echo "-> Refreshing Package Cache..."
     sleep 1
