@@ -57,8 +57,8 @@ clear
     log_message "INFO" "Displaying Conda Menu"
     showMenu \
     "             Conda Menu" \
-    "Install Miniconda" \
-    "Install Anaconda" \
+    "Install Miniconda ( Minimal Installer ~ 120MB Download Size )" \
+    "Install Anaconda  ( Larger Distribution ~ 1GB Download Size )" \
     "Return to Previous Menu" 
     echo -n "Enter Option : "
     read option
