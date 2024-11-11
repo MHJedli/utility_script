@@ -24,7 +24,8 @@ scripts
 ├── ai
 |   ├── pytorch_installer
 |   ├── tensorflow_installer
-|   └── conda_installer
+|   ├── anaconda_installer
+|   └── miniconda_installer
 ├── dev
 │   ├── android_studio_installer
 │   ├── angular_installer
