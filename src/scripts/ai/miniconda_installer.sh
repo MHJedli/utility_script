@@ -11,8 +11,8 @@ echo "-> Checking for Internet Connection..."
 sleep 1
 if check_internet; then
 
-    log_message "INFO" "Internet Connection Detected. Proceeding with Conda Installation"
-    echo "-> Internet Connection Detected. Proceeding with Conda Installation..."
+    log_message "INFO" "Internet Connection Detected. Proceeding with MiniConda Installation"
+    echo "-> Internet Connection Detected. Proceeding with MiniConda Installation..."
     sleep 1
 
     log_message "INFO" "Refreshing Package Cache"
@@ -45,8 +45,8 @@ if check_internet; then
     sleep 1
     conda init || handle_error "Failed to Install Conda's Shell Functions"
 
-    echo "Conda Script Completed Successfully at $(date)" >> "$LOG_FILE"
-    echo "-> Conda Script Completed Successfully"
+    echo "MiniConda Script Completed Successfully at $(date)" >> "$LOG_FILE"
+    echo "-> MiniConda Script Completed Successfully"
     echo "Press [ENTER] to exit..."
     read
 

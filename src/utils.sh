@@ -14,7 +14,8 @@ declare -A scriptPaths=(
     ["cuda_installer"]="src/scripts/drivers/cuda_installer.sh"
     
     # AI Scripts
-    ["conda_installer"]="src/scripts/ai/conda_installer.sh"
+    ["miniconda_installer"]="src/scripts/ai/miniconda_installer.sh"
+    ["anaconda_installer"]="src/scripts/ai/anaconda_installer.sh"
     ["pytorch_installer"]="src/scripts/ai/pytorch_installer.sh"
     ["tensorflow_installer"]="src/scripts/ai/tensorflow_installer.sh"
     
