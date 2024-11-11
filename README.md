@@ -10,6 +10,7 @@
     └── scripts
         ├── ai
         ├── dev
+        ├── drivers
         └── tweaks
 
 ```
@@ -29,9 +30,10 @@ scripts
 │   ├── angular_installer
 |   ├── oracle_vm_installer
 │   └── flutter_installer
+├── drivers
+│    ├── cuda_installer
+│    └── nvidia_installer
 └── tweaks
-    ├── cuda_installer
-    └── nvidia_installer
 ```
 <br>
 *  Screenshots of the script :
