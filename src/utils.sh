@@ -9,9 +9,9 @@ declare -A scriptPaths=(
     ["flutter_installer"]="src/scripts/dev/flutter_installer.sh"
     ["oracle_vm_installer"]="src/scripts/dev/oracle_vm_installer.sh"
 
-    # Tweaks Scripts
-    ["nvidia_driver_installer"]="src/scripts/tweaks/nvidia_installer.sh"
-    ["cuda_installer"]="src/scripts/tweaks/cuda_installer.sh"
+    # Drivers Scripts
+    ["nvidia_driver_installer"]="src/scripts/drivers/nvidia_installer.sh"
+    ["cuda_installer"]="src/scripts/drivers/cuda_installer.sh"
     
     # AI Scripts
     ["conda_installer"]="src/scripts/ai/conda_installer.sh"
