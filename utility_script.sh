@@ -5,6 +5,7 @@ source src/utils.sh
 source src/menus/dev.sh
 source src/menus/ai.sh
 source src/menus/tweaks.sh
+source src/menus/drivers.sh
 
 # LOG File
 LOG_FILE=src/logfile.log
@@ -20,6 +21,7 @@ showMainMenu(){
     "         Linux Utility Menu" \
     "Development" \
     "AI" \
+    "Drivers" \
     "System Tweaks" \
     "Quit" 
 
@@ -33,14 +35,18 @@ showMainMenu(){
             showDevelopmentMenu
             ;;
         2)
-            log_message "INFO" "User chose AI"
+            log_message "INFO" "User chose AI Menu"
             showAIMenu
             ;;
         3)
-            log_message "INFO" "User chose System Tweaks"
-            showSystemTweaksMenu
+            log_message "INFO" "User chose Drivers Menu"
+            showDriversMenu
             ;;
         4)
+            log_message "INFO" "User chose System Tweaks Menu"
+            showSystemTweaksMenu
+            ;;
+        5)
             log_message "INFO" "User chose to quit"
             return
             ;;
