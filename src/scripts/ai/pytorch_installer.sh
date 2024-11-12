@@ -9,14 +9,15 @@ echo "Continue script execution in Pytorch Installation at $(date)" >> "$LOG_FIL
 
 testCuda(){
 
-echo -n "Do you want to check if pytorch with cuda is working ? (Y/n) : "
-read r
-if [[ "$r" == "Y" || "$r" == "y" || "$r" == "" ]]; then
-
     log_message "INFO" "Checking if Pytorch with CUDA Support is working"
-	echo "Executing python3 -c 'import torch; print(torch.cuda.get_device_name(0))'"
+    echo "-> Checking if Pytorch with CUDA Support is working"
+	echo "-> By Executing python3 -c 'import torch; print(torch.cuda.get_device_name(0))'..."
+    sleep 1
 	python3 -c 'import torch; print(torch.cuda.get_device_name(0))' || handle_error "Failed to Check if Pytorch with CUDA Support is working"
-    
+
+    echo "-> Pytorch with CUDA Support is Installed..."
+    sleep 1
+
 fi
 
 }
@@ -62,7 +63,6 @@ installPytorch(){
                 echo "-> Installing Pytorch with CUDA $co Support..."
                 sleep 1
                 conda install pytorch torchvision torchaudio pytorch-cuda=$co -c pytorch -c nvidia || handle_error "Failed to Installing PyTorch with CUDA $co Support"
-                echo "-> Pytorch with CUDA $co Support installed Successfully"
                 log_message "INFO" "Testing CUDA Support in Pytorch"
                 testCuda
                 return
@@ -116,16 +116,11 @@ if check_internet; then
     sleep 1
     installPytorch
 
-    log_message "Verifying the Pytorch installed Version"
-    echo -n "Do you want to check the installed Pytorch Version ? (Y/n) : "
-    read r
-    if [[ "$r" == "Y" || "$r" == "y" || "$r" == "" ]]; then
-
-        log_message "INFO" "Printing Pytorch version"
-    	echo "Executing python3 -c 'import torch; print(torch.__version__)'"
-    	python3 -c 'import torch; print(torch.__version__)' || handle_error "Failed to Print Pytorch version"
-        
-    fi
+    log_message "INFO" "Verifying the Pytorch installed Version"
+    echo "-> Verifying the installed Pytorch Version... "
+    echo "-> By Executing python3 -c 'import torch; print(torch.__version__)'"
+    sleep 1
+    python3 -c 'import torch; print(torch.__version__)' || handle_error "Failed to Print Pytorch version"
 
     echo "Pytorch Script Execution Completed Successfully at $(date)" >> "$LOG_FILE"
     echo "To activate this environment, Open terminal and Type the following :"
