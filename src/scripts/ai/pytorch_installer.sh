@@ -18,8 +18,6 @@ testCuda(){
     echo "-> Pytorch with CUDA Support is Installed..."
     sleep 1
 
-fi
-
 }
 installPytorch(){
     while true; do
