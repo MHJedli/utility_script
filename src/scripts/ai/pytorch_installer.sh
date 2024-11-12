@@ -49,10 +49,10 @@ installPytorch(){
             log_message "INFO" "User chose to Install Pytorch with CUDA Support"
             echo "NOTE : Make sure you have NVIDIA Driver and NVIDIA CUDA Toolkit Installed !"
             echo "-> Choose the Compute Platform CUDA version :"
-            echo "1. CUDA 12.4"
-            echo "2. CUDA 12.1"
-            echo "3. CUDA 11.8"
-            echo -n "Your CUDA To Install : "
+            echo "CUDA 12.4"
+            echo "CUDA 12.1"
+            echo "CUDA 11.8"
+            echo -n "Your CUDA Version To Install : "
             read co
 
             if [[ -v cudaOptions["$co"] ]]; then
