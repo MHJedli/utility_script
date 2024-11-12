@@ -40,6 +40,12 @@ installPytorch(){
             return
 
         elif [[ "$option" == "2" ]]; then
+            
+            declare -A cudaOptions=(
+                ["12.4"]=1
+                ["12.1"]=1
+                ["11.8"]=1
+            )
 
             log_message "INFO" "User chose to Install Pytorch with CUDA Support"
             echo "NOTE : Make sure you have NVIDIA Driver and NVIDIA CUDA Toolkit Installed !"
@@ -47,45 +53,26 @@ installPytorch(){
             echo "1. CUDA 12.4"
             echo "2. CUDA 12.1"
             echo "3. CUDA 11.8"
-            echo -n "Your Option : "
-            read platformVersion
+            echo -n "Your CUDA To Install : "
+            read co
 
-            case $platformVersion in
-            1)
-                log_message "INFO" "User chose CUDA 12.4 Support"
-                echo "-> Installing Pytorch with CUDA 12.4 Support..."
+            if [[ -v cudaOptions["$co"] ]]; then
+
+                log_message "INFO" "User chose CUDA $co Support"
+                echo "-> Installing Pytorch with CUDA $co Support..."
                 sleep 1
-                conda install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c nvidia || handle_error "Failed to Installing PyTorch with CUDA 12.4 Support"
-                echo "-> Pytorch with CUDA 12.4 Support installed Successfully"
+                conda install pytorch torchvision torchaudio pytorch-cuda=$co -c pytorch -c nvidia || handle_error "Failed to Installing PyTorch with CUDA $co Support"
+                echo "-> Pytorch with CUDA $co Support installed Successfully"
                 log_message "INFO" "Testing CUDA Support in Pytorch"
                 testCuda
                 return
-                ;;
-            2)
-                log_message "INFO" "User chose CUDA 12.1 Support"
-                echo "-> Installing Pytorch with CUDA 12.1 Support..."
-                sleep 1
-                conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia || handle_error "Failed to Install PyTorch with CUDA 12.1 Support"
-                echo "-> Pytorch with CUDA 12.1 Support installed Successfully" 
-                log_message "INFO" "Testing CUDA Support in Pytorch"
-                testCuda
-                return
-                ;;
-            3)
-                log_message "INFO" "User chose CUDA 11.8 Support"
-                echo "-> Installing Pytorch with CUDA 11.8 Support..."
-                sleep 1
-                conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia || handle_error "Failed to Install PyTorch with CUDA 11.8 Support"
-                echo "-> Pytorch with CUDA 11.8 Support installed Successfully"
-                log_message "INFO" "Testing CUDA Support in Pytorch"
-                testCuda
-                return
-                ;;
-            *)
-                log_message "WARN" "User chose a wrong option : $platformVersion"
+
+            else
+
+                log_message "WARN" "User chose a wrong option : $co"
                 invalidOption
-                ;;
-            esac
+
+            fi
 
         else
             invalidOption
@@ -133,9 +120,11 @@ if check_internet; then
     echo -n "Do you want to check the installed Pytorch Version ? (Y/n) : "
     read r
     if [[ "$r" == "Y" || "$r" == "y" || "$r" == "" ]]; then
+
         log_message "INFO" "Printing Pytorch version"
     	echo "Executing python3 -c 'import torch; print(torch.__version__)'"
     	python3 -c 'import torch; print(torch.__version__)' || handle_error "Failed to Print Pytorch version"
+        
     fi
 
     echo "Pytorch Script Execution Completed Successfully at $(date)" >> "$LOG_FILE"
