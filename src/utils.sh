@@ -110,8 +110,8 @@ optionMenu() {
         echo "-------------------------------------------------"
         echo " $selectedOption   "
         echo "-------------------------------------------------"
-        echo "1. Install"
-        echo "2. Remove"
+        echo -e "${GREEN}1. Install${RESET}"
+        echo -e "${RED}2. Remove${RESET}"
         echo "3. Return To Previous Menu"
         echo -n "Enter Option: "
         read option
