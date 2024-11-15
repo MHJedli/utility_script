@@ -51,7 +51,7 @@ handle_error() {
     local exit_status=$?
     local msg="$1"
     log_message "ERROR" "$msg (Exit status: $exit_status)"
-    echo "An error occurred: $msg"
+    echo -e "An error occurred: ${RED}$msg${RESET}"
     echo "Please check the log file at $LOG_FILE for more details."
     read
     exit $exit_status
