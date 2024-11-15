@@ -24,8 +24,7 @@ scripts
 ├── ai
 |   ├── pytorch_installer
 |   ├── tensorflow_installer
-|   ├── anaconda_installer
-|   └── miniconda_installer
+|   └── conda_installer
 ├── dev
 │   ├── android_studio_installer
 │   ├── angular_installer
@@ -65,5 +64,5 @@ To run the script :
     $ bash utility_script.sh
 </pre>
 
-# NOTE :
-*    The script is improving by time. Expect new features in the future.
+> [!NOTE]
+> The script is improving by time. Expect new features in the future.
