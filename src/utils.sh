@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Define Color Variables
+# Usage : 
+# echo -e "${<COLOR_TO_USE>}<MESSAGE TO PRINT>${RESET}"
+RED='\e[31m'
+GREEN='\e[32m'
+YELLOW='\e[33m'
+CYAN='\e[36m'
+RESET='\e[0m'
+
 # Script Paths
 declare -A scriptPaths=(
 
