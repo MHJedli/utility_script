@@ -3,9 +3,77 @@
 source $(pwd)/src/utils.sh
 LOG_FILE=$(pwd)/src/logfile.log
 
+
+
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
 echo "Continue script execution in Tensorflow Installation at $(date)" >> "$LOG_FILE"
+
+dryRunCheck(){
+
+	log_message "INFO" "Performing Dry Run for TensorFlow Installation"
+    echo "-> Performing Dry Run for TensorFlow Installation..."
+	sleep 1
+
+	log_message "INFO" "1. Checking for Conda Installation"
+    echo "1. Checking for Conda Installation..."
+	sleep 1
+    if ! command -v conda &> /dev/null; then
+        echo -e "${RED}ERROR: Conda is not installed. Please install Conda before proceeding...${RESET}"
+		read
+        exit
+    fi
+    echo -e "${GREEN}-> Conda is installed.${RESET}"
+
+	log_message "INFO" "1.1. Checking for active CONDA environment"
+	echo "1.1. Checking for active CONDA environment..."
+	sleep 1
+	local condaEnv=$CONDA_DEFAULT_ENV
+	if [[ "$condaEnv" == "base" ]]; then
+		echo -e "${GREEN}base is the default conda env in this current shell session${RESET}"
+	else
+		echo -e "${RED}base is NOT the default conda env in this current shell session${RESET}"
+    fi
+
+	log_message "INFO" "2. Checking for CUDA Toolkit and NVIDIA Drivers"
+    echo "2. Checking for CUDA Toolkit and NVIDIA Drivers..."
+	sleep 1
+	while true; do
+    	echo -n "-> Do you plan to install TensorFlow with CUDA Support? (Y/n): "
+    	read use_cuda
+    	if [[ "$use_cuda" == "Y" || "$use_cuda" == "y" || "$use_cuda" == "" ]]; then
+
+			log_message "INFO" "2.1. Checking for NVIDIA Drivers"
+			echo "2.1. Checking for NVIDIA Drivers..."
+			sleep 1
+    	    if ! command -v nvidia-smi &> /dev/null; then
+    	        echo -e "${RED}ERROR: NVIDIA Driver is not installed.${RESET}"
+    	    else
+    	        echo -e "${GREEN}-> NVIDIA Driver is installed.${RESET}"
+    	    fi
+
+			log_message "INFO" "2.2. Checking for CUDA Toolkit"
+			echo "2.2. Checking for CUDA Toolkit..."
+    	    sleep 1
+    	    if ! nvcc --version &> /dev/null; then
+    	        echo -e "${RED}ERROR: CUDA Toolkit is not installed.${RESET}"
+    	    else
+    	        echo -e "${GREEN}-> CUDA Toolkit is installed.${RESET}"
+    	    fi
+
+			break
+		
+		elif [[ "$use_cuda" == "n" || "$use_cuda" == "N" ]]; then
+			break
+		else
+			invalidOption
+    	fi
+	done    
+    echo "Dry Run Complete. If no errors are reported, you can proceed with the installation."
+	echo "Press [ENTER] to Install..."
+	read
+}
+
 
 installTensorFlow(){
 	while true; do
@@ -86,6 +154,8 @@ echo "# 1. Conda is Installed on your machine"
 echo "# 2. The base conda environment of current shell session is (base)"
 echo "PRESS [ENTER] to Continue..."
 read
+
+dryRunCheck
 
 echo "-> Checking for Internet Connection..."
 sleep 1
