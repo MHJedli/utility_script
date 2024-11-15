@@ -23,13 +23,13 @@ installCUDA(){
     )
 
     log_message "INFO" "Removing CUDA Installers"
-    echo "-> Removing CUDA Installers..."
+    echo -e "${YELLOW}-> Removing CUDA Installers...${RESET}"
     sleep 1
     rm $(pwd)/cuda*.run >&/dev/null
     
     while true; do
 
-        echo "What NVIDIA CUDA Toolkit version do you want to install ?"
+        echo -e "${CYAN}What NVIDIA CUDA Toolkit version do you want to install ?${RESET}"
         echo "1. Show Versions"
         echo -n "Select Option : "
         read option
@@ -46,17 +46,17 @@ installCUDA(){
         elif [[ -v cudaVersions["$option"] ]]; then
 
             log_message "INFO" "Downloading NVIDIA CUDA Toolkit Version $option"
-            echo "-> Downloading NVIDIA CUDA ToolKit Version $option"
+            echo -e "${YELLOW}-> Downloading NVIDIA CUDA ToolKit Version $option${RESET}"
             sleep 1
             eval "${cudaVersions["$option"]}"
 
             log_message "INFO" "Installing NVIDIA CUDA ToolKit in Silent Mode"
-            echo "-> Installing NVIDIA CUDA ToolKit in Silent Mode..."
+            echo -e "${YELLOW}-> Installing NVIDIA CUDA ToolKit in Silent Mode...${RESET}"
             sleep 1
             sudo sh cuda_$option_*.run --silent --toolkit --toolkitpath=/usr/local/cuda-$option || handle_error "Failed to Install NVIDIA CUDA Toolkit"
 
             log_message "INFO" "Removing Old CUDA Path"
-            echo "-> Removing Old CUDA Path"
+            echo -e "${YELLOW}-> Removing Old CUDA Path${RESET}"
             sleep 1
             local oldCudaPath=$(cat ~/.bashrc | grep "export PATH=/usr/local/cuda*")
             sed -i "s|$oldCudaPath||g" ~/.bashrc
@@ -66,24 +66,24 @@ installCUDA(){
             sed -i "s/$escapedOldCudaLDPath//g" ~/.bashrc
 
             log_message "INFO" "Exporting new CUDA Path"
-            echo "Exporting CUDA Path..."
+            echo -e "${YELLOW}Exporting CUDA Path...${RESET}"
             sleep 1
             echo '# CUDA PATH' >> ~/.bashrc || handle_error "Failed to add CUDA Path"
             echo export PATH=/usr/local/cuda-$option/bin'${PATH:+:${PATH}}' >> ~/.bashrc || handle_error "Failed to add CUDA Path"
             echo export LD_LIBRARY_PATH=/usr/local/cuda-$option/lib64'\ {LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}' >> ~/.bashrc || handle_error "Failed to add CUDA Path"
 
             log_message "INFO" "Applying CUDA Path"
-            echo "-> Applying CUDA Path..."
+            echo -e "${YELLOW}-> Applying CUDA Path...${RESET}"
             sleep 1
             source ~/.bashrc || handle_error "Failed to Apply CUDA Path"
 
             log_message "INFO" "Checking the Installed Version"
-            echo "-> Checking the Installed Version..."
+            echo -e "${YELLOW}-> Checking the Installed Version...${RESET}"
             sleep 1
             nvcc --version || handle_error "Failed to check the Installed Version"
 
             echo "NVIDIA CUDA Toolkit Script Completed Successfully at $(date)" >> "$LOG_FILE"
-            echo "-> NVIDIA CUDA Toolkit Script Completed Successfully"
+            echo -e "${GREEN}-> NVIDIA CUDA Toolkit Script Completed Successfully${RESET}"
             echo "Press [ENTER] to exit..."
             read
             return
@@ -97,26 +97,26 @@ installCUDA(){
     done
 }
 
-echo "-> Checking for Internet Connection"
+echo -e "${YELLOW}-> Checking for Internet Connection${RESET}"
 sleep 1
 if check_internet; then
 
     log_message "INFO" "Internet Connection Detected. Proceeding with NVIDIA CUDA ToolKit Installation"
-    echo "Internet Connection Detected. Proceeding with NVIDIA CUDA ToolKit Installation"
+    echo -e "${GREEN}Internet Connection Detected. Proceeding with NVIDIA CUDA ToolKit Installation${RESET}"
     sleep 1
     
     log_message "INFO" "Refreshing Package Cache"
-    echo "-> Refreshing Package Cache..."
+    echo -e "${YELLOW}-> Refreshing Package Cache...${RESET}"
     sleep 1
     sudo apt update || handle_error "Failed to Refresh Package Cache"
 
     log_message "INFO" "Updating System Packages"
-    echo "-> Updating System Packages..."
+    echo -e "${YELLOW}-> Updating System Packages...${RESET}"
     sleep 1
     sudo apt upgrade -y || handle_error "Failed to Update System Packages"
 
     log_message "INFO" "Installing NVIDIA CUDA ToolKit"
-    echo "-> Installing NVIDIA CUDA ToolKit..."
+    echo -e "${YELLOW}-> Installing NVIDIA CUDA ToolKit...${RESET}"
     sleep 1
     installCUDA
 
