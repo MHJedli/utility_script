@@ -9,6 +9,7 @@ echo "Continue script execution in Angular Installation at $(date)" >> "$LOG_FIL
 
 installAngular(){
     declare -A versions=(
+        ["18"]=1
         ["17"]=1
         ["16"]=1
         ["15"]=1
@@ -28,7 +29,7 @@ installAngular(){
         elif [[ "$a" == "n" || "$a" == "N" ]]; then
 
             log_message "INFO" "User chose to select specific Angular version"
-            echo -e "What Version Do you want to install ? ${CYAN}(17, 16, 15)${RESET}"
+            echo -e "What Version Do you want to install ? ${CYAN}(18, 17, 16, 15)${RESET}"
             echo "Angular Version : "
             read version
             log_message "INFO" "User chose version $version"
