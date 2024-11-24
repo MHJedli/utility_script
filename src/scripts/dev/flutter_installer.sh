@@ -10,6 +10,7 @@ echo "Continue script execution in Flutter SDK Installation at $(date)" >> "$LOG
 installFlutter(){
 
     declare -A flutterVersions=(
+        ["3.24.5"]=1
         ["3.24.4"]=1
         ["3.24.3"]=1
         ["3.24.2"]=1
@@ -37,15 +38,15 @@ installFlutter(){
 
             log_message "INFO" "User Chose to Install The Latest Flutter version"
 
-            log_message "INFO" "Downloading Flutter SDK 3.24.4"
-            echo -e "${YELLOW}-> Downloading Flutter SDK 3.24.4...${RESET}"
+            log_message "INFO" "Downloading Flutter SDK 3.24.5"
+            echo -e "${YELLOW}-> Downloading Flutter SDK 3.24.5...${RESET}"
             sleep 1
-            wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.4-stable.tar.xz || handle_error "Failed to Download Flutter SDK"
+            wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.5-stable.tar.xz || handle_error "Failed to Download Flutter SDK"
 
             log_message "INFO" "Extracting Flutter SDK to ~/"
             echo -e "${YELLOW}-> Extracting Flutter SDK to ~/${RESET}"
             sleep 1
-            tar -xvf flutter_linux_3.24.4-stable.tar.xz -C ~/ || handle_error "Failed to Extract Flutter SDK to ~/"
+            tar -xvf flutter_linux_3.24.5-stable.tar.xz -C ~/ || handle_error "Failed to Extract Flutter SDK to ~/"
             return
 
         elif [[ "$option" == "n" || "$option" == "N" ]]; then
