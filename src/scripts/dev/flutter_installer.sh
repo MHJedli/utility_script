@@ -41,6 +41,11 @@ installFlutter(){
             log_message "INFO" "Downloading Flutter SDK 3.24.5"
             printc "YELLOW" "-> Downloading Flutter SDK 3.24.5..."
             sleep 1
+
+            if [[ -f $(pwd)/flutter_linux_3.24.5-stable.tar.xz ]]; then
+                rm $(pwd)/flutter_linux_3.24.5-stable.tar.xz
+            fi
+
             wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.5-stable.tar.xz || handle_error "Failed to Download Flutter SDK"
 
             log_message "INFO" "Extracting Flutter SDK to ~/"
@@ -74,6 +79,11 @@ installFlutter(){
                 log_message "INFO" "Downloading Flutter SDK version $ov"
                 printc "YELLOW" "-> Downloading Flutter SDK $ov..."
                 sleep 1
+
+                if [[ -f $(pwd)/flutter_linux_$ov-stable.tar.xz ]]; then
+                    rm $(pwd)/flutter_linux_$ov-stable.tar.xz
+                fi
+
                 wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_$ov-stable.tar.xz || handle_error "Failed to Download Flutter SDK version $ov"
 
                 log_message "INFO" "Extracting Flutter SDK to ~/"
