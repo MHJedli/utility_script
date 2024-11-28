@@ -15,11 +15,8 @@ read version
 
 printc "YELLOW" "-> Switching to $version..."
 
-local oldCudaPath=$(cat ~/.bashrc | grep "export PATH=/usr/local/cuda*")
-sed -i "s|$oldCudaPath||g" ~/.bash
-local oldCudaLDPath=$(cat ~/.bashrc | grep "export LD_LIBRARY_PATH=/usr/local/cuda*")
-local escapedOldCudaLDPath=$(printf '%s' "$oldCudaLDPath" | sed 's/[&/\]/\\&/g')
-sed -i "s/$escapedOldCudaLDPath//g" ~/.bashrc
+grep -l '# CUDA PATH' ~/.bashrc | xargs -I {} sed -i '/# CUDA PATH/d' {}
+grep -l '/usr/local/cuda' ~/.bashrc | xargs -I {} sed -i '/usr\/local\/cuda/d' {}
 
 echo '# CUDA PATH' >> ~/.bashrc || handle_error "Failed to add CUDA Path"
 echo export PATH=/usr/local/$version/bin'${PATH:+:${PATH}}' >> ~/.bashrc || handle_error "Failed to add CUDA Path"
@@ -28,7 +25,8 @@ echo export LD_LIBRARY_PATH=/usr/local/$version/lib64'\ {LD_LIBRARY_PATH:+:${LD_
 log_message "INFO" "Applying CUDA Path"
 printc "YELLOW" "-> Applying CUDA Path..."
 sleep 1
-source ~/.bashrc || handle_error "Failed to Apply CUDA Path"
+eval "$(cat ~/.bashrc | tail -n +10)" || handle_error "Failed to Apply CUDA Path"
+
 log_message "INFO" "Checking the Installed Version"
 printc "YELLOW" "-> Checking the Installed Version..."
 sleep 1
