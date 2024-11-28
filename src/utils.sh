@@ -9,6 +9,26 @@ YELLOW='\e[33m'
 CYAN='\e[36m'
 RESET='\e[0m'
 
+printc(){
+    
+    case $1 in
+    	"RED")
+    		color=$RED
+    		;;
+    	"GREEN")
+    		color=$GREEN
+    		;;
+    	"YELLOW")
+    		color=$YELLOW
+    		;;
+    	"CYAN")
+    		color=$CYAN
+    		;;
+    esac
+
+    echo -e "${color} $2 ${RESET}"
+}
+
 # Script Paths
 declare -A scriptPaths=(
 
