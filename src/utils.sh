@@ -41,6 +41,7 @@ declare -A scriptPaths=(
     # Drivers Scripts
     ["nvidia_driver_installer"]="src/scripts/drivers/nvidia_installer.sh"
     ["cuda_installer"]="src/scripts/drivers/cuda_installer.sh"
+    ["cuda_switcher"]="src/scripts/drivers/cuda_switcher.sh"
     
     # AI Scripts
     ["conda_installer"]="src/scripts/ai/conda_installer.sh"
