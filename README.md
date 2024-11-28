@@ -32,6 +32,7 @@ scripts
 │   └── flutter_installer
 ├── drivers
 │    ├── cuda_installer
+|    ├── cuda_switcher 
 │    └── nvidia_installer
 └── tweaks
 ```
