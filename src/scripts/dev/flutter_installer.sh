@@ -128,7 +128,11 @@ if check_internet; then
 
     installFlutter
 
-    log_message "Adding Flutter to PATH (bash)"
+    log_message "INFO" "Removing Old Flutter PATH if Existed"
+    printc "YELLOW" "-> Removing Old Flutter PATH if Existed..."
+    grep -l 'flutter/bin' ~/.bashrc | xargs -I {} sed -i '/flutter\/bin/d' {}
+
+    log_message "INFO" "Adding Flutter to PATH (bash)"
     printc "YELLOW" "-> Adding Flutter to PATH (bash)..."
     sleep 1
     echo 'export PATH="$HOME/flutter/bin:$PATH"' >> ~/.bashrc || handle_error "Failed to Add Flutter to PATH (bash)"
