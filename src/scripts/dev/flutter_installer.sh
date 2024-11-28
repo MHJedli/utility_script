@@ -39,12 +39,12 @@ installFlutter(){
             log_message "INFO" "User Chose to Install The Latest Flutter version"
 
             log_message "INFO" "Downloading Flutter SDK 3.24.5"
-            echo -e "${YELLOW}-> Downloading Flutter SDK 3.24.5...${RESET}"
+            printc "YELLOW" "-> Downloading Flutter SDK 3.24.5..."
             sleep 1
             wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.5-stable.tar.xz || handle_error "Failed to Download Flutter SDK"
 
             log_message "INFO" "Extracting Flutter SDK to ~/"
-            echo -e "${YELLOW}-> Extracting Flutter SDK to ~/${RESET}"
+            printc "YELLOW" "-> Extracting Flutter SDK to ~/"
             sleep 1
             tar -xvf flutter_linux_3.24.5-stable.tar.xz -C ~/ || handle_error "Failed to Extract Flutter SDK to ~/"
             return
@@ -53,7 +53,7 @@ installFlutter(){
 
             log_message "INFO" "User Chose to Install an Another Flutter Version"
 
-            echo -e "${CYAN}What Flutter Version do you want to install ?${RESET}"
+            printc "CYAN" "What Flutter Version do you want to install ?"
             echo "1. Show Versions"
             echo -n "Select Option/Version : "
             read ov
@@ -72,12 +72,12 @@ installFlutter(){
                 log_message "INFO" "User chose to install flutter version $ov"
 
                 log_message "INFO" "Downloading Flutter SDK version $ov"
-                echo -e "${YELLOW}-> Downloading Flutter SDK $ov${RESET}"
+                printc "YELLOW" "-> Downloading Flutter SDK $ov..."
                 sleep 1
                 wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_$ov-stable.tar.xz || handle_error "Failed to Download Flutter SDK version $ov"
 
                 log_message "INFO" "Extracting Flutter SDK to ~/"
-                echo -e "${YELLOW}-> Extracting Flutter SDK to ~/${RESET}"
+                printc "YELLOW" "-> Extracting Flutter SDK to ~/"
                 sleep 1
                 tar -xvf flutter_linux_$ov-stable.tar.xz -C ~/ || handle_error "Failed to Extract Flutter SDK to ~/"
                 return
@@ -85,7 +85,7 @@ installFlutter(){
             else
 
                 log_message "WARN" "User chose a wrong version : $ov"
-                echo -e "${RED}Wrong Flutter SDK Version Selected !${RESET}"
+                printc "RED" "Wrong Flutter SDK Version Selected !"
                 echo "Press [ENTER] to Continue"
                 read
 
@@ -102,49 +102,49 @@ installFlutter(){
 
 }
 
-echo -e "${YELLOW}-> Checking for Internet Connection...${RESET}"
+printc "YELLOW" "-> Checking for Internet Connection..."
 sleep 1
 
 if check_internet; then
 
     log_message "INFO" "Internet Connection Detected. Proceeding with Flutter SDK Installation"
-    echo -e "${GREEN}-> Internet Connection Detected. Proceeding with Flutter SDK Installation...${RESET}"
+    printc "GREEN" "-> Internet Connection Detected. Proceeding with Flutter SDK Installation..."
     sleep 1
 
     log_message "INFO" "Refreshing Package Cache"
-    echo -e "${YELLOW}-> Refreshing Package Cache...${RESET}"
+    printc "YELLOW" "-> Refreshing Package Cache..."
     sleep 1
     sudo apt update || handle_error "Failed to Refresh Package Cache"
 
     log_message "INFO" "Updating System Packages"
-    echo -e "${YELLOW}-> Updating System Packages...${RESET}"
+    printc "YELLOW" "-> Updating System Packages..."
     sleep 1
     sudo apt upgrade -y || handle_error "Failed to Update System Packages"
 
     log_message "INFO" "Installing the following packages: curl, git, unzip, xz-utils, zip, libglu1-mesa"
-    echo -e "${YELLOW}-> Installing the following packages: curl, git, unzip, xz-utils, zip, libglu1-mesa...${RESET}"
+    printc "YELLOW" "-> Installing the following packages: curl, git, unzip, xz-utils, zip, libglu1-mesa..."
     sleep 1
     sudo apt install -y curl git unzip xz-utils zip libglu1-mesa || handle_error "Failed to Install Required Packages"
 
     installFlutter
 
     log_message "Adding Flutter to PATH (bash)"
-    echo -e "${YELLOW}-> Adding Flutter to PATH (bash)...${RESET}"
+    printc "YELLOW" "-> Adding Flutter to PATH (bash)..."
     sleep 1
     echo 'export PATH="$HOME/flutter/bin:$PATH"' >> ~/.bashrc || handle_error "Failed to Add Flutter to PATH (bash)"
 
     log_message "Activating Flutter"
-    echo -e "${YELLOW}-> Activating Flutter...${RESET}"
+    printc "YELLOW" "-> Activating Flutter..."
     sleep 1
     source ~/.bashrc || handle_error "Failed to Activate Flutter"
 
     log_message "Executing flutter doctor -v"
-    echo -e "${YELLOW}-> Executing flutter doctor -v (It May Take a Little While)${RESET}"
+    printc "YELLOW" "-> Executing flutter doctor -v (It May Take a Little While)"
     sleep 1
     flutter doctor -v || handle_error "Failed to Execute flutter doctor -v"
 
     log_message "INFO" "Flutter SDK Installer Script Completed Successfully"
-    echo -e "${GREEN}-> Flutter SDK Installer Script Completed Successfully...${RESET}"
+    printc "GREEN" "-> Flutter SDK Installer Script Completed Successfully..."
     echo "Press [ENTER] to exit..."
     read
 

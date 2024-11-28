@@ -12,31 +12,31 @@ echo "Continue script execution in Tensorflow Installation at $(date)" >> "$LOG_
 dryRunCheck(){
 
 	log_message "INFO" "Performing Dry Run for TensorFlow Installation"
-    echo -e "${CYAN}-> Performing Dry Run for TensorFlow Installation...${RESET}"
+	printc "CYAN" "-> Performing Dry Run for TensorFlow Installation..."
 	sleep 1
 
 	log_message "INFO" "1. Checking for Conda Installation"
-    echo -e "${YELLOW}1. Checking for Conda Installation...${RESET}"
+	printc "YELLOW" "1. Checking for Conda Installation..."
 	sleep 1
     if ! command -v conda &> /dev/null; then
-        echo -e "${RED}ERROR: Conda is not installed. Please install Conda before proceeding...${RESET}"
+		printc "RED" "ERROR: Conda is not installed. Please install Conda before proceeding..."
 		read
         exit
     fi
-    echo -e "${GREEN}-> Conda is installed.${RESET}"
+	printc "GREEN" "-> Conda is installed."
 
 	log_message "INFO" "1.1. Checking for active CONDA environment"
-	echo -e "${YELLOW}1.1. Checking for active CONDA environment...${RESET}"
+	printc "YELLOW" "1.1. Checking for active CONDA environment..."
 	sleep 1
 	local condaEnv=$CONDA_DEFAULT_ENV
 	if [[ "$condaEnv" == "base" ]]; then
-		echo -e "${GREEN}base is the default conda env in this current shell session${RESET}"
+		printc "GREEN" "base is the default conda env in this current shell session"
 	else
-		echo -e "${RED}base is NOT the default conda env in this current shell session${RESET}"
+		printc "RED" "base is NOT the default conda env in this current shell session"
     fi
 
 	log_message "INFO" "2. Checking for CUDA Toolkit and NVIDIA Drivers"
-    echo -e "${YELLOW}2. Checking for CUDA Toolkit and NVIDIA Drivers...${RESET}"
+	printc "YELLOW" "2. Checking for CUDA Toolkit and NVIDIA Drivers..."
 	sleep 1
 	while true; do
     	echo -n "-> Do you plan to install TensorFlow with CUDA Support? (Y/n): "
@@ -44,21 +44,21 @@ dryRunCheck(){
     	if [[ "$use_cuda" == "Y" || "$use_cuda" == "y" || "$use_cuda" == "" ]]; then
 
 			log_message "INFO" "2.1. Checking for NVIDIA Drivers"
-			echo -e "${YELLOW}2.1. Checking for NVIDIA Drivers...${RESET}"
+			printc "YELLOW" "2.1. Checking for NVIDIA Drivers..."
 			sleep 1
     	    if ! command -v nvidia-smi &> /dev/null; then
-    	        echo -e "${RED}ERROR: NVIDIA Driver is not installed.${RESET}"
+				printc "RED" "ERROR: NVIDIA Driver is not installed."
     	    else
-    	        echo -e "${GREEN}-> NVIDIA Driver is installed.${RESET}"
+				printc "GREEN" "-> NVIDIA Driver is installed."
     	    fi
 
 			log_message "INFO" "2.2. Checking for CUDA Toolkit"
-			echo -e "${YELLOW}2.2. Checking for CUDA Toolkit...${RESET}"
+			printc "YELLOW" "2.2. Checking for CUDA Toolkit..."
     	    sleep 1
     	    if ! nvcc --version &> /dev/null; then
-    	        echo -e "${RED}ERROR: CUDA Toolkit is not installed.${RESET}"
+				printc "RED" "ERROR: CUDA Toolkit is not installed."
     	    else
-    	        echo -e "${GREEN}-> CUDA Toolkit is installed.${RESET}"
+				printc "GREEN" "-> CUDA Toolkit is installed."
     	    fi
 
 			break
@@ -78,7 +78,7 @@ dryRunCheck(){
 installTensorFlow(){
 	while true; do
 	
-		echo -e "${YELLOW}What Compute Platform do you want to use ?${RESET}"
+		printc "YELLOW" "What Compute Platform do you want to use ?"
 		echo "1. CPU"
 		echo "2. CUDA"
 		echo -n "Your Compute Platform : "
@@ -86,7 +86,7 @@ installTensorFlow(){
 		case $option in
 		1)
 		    log_message "INFO" "User chose to Installing Tensorflow with CPU Support"
-		    echo -e"${YELLOW}-> Installing Tensorflow with CPU Support${RESET}"
+			printc "YELLOW" "-> Installing Tensorflow with CPU Support..."
 		    sleep 1
 		    python3 -m pip install tensorflow || handle_error "Failed to Install Tensorflow with CPU Support"
 		    
@@ -95,7 +95,7 @@ installTensorFlow(){
 		    if [[ "$r" == "Y" || "$r" == "y" || "$r" == "" ]]; then
 
 		    	log_message "INFO" "User chose to check if tensorflow is installed" 
-				echo -e "${YELLOW}-> Executing python -c 'import tensorflow as tf; print(tf.random.normal([5, 5]))' ${RESET}"
+				printc "YELLOW" "-> Executing python -c 'import tensorflow as tf; print(tf.random.normal([5, 5]))' "
 				echo -e "-> If returned a result, then tensorflow is ${GREEN}installed${RESET}"
 				echo "Press [ENTER] to continue..."
 				read
@@ -108,18 +108,18 @@ installTensorFlow(){
 		2)
 		    echo "# For Tensorflow with CUDA Support to work,"
 	   	    echo "# Make sure that you have : "
-	   	    echo -e "${YELLOW}# 1. NVIDIA Driver Installed on your Machine${RESET}"
-	   	    echo -e "${YELLOW}# 2. NVIDIA CUDA Toolkit Installed on your Machine${RESET}"
+			printc "YELLOW" "# 1. NVIDIA Driver Installed on your Machine"
+			printc "YELLOW" "# 2. NVIDIA CUDA Toolkit Installed on your Machine"
 	   	    echo "Press [ENTER] to continue..."
 	   	    read
 	   	    
 		    log_message "INFO" "User chose to Installing Tensorflow with CUDA Support"
 		    log_message "INFO" "Installing cuDNN Package"
-		    echo "${YELLOW}-> Installing cuDNN Package${RESET}"
+			printc "YELLOW" "-> Installing cuDNN Package..."
 		    sleep 1
 		    conda install -c conda-forge cudnn || handle_error "Failed to Install cuDNN Package"
 		    
-		    echo -e "${YELLOW}-> Installing Tensorflow with CUDA Support${RESET}"
+			printc "YELLOW" "-> Installing Tensorflow with CUDA Support..."
 		    sleep 1
 		    python3 -m pip install tensorflow[and-cuda] || handle_error "Failed to Install Tensorflow with CUDA Support"
 		    
@@ -127,7 +127,7 @@ installTensorFlow(){
 		    read r
 		    if [[ "$r" == "Y" || "$r" == "y" || "$r" == "" ]]; then
 			
-				echo -e "${YELLOW}-> Executing python -c 'import tensorflow as tf; print(tf.test.is_built_with_cuda())' ${RESET}"
+				printc "YELLOW" "-> Executing python -c 'import tensorflow as tf; print(tf.test.is_built_with_cuda())' "
 				echo -e "-> If Returned True, then Tensorflow is ${GREEN}installed with CUDA Support${RESET}"
 				echo "Press [ENTER] to continue..."
 				read
@@ -150,37 +150,37 @@ installTensorFlow(){
 
 echo "# Before Proceeding to the installation of Tensorflow"
 echo "# Make sure that : "
-echo -e "${YELLOW}#1. Conda is Installed on your machine${RESET}"
-echo -e "${YELLOW}#2. The base conda environment of current shell session is (base)${RESET}"
+printc "YELLOW" "#1. Conda is Installed on your machine"
+printc "YELLOW" "#2. The base conda environment of current shell session is (base)"
 echo "PRESS [ENTER] to Continue..."
 read
 
 dryRunCheck
 
-echo -e "${YELLOW}-> Checking for Internet Connection...${RESET}"
+printc "YELLOW" "-> Checking for Internet Connection..."
 sleep 1
 
 if check_internet; then
 
 	log_message "INFO" "Internet Connection Detected. Proceeding with Tensorflow Installation"
-	echo -e "${GREEN}-> Internet Connection Detected. Proceeding with Tensorflow Installation...${RESET}"
+	printc "GREEN" "-> Internet Connection Detected. Proceeding with Tensorflow Installation..."
 	sleep 1
 
 	log_message "INFO" "Creating The working Environment"
-	echo -e "${YELLOW}-> Creating The working Environment...${RESET}"
+	printc "YELLOW" "-> Creating The working Environment..."
 	sleep 1
 	echo -n "Type your environment Name : "
 	read env_name
 	conda create --name $env_name python=3.10 || handle_error "Failed to create $env_name environment"
 
 	log_message "INFO" "Activating The Working Environment : $env_name"
-	echo -e "${YELLOW}-> Activating The Working Environment : $env_name...${RESET}"
+	printc "YELLOW" "-> Activating The Working Environment : $env_name..."
 	sleep 1
 	source activate base || handle_error "Failed to Activate $env_name Environment"
 	conda activate $env_name || handle_error "Failed to Activate $env_name Environment"
 
 	log_message "INFO" "Configuring System Paths for CONDA Environment"
-	echo -e "${YELLOW}-> Configuring System Paths for CONDA Environment${RESET}"
+	printc "YELLOW" "-> Configuring System Paths for CONDA Environment..."
 	sleep 1
 	mkdir -p $CONDA_PREFIX/etc/conda/activate.d || handle_error "Failed to Configure System Paths for CONDA Environment"
 	echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/' > $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh || handle_error "Failed to Configure System Paths for CONDA Environment"
@@ -189,9 +189,9 @@ if check_internet; then
 	installTensorFlow
 
 	echo "Tensorflow Installation Completed Successfully at $(date)" >> "$LOG_FILE"
-	echo -e "${GREEN}Tensorflow Installation Completed Successfully...${RESET}"
+	printc "GREEN" "Tensorflow Installation Completed Successfully..."
 	echo "To activate this environment, Open terminal and Type the following :"
-	echo -e "${GREEN}conda activate $env_name${RESET}"
+	printc "GREEN" "conda activate $env_name"
 	echo "PRESS [ENTER] to exit..."
 	read
 

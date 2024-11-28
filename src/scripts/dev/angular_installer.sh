@@ -21,7 +21,7 @@ installAngular(){
         if [[ "$a" == "Y" || "$a" == "y" || "$a" == ""  ]]; then
 
             log_message "INFO" "Installing Latest Angular Version"
-            echo -e "${YELLOW}-> Installing Latest Angular Version...${RESET}"
+            printc "YELLOW" "-> Installing Latest Angular Version..."
             sleep 1
             npm install @angular/cli --location=global || handle_error "Failed to Install Latest Angular Version"
             return
@@ -36,14 +36,14 @@ installAngular(){
             if [[ -v versions["$version"] ]]; then
 
                 log_message "INFO" "Installing Angular version $version"
-                echo -e "${YELLOW}Installing Angular version $version${RESET}"
+                printc "YELLOW" "-> Installing Angular version $version..."
                 sleep 1
                 npm install -g @angular/cli@"$version" || handle_error "Failed to Install Angular version $version"
                 return
 
             else
 
-                echo -e "${RED}Wrong Version Selected !${RESET}"
+                printc "RED" "Wrong Version Selected !"
                 read
                 clear
 
@@ -52,39 +52,39 @@ installAngular(){
     done
 }
 
-echo -e "${YELLOW}-> Checking for Internet Connection...${RESET}"
+printc "YELLOW" "-> Checking for Internet Connection..."
 sleep 1
 
 if check_internet; then
 
     log_message "INFO" "Internet Connection Detected. Proceeding with Angular Installation"
-    echo -e "${GREEN}-> Internet Connection Detected. Proceeding with Angular Installation...${RESET}"
+    printc "GREEN" "-> Internet Connection Detected. Proceeding with Angular Installation..."
 
     log_message "INFO" "Installing NVM"
-    echo -e "${YELLOW}-> Installing NVM...${RESET}"
+    printc "YELLOW" "-> Installing NVM..."
     sleep 1
     curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash || handle_error "Failed to install NVM"
 
     log_message "INFO" "Activating NVM Environment"
-    echo -e "${YELLOW}-> Activating NVM Environment...${RESET}"
+    printc "YELLOW" "-> Activating NVM Environment..."
     sleep 1
     source $HOME/.bashrc || handle_error "Failed to Activate NVM Environment" 
     source ~/.nvm/nvm.sh || handle_error "Failed to Activate NVM Environment"
     source ~/.profile    || handle_error "Failed to Activate NVM Environment"
 
     log_message "INFO" "Installing Node.js 18 LTS"
-    echo -e "${YELLOW}-> Installing Node.js 18 LTS...${RESET}"
+    printc "YELLOW" "-> Installing Node.js 18 LTS..."
     sleep 1
     nvm install 18 || handle_error "Failed to install Node.js 18 LTS"
 
     log_message "INFO" "Checking Installed Node and NPM Versions"
-    echo -e "${YELLOW}-> Checking Installed Node and NPM Versions...${RESET}"
+    printc "YELLOW" "-> Checking Installed Node and NPM Versions..."
     sleep 1
     node -v || handle_error "Failed to Print Installed Node Version"
     npm -v || handle_error "Failed to Print Installed NPM Version"
 
     log_message "INFO" "Installing Angular"
-    echo -e "${YELLOW}-> Installing Angular...${RESET}"
+    printc "YELLOW" "-> Installing Angular..."
     sleep 1
     installAngular
 
@@ -96,6 +96,7 @@ if check_internet; then
     fi
 
     echo "Script Execution in Angular Installation Ended Successfully at $(date)" >> "$LOG_FILE"
+    printc "GREEN" "Angular Installed Successfully..."
     echo "Press [ENTER] To Exit..."
     read
 

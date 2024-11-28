@@ -10,12 +10,12 @@ echo "Continue script execution in Pytorch Installation at $(date)" >> "$LOG_FIL
 testCuda(){
 
     log_message "INFO" "Checking if Pytorch with CUDA Support is working"
-    echo -e "${YELLOW}-> Checking if Pytorch with CUDA Support is working${RESET}"
-	echo -e "${YELLOW}-> By Executing python3 -c 'import torch; print(torch.cuda.get_device_name(0))'...${RESET}"
+    printc "YELLOW" "-> Checking if Pytorch with CUDA Support is working"
+    printc "YELLOW" "-> By Executing python3 -c 'import torch; print(torch.cuda.get_device_name(0))'..."
     sleep 1
 	python3 -c 'import torch; print(torch.cuda.get_device_name(0))' || handle_error "Failed to Check if Pytorch with CUDA Support is working"
 
-    echo -e "${GREEN}-> Pytorch with CUDA Support is Installed...${RESET}"
+    printc "GREEN" "-> Pytorch with CUDA Support is Installed..."
     sleep 1
 
 }
@@ -23,31 +23,31 @@ testCuda(){
 dryRunCheck(){
 
 	log_message "INFO" "Performing Dry Run for Pytorch Installation"
-    echo -e "${CYAN}-> Performing Dry Run for Pytorch Installation...${RESET}"
+    printc "CYAN" "-> Performing Dry Run for Pytorch Installation..."
 	sleep 1
 
 	log_message "INFO" "1. Checking for Conda Installation"
-    echo -e "${YELLOW}1. Checking for Conda Installation...${RESET}"
+    printc "YELLOW" "1. Checking for Conda Installation..."
 	sleep 1
     if ! command -v conda &> /dev/null; then
-        echo -e "${RED}ERROR: Conda is not installed. Please install Conda before proceeding...${RESET}"
+        printc "RED" "ERROR: Conda is not installed. Please install Conda before proceeding..."
 		read
         exit
     fi
-    echo -e "${GREEN}-> Conda is installed.${RESET}"
+    printc "GREEN" "-> Conda is installed."
 
 	log_message "INFO" "1.1. Checking for active CONDA environment"
-	echo -e "${YELLOW}1.1. Checking for active CONDA environment...${RESET}"
+    printc "YELLOW" "1.1. Checking for active CONDA environment..."
 	sleep 1
 	local condaEnv=$CONDA_DEFAULT_ENV
 	if [[ "$condaEnv" == "base" ]]; then
-		echo -e "${GREEN}base is the default conda env in this current shell session${RESET}"
+        printc "GREEN" "base is the default conda env in this current shell session"
 	else
-		echo -e "${RED}base is NOT the default conda env in this current shell session${RESET}"
+        printc "RED" "base is NOT the default conda env in this current shell session"
     fi
 
 	log_message "INFO" "2. Checking for CUDA Toolkit and NVIDIA Drivers"
-    echo -e "${YELLOW}2. Checking for CUDA Toolkit and NVIDIA Drivers...${RESET}"
+    printc "YELLOW" "2. Checking for CUDA Toolkit and NVIDIA Drivers..."
 	sleep 1
 	while true; do
     	echo -n -e "-> Do you plan to install Pytorch with CUDA Support? ${RED}[REQUIRES NVIDIA GPU]${RESET} (Y/n): "
@@ -55,21 +55,21 @@ dryRunCheck(){
     	if [[ "$use_cuda" == "Y" || "$use_cuda" == "y" || "$use_cuda" == "" ]]; then
 
 			log_message "INFO" "2.1. Checking for NVIDIA Drivers"
-			echo -e "${YELLOW}2.1. Checking for NVIDIA Drivers...${RESET}"
+            printc "YELLOW" "2.1. Checking for NVIDIA Drivers..."
 			sleep 1
     	    if ! command -v nvidia-smi &> /dev/null; then
-    	        echo -e "${RED}ERROR: NVIDIA Driver is not installed.${RESET}"
+                printc "RED" "ERROR: NVIDIA Driver is not installed."
     	    else
-    	        echo -e "${GREEN}-> NVIDIA Driver is installed.${RESET}"
+                printc "GREEN" "-> NVIDIA Driver is installed."
     	    fi
 
 			log_message "INFO" "2.2. Checking for CUDA Toolkit"
-			echo -e "${YELLOW}2.2. Checking for CUDA Toolkit...${RESET}"
+            printc "YELLOW" "2.2. Checking for CUDA Toolkit..."
     	    sleep 1
     	    if ! nvcc --version &> /dev/null; then
-    	        echo -e "${RED}ERROR: CUDA Toolkit is not installed.${RESET}"
+                printc "RED" "ERROR: CUDA Toolkit is not installed."
     	    else
-    	        echo -e "${GREEN}-> CUDA Toolkit is installed.${RESET}"
+                printc "GREEN" "-> CUDA Toolkit is installed."
     	    fi
 
 			break
@@ -89,7 +89,7 @@ installPytorch(){
     while true; do
 
         log_message "INFO" "Choosing the compute platform"
-        echo -e "${CYAN}-> Choose Your Compute Platform :${RESET}"
+        printc "CYAN" "-> Choose Your Compute Platform :"
         echo "1. CPU"
         echo -e "2. CUDA ${RED}[Requires NVIDIA GPU]${RESET}"
         echo -n "Your Option : "
@@ -98,10 +98,10 @@ installPytorch(){
         if [[ "$option" == "1" ]]; then
 
             log_message "INFO" "User chose to Install PyTorch with CPU Support"
-            echo -e "${YELLOW}-> Installing PyTorch with CPU Support${RESET}"
+            printc "YELLOW" "-> Installing PyTorch with CPU Support..."
             sleep 1
             conda install pytorch torchvision torchaudio cpuonly -c pytorch || handle_error "Failed to Install PyTorch with CPU Support"
-            echo -e "${GREEN}-> Pytorch with CPU Support installed Successfully${RESET}"
+            printc "GREEN" "-> Pytorch with CPU Support installed Successfully"
             return
 
         elif [[ "$option" == "2" ]]; then
@@ -113,8 +113,8 @@ installPytorch(){
             )
 
             log_message "INFO" "User chose to Install Pytorch with CUDA Support"
-            echo -e "${YELLOW}NOTE : Make sure you have NVIDIA Driver and NVIDIA CUDA Toolkit Installed !${RESET}"
-            echo -e "${CYAN}-> Choose the Compute Platform CUDA version :${RESET}"
+            printc "YELLOW" "NOTE : Make sure you have NVIDIA Driver and NVIDIA CUDA Toolkit Installed !"
+            printc "CYAN" "-> Choose the Compute Platform CUDA version :"
             echo "CUDA 12.4"
             echo "CUDA 12.1"
             echo "CUDA 11.8"
@@ -124,7 +124,7 @@ installPytorch(){
             if [[ -v cudaOptions["$co"] ]]; then
 
                 log_message "INFO" "User chose CUDA $co Support"
-                echo -e "${YELLOW}-> Installing Pytorch with CUDA $co Support...${RESET}"
+                printc "YELLOW" "-> Installing Pytorch with CUDA $co Support..."
                 sleep 1
                 conda install pytorch torchvision torchaudio pytorch-cuda=$co -c pytorch -c nvidia || handle_error "Failed to Installing PyTorch with CUDA $co Support"
                 log_message "INFO" "Testing CUDA Support in Pytorch"
@@ -148,50 +148,50 @@ installPytorch(){
 
 echo "# Before Proceeding to the installation of Pytorch"
 echo "# Make sure that : "
-echo -e "${YELLOW}# 1. Conda is Installed on your machine${RESET}"
-echo -e "${YELLOW}# 2. The base conda environment of current shell session is (base)${RESET}"
+printc "YELLOW" "# 1. Conda is Installed on your machine$"
+printc "YELLOW" "# 2. The base conda environment of current shell session is (base)"
 echo "PRESS [ENTER] to Continue..."
 read
 
 dryRunCheck
 
-echo -e "${YELLOW}-> Checking for Internet Connection...${RESET}"
+printc "YELLOW" "-> Checking for Internet Connection..."
 sleep 1
 
 if check_internet; then
 
 	log_message "INFO" "Internet Connection Detected. Proceeding with Pytorch Installation"
-    echo -e "${GREEN}-> Internet Connection Detected. Proceeding with Pytorch Installation...${RESET}"
+    printc "GREEN" "-> Internet Connection Detected. Proceeding with Pytorch Installation..."
     sleep 1
 
     log_message "INFO" "Creating The working Environment"
-    echo -e "${YELLOW}-> Creating The working Environment...${RESET}"
+    printc "YELLOW" "-> Creating The working Environment..."
     sleep 1
     echo -n "Type your environment Name : "
     read env_name
     conda create --name $env_name || handle_error "Failed to create $env_name environment"
 
     log_message "INFO" "Activating The Working Environment : $env_name"
-    echo -e "${YELLOW}-> Activating The Working Environment : $env_name...${RESET}"
+    printc "YELLOW" "-> Activating The Working Environment : $env_name..."
     sleep 1
     source activate base || handle_error "Failed to Activate $env_name Environment"
     conda activate $env_name || handle_error "Failed to Activate $env_name Environment"
 
     log_message "INFO" "Installing Pytorch"
-    echo -e "${YELLOW}-> Installing Pytorch...${RESET}"
+    printc "YELLOW" "-> Installing Pytorch..."
     sleep 1
     installPytorch
 
     log_message "INFO" "Verifying the Pytorch installed Version"
-    echo -e "${YELLOW}-> Verifying the installed Pytorch Version... ${RESET}"
-    echo -e "${YELLOW}-> By Executing python3 -c 'import torch; print(torch.__version__)'${RESET}"
+    printc "YELLOW" "-> Verifying the installed Pytorch Version..."
+    printc "YELLOW" "-> By Executing python3 -c 'import torch; print(torch.__version__)'"
     sleep 1
     python3 -c 'import torch; print(torch.__version__)' || handle_error "Failed to Print Pytorch version"
 
     echo "Pytorch Script Execution Completed Successfully at $(date)" >> "$LOG_FILE"
-    echo -e "${GREEN}Pytorch Script Execution Completed Successfully...${RESET}"
+    printc "GREEN" "Pytorch Script Execution Completed Successfully..."
     echo "To activate this environment, Open terminal and Type the following :"
-    echo -e "${GREEN}conda activate $env_name${RESET}"
+    printc "GREEN" "conda activate $env_name"
     echo "PRESS [ENTER] to exit..."
     read
 
