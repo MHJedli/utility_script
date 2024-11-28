@@ -11,6 +11,7 @@ showDriversMenu(){
     "         Drivers Menu" \
     "Install NVIDIA Driver" \
     "Install NVIDIA CUDA Toolkit" \
+    "CUDA Version Switcher" \
     "Return to Previous Menu"
 
     echo -n "Enter Option : "
@@ -28,6 +29,11 @@ showDriversMenu(){
         showNVIDIACUDAMenu
         ;;
     3)
+        log_message "INFO" "User chose to use CUDA Switcher"
+        bash "${scriptPaths["cuda_switcher"]}"
+        ;;
+
+    4)
         log_message "INFO" "User chose to return to Previous Menu"
         showMainMenu
         ;;
