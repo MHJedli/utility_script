@@ -26,7 +26,7 @@ printc(){
     		;;
     esac
 
-    echo -e "${color} $2 ${RESET}"
+    echo -e "${color}$2${RESET}"
 }
 
 # Script Paths
@@ -47,6 +47,9 @@ declare -A scriptPaths=(
     ["conda_installer"]="src/scripts/ai/conda_installer.sh"
     ["pytorch_installer"]="src/scripts/ai/pytorch_installer.sh"
     ["tensorflow_installer"]="src/scripts/ai/tensorflow_installer.sh"
+
+    # Tweaks Scripts
+    ["pipewire_installer"]="src/scripts/tweaks/pipewire_installer.sh"
     
 )
 
