@@ -39,7 +39,8 @@ declare -A scriptPaths=(
     ["oracle_vm_installer"]="src/scripts/dev/oracle_vm_installer.sh"
 
     # Drivers Scripts
-    ["nvidia_driver_installer"]="src/scripts/drivers/nvidia_installer.sh"
+    ["nvidia_driver_installer"]="src/scripts/drivers/nvidia/nvidia_driver_installer.sh"
+    ["nvidia_driver_remover"]="src/scripts/drivers/nvidia/nvidia_driver_remover.sh"
     ["cuda_installer"]="src/scripts/drivers/cuda_installer.sh"
     ["cuda_switcher"]="src/scripts/drivers/cuda_switcher.sh"
     
