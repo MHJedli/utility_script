@@ -44,7 +44,8 @@ declare -A scriptPaths=(
     ["cuda_switcher"]="src/scripts/drivers/cuda_switcher.sh"
     
     # AI Scripts
-    ["conda_installer"]="src/scripts/ai/conda_installer.sh"
+    ["conda_installer"]="src/scripts/ai/conda/conda_installer.sh"
+    ["conda_remover"]="src/scripts/ai/conda/conda_remover.sh"
     ["pytorch_installer"]="src/scripts/ai/pytorch_installer.sh"
     ["tensorflow_installer"]="src/scripts/ai/tensorflow_installer.sh"
 
@@ -85,7 +86,7 @@ handle_error() {
 
 # invalidOption print Function
 invalidOption() {
-    echo "No Option Selected !"
+    printc "RED" "No Option Selected !"
     echo "Press Enter To Continue ..."
     read
     if [ $# -gt 0 ]; then
