@@ -50,7 +50,7 @@ showNVIDIADriverMenu(){
     log_message "INFO" "Displaying NVIDIA Driver Menu"
     optionMenu "                 NVIDIA Driver" \
                "${scriptPaths["nvidia_driver_installer"]}" \
-               "" \
+               "${scriptPaths["nvidia_driver_remover"]}" \
                "showDriversMenu"   
 }
 
