@@ -166,8 +166,8 @@ createEnvironment(){
             printc "YELLOW" "-> Creating a New Working Environment..."
             sleep 1
             echo -n "Type Your Environment Name : "
-            read $new_env
-            conda create --name $new_env || handle_error "Failed to create $new_env environment"
+            read new_env
+            conda create --name new_env || handle_error "Failed to create $new_env environment"
 
             log_message "INFO" "Activating The Working Environment : $new_env"
             printc "YELLOW" "-> Activating The Working Environment : $new_env..."
