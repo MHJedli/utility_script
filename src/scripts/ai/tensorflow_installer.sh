@@ -148,6 +148,94 @@ installTensorFlow(){
 
 }
 
+createEnvironment(){
+
+	while true; do
+
+        log_message "INFO" "Choose your Environment Option"
+        printc "CYAN" "Choose your Environment Option :"
+        echo "1. Create a new Environment"
+        echo "2. Choose an existing Environment"
+        echo -n "Your Option : "
+        read option
+        log_message "INFO" "User chose option $option"
+
+		case $option in
+
+		1)
+			log_message "INFO" "Creating a New working Environment"
+			printc "YELLOW" "-> Creating a New working Environment..."
+			sleep 1
+			echo -n "Type your environment Name : "
+			read new_env
+			conda create --name $new_env python=3.10 || handle_error "Failed to create $new_env environment"
+
+			log_message "INFO" "Activating The Working Environment : $new_env"
+			printc "YELLOW" "-> Activating The Working Environment : $new_env..."
+			sleep 1
+			source activate base || handle_error "Failed to Activate $new_env Environment"
+			conda activate $new_env || handle_error "Failed to Activate $new_env Environment"
+
+			log_message "INFO" "Configuring System Paths for CONDA Environment"
+			printc "YELLOW" "-> Configuring System Paths for CONDA Environment..."
+			sleep 1
+			mkdir -p $CONDA_PREFIX/etc/conda/activate.d || handle_error "Failed to Configure System Paths for CONDA Environment"
+			echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/' > $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh || handle_error "Failed to Configure System Paths for CONDA Environment"
+            echo "To Activate This Environment , Execute the Following :"
+            printc "GREEN" "conda activate $your_env"
+            echo -n "Press [ENTER] To Continue Installation..."
+            read
+			break
+			;;
+
+		2)
+            log_message "INFO" "Choosing an Existing Conda Environment"
+            printc "YELLOW" "-> Choosing an Existing Conda Environment..."
+            sleep 1
+
+            echo -n "Type Your Existing Conda Environment : "
+            read your_env
+            printc "YELLOW" "-> Checking The Existence of $your_env..."
+            sleep 1
+
+            if conda info --envs | grep -q $your_env; then
+
+                printc "GREEN" "$your_env Exists..."
+                sleep 1
+				log_message "INFO" "Activating The Working Environment : $your_env"
+				printc "YELLOW" "-> Activating The Working Environment : $your_env..."
+				sleep 1
+				source activate base || handle_error "Failed to Activate $your_env Environment"
+				conda activate $your_env || handle_error "Failed to Activate $your_env Environment"
+
+				log_message "INFO" "Configuring System Paths for CONDA Environment"
+				printc "YELLOW" "-> Configuring System Paths for CONDA Environment..."
+				sleep 1
+				mkdir -p $CONDA_PREFIX/etc/conda/activate.d || handle_error "Failed to Configure System Paths for CONDA Environment"
+				echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/' > $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh || handle_error "Failed to Configure System Paths for CONDA Environment"
+            	echo "To Activate This Environment , Execute the Following :"
+            	printc "GREEN" "conda activate $your_env"
+            	echo -n "Press [ENTER] To Continue Installation..."
+            	read
+            	break
+
+            else
+
+                printc "RED" "$your_env Does NOT Exists !"
+                echo -n "Press [ENTER] To Try Again..."
+                read
+
+            fi
+			;;
+		*)
+            invalidOption
+            clear
+			;;
+		esac
+
+	done
+}
+
 echo "# Before Proceeding to the installation of Tensorflow"
 echo "# Make sure that : "
 printc "YELLOW" "#1. Conda is Installed on your machine"
@@ -166,32 +254,13 @@ if check_internet; then
 	printc "GREEN" "-> Internet Connection Detected. Proceeding with Tensorflow Installation..."
 	sleep 1
 
-	log_message "INFO" "Creating The working Environment"
-	printc "YELLOW" "-> Creating The working Environment..."
-	sleep 1
-	echo -n "Type your environment Name : "
-	read env_name
-	conda create --name $env_name python=3.10 || handle_error "Failed to create $env_name environment"
-
-	log_message "INFO" "Activating The Working Environment : $env_name"
-	printc "YELLOW" "-> Activating The Working Environment : $env_name..."
-	sleep 1
-	source activate base || handle_error "Failed to Activate $env_name Environment"
-	conda activate $env_name || handle_error "Failed to Activate $env_name Environment"
-
-	log_message "INFO" "Configuring System Paths for CONDA Environment"
-	printc "YELLOW" "-> Configuring System Paths for CONDA Environment..."
-	sleep 1
-	mkdir -p $CONDA_PREFIX/etc/conda/activate.d || handle_error "Failed to Configure System Paths for CONDA Environment"
-	echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/' > $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh || handle_error "Failed to Configure System Paths for CONDA Environment"
+	createEnvironment
 
 	log_message "INFO" "Installing Tensorflow"
 	installTensorFlow
 
 	echo "Tensorflow Installation Completed Successfully at $(date)" >> "$LOG_FILE"
 	printc "GREEN" "Tensorflow Installation Completed Successfully..."
-	echo "To activate this environment, Open terminal and Type the following :"
-	printc "GREEN" "conda activate $env_name"
 	echo "PRESS [ENTER] to exit..."
 	read
 
