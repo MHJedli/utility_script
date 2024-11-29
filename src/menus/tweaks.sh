@@ -48,7 +48,7 @@ showFixKeyboardRGB(){
     log_message "INFO" "User chose To Fix Keyboard RGB Backlight"
     log_message "INFO" "Displaying Fix Keyboard RGB Backlight Menu"
     optionMenu "           Fix Keyboard RGB Backlight" \
-       "" \
-       "" \
+       "${scriptPaths["keyboard_rgb_fix_installer"]}" \
+       "${scriptPaths["keyboard_rgb_fix_remover"]}" \
        "showSystemTweaksMenu"
 }
