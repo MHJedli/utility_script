@@ -90,19 +90,16 @@ installTensorFlow(){
 		    sleep 1
 		    python3 -m pip install tensorflow || handle_error "Failed to Install Tensorflow with CPU Support"
 		    
-		    echo -n -e "${CYAN}-> Do you want to check if tensorflow is installed ? (Y/n) :${RESET} "
-		    read r
-		    if [[ "$r" == "Y" || "$r" == "y" || "$r" == "" ]]; then
-
-		    	log_message "INFO" "User chose to check if tensorflow is installed" 
-				printc "YELLOW" "-> Executing python -c 'import tensorflow as tf; print(tf.random.normal([5, 5]))' "
-				echo -e "-> If returned a result, then tensorflow is ${GREEN}installed${RESET}"
-				echo "Press [ENTER] to continue..."
-				read
-				sleep 1
-				python -c "import tensorflow as tf; print(tf.random.normal([5, 5]))" || handle_error "Failed to check if tensorflow is installed"
+			printc "CYAN" "-> Verifying TensorFlow With CPU Support Installation"
+			printc "YELLOW" "-> By Executing python -c 'import tensorflow as tf; print(tf.random.normal([5, 5]))' "
+			echo -e "-> If a result is returned, then tensorflow is ${GREEN}installed${RESET}"
+			echo "Press [ENTER] to continue..."
+			read
+			sleep 1
+			python -c "import tensorflow as tf; print(tf.random.normal([5, 5]))" || handle_error "Failed to check if tensorflow is installed"
+			echo -n "Press [ENTER] To Continue..."
+			read
 				
-		    fi
 		    return
 		    ;;
 		2)
@@ -124,7 +121,7 @@ installTensorFlow(){
 		    python3 -m pip install tensorflow[and-cuda] || handle_error "Failed to Install Tensorflow with CUDA Support"
 		    
 			printc "CYAN" "-> Verifying TensorFlow Installation with CUDA Support"
-			printc "YELLOW" "-> Executing python -c 'import tensorflow as tf; print(tf.test.is_built_with_cuda())' "
+			printc "YELLOW" "-> By Executing python -c 'import tensorflow as tf; print(tf.test.is_built_with_cuda())' "
 			echo -e "-> If Returned True, then Tensorflow is ${GREEN}installed with CUDA Support${RESET}"
 			echo -n "Press [ENTER] to continue..."
 			read
