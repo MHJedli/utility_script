@@ -146,6 +146,84 @@ installPytorch(){
     
 }
 
+createEnvironment(){
+
+    while true; do
+
+        log_message "INFO" "Choose your Environment Option"
+        printc "CYAN" "Choose your Environment Option :"
+        echo "1. Create a new Environment"
+        echo "2. Choose an existing Environment"
+        echo -n "Your Option : "
+        read option
+        log_message "INFO" "User chose option $option"
+
+        case $option in
+
+        1)
+            log_message "INFO" "User chose to Create a New Working Environment"
+            log_message "INFO" "Creating a New Working Environment"
+            printc "YELLOW" "-> Creating a New Working Environment..."
+            sleep 1
+            echo -n "Type Your Environment Name : "
+            read env_name
+            conda create --name $new_env || handle_error "Failed to create $new_env environment"
+
+            log_message "INFO" "Activating The Working Environment : $new_env"
+            printc "YELLOW" "-> Activating The Working Environment : $new_env..."
+            sleep 1
+            source activate base || handle_error "Failed to Activate $new_env Environment"
+            conda activate $new_env || handle_error "Failed to Activate $new_env Environment"
+            echo "To Activate This Environment , Execute the Following :"
+            printc "GREEN" "conda activate $new_env"
+            echo -n "Press [ENTER] To Continue Installation..."
+            read
+            break
+            ;;
+            
+        2)
+            log_message "INFO" "Choosing an Existing Conda Environment"
+            printc "YELLOW" "-> Choosing an Existing Conda Environment..."
+            sleep 1
+
+            echo -n "Type Your Existing Conda Environment : "
+            read your_env
+            printc "YELLOW" "-> Checking The Existence of $your_env..."
+            sleep 1
+
+            if conda info --envs | grep -q $your_env; then
+
+                printc "GREEN" "$your_env Exists..."
+                sleep 1
+                log_message "INFO" "Activating The Working Environment : $your_env"
+                printc "YELLOW" "-> Activating The Working Environment : $your_env..."
+                sleep 1
+                source activate base || handle_error "Failed to Activate $your_env Environment"
+                conda activate $your_env || handle_error "Failed to Activate $your_env Environment"
+                echo "To Activate This Environment , Execute the Following :"
+                printc "GREEN" "conda activate $your_env"
+                echo -n "Press [ENTER] To Continue Installation..."
+                read
+                break
+
+            else
+
+                printc "RED" "$your_env Does NOT Exists !"
+                echo -n "Press [ENTER] To Try Again..."
+                read
+
+            fi
+            ;;
+        *)
+            invalidOption
+            clear
+            ;;
+        esac
+
+    done
+
+}
+
 echo "# Before Proceeding to the installation of Pytorch"
 echo "# Make sure that : "
 printc "YELLOW" "# 1. Conda is Installed on your machine$"
@@ -164,18 +242,7 @@ if check_internet; then
     printc "GREEN" "-> Internet Connection Detected. Proceeding with Pytorch Installation..."
     sleep 1
 
-    log_message "INFO" "Creating The working Environment"
-    printc "YELLOW" "-> Creating The working Environment..."
-    sleep 1
-    echo -n "Type your environment Name : "
-    read env_name
-    conda create --name $env_name || handle_error "Failed to create $env_name environment"
-
-    log_message "INFO" "Activating The Working Environment : $env_name"
-    printc "YELLOW" "-> Activating The Working Environment : $env_name..."
-    sleep 1
-    source activate base || handle_error "Failed to Activate $env_name Environment"
-    conda activate $env_name || handle_error "Failed to Activate $env_name Environment"
+    createEnvironment
 
     log_message "INFO" "Installing Pytorch"
     printc "YELLOW" "-> Installing Pytorch..."
@@ -190,8 +257,6 @@ if check_internet; then
 
     echo "Pytorch Script Execution Completed Successfully at $(date)" >> "$LOG_FILE"
     printc "GREEN" "Pytorch Script Execution Completed Successfully..."
-    echo "To activate this environment, Open terminal and Type the following :"
-    printc "GREEN" "conda activate $env_name"
     echo "PRESS [ENTER] to exit..."
     read
 
