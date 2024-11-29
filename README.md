@@ -35,7 +35,9 @@ scripts
 ├── drivers
 │    ├── cuda_installer
 |    ├── cuda_switcher 
-│    └── nvidia_installer
+│    └── nvidia
+|           ├── nvidia_driver_installer
+|           └── nvidia_driver_remover
 └── tweaks
      ├── keyboard_rgb_fix
      |     ├── keyboard_rgb_fix_installer
