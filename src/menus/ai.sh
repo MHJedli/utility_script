@@ -55,7 +55,7 @@ showCondaMenu(){
     log_message "INFO" "Displaying Conda Menu"
     optionMenu "                     Conda" \
                "${scriptPaths["conda_installer"]}" \
-               "" \
+               "${scriptPaths["conda_remover"]}" \
                "showAIMenu"
 }
 
