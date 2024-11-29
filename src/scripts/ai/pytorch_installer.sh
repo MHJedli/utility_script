@@ -41,9 +41,9 @@ dryRunCheck(){
 	sleep 1
 	local condaEnv=$CONDA_DEFAULT_ENV
 	if [[ "$condaEnv" == "base" ]]; then
-        printc "GREEN" "base is the default conda env in this current shell session"
+        printc "GREEN" "-> base is the default conda env in this current shell session"
 	else
-        printc "RED" "base is NOT the default conda env in this current shell session"
+        printc "RED" "-> base is NOT the default conda env in this current shell session"
     fi
 
 	log_message "INFO" "2. Checking for CUDA Toolkit and NVIDIA Drivers"
@@ -115,10 +115,10 @@ installPytorch(){
             log_message "INFO" "User chose to Install Pytorch with CUDA Support"
             printc "YELLOW" "NOTE : Make sure you have NVIDIA Driver and NVIDIA CUDA Toolkit Installed !"
             printc "CYAN" "-> Choose the Compute Platform CUDA version :"
-            echo "CUDA 12.4"
-            echo "CUDA 12.1"
-            echo "CUDA 11.8"
-            echo -n "Your CUDA Version To Install : "
+            echo "12.4"
+            echo "12.1"
+            echo "11.8"
+            echo -n "Type Your CUDA Version To Install : "
             read co
 
             if [[ -v cudaOptions["$co"] ]]; then
@@ -167,7 +167,7 @@ createEnvironment(){
             sleep 1
             echo -n "Type Your Environment Name : "
             read new_env
-            conda create --name new_env || handle_error "Failed to create $new_env environment"
+            conda create --name $new_env || handle_error "Failed to create $new_env environment"
 
             log_message "INFO" "Activating The Working Environment : $new_env"
             printc "YELLOW" "-> Activating The Working Environment : $new_env..."
@@ -226,9 +226,9 @@ createEnvironment(){
 
 echo "# Before Proceeding to the installation of Pytorch"
 echo "# Make sure that : "
-printc "YELLOW" "# 1. Conda is Installed on your machine$"
-printc "YELLOW" "# 2. The base conda environment of current shell session is (base)"
-echo "PRESS [ENTER] to Continue..."
+printc "YELLOW" "-> 1. Conda is Installed on your machine$"
+printc "YELLOW" "-> 2. The base conda environment of current shell session is (base)"
+echo -n "Press [ENTER] to Continue..."
 read
 
 dryRunCheck
