@@ -35,6 +35,7 @@ scripts
 |    ├── cuda_switcher 
 │    └── nvidia_installer
 └── tweaks
+     └── pipewire_installer
 ```
 <br>
 *  Screenshots of the script :
