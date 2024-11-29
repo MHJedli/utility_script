@@ -123,19 +123,16 @@ installTensorFlow(){
 		    sleep 1
 		    python3 -m pip install tensorflow[and-cuda] || handle_error "Failed to Install Tensorflow with CUDA Support"
 		    
-		    echo -n -e "${CYAN}-> Do you want to check if tensorflow with cuda is installed ? (Y/n) :${RESET} "
-		    read r
-		    if [[ "$r" == "Y" || "$r" == "y" || "$r" == "" ]]; then
-			
-				printc "YELLOW" "-> Executing python -c 'import tensorflow as tf; print(tf.test.is_built_with_cuda())' "
-				echo -e "-> If Returned True, then Tensorflow is ${GREEN}installed with CUDA Support${RESET}"
-				echo "Press [ENTER] to continue..."
-				read
-				sleep 1
-				python -c "import tensorflow as tf; print(tf.test.is_built_with_cuda())" || handle_error "Failed to check if Tensorflow with CUDA Support is installed"
-				read
+			printc "CYAN" "-> Verifying TensorFlow Installation with CUDA Support"
+			printc "YELLOW" "-> Executing python -c 'import tensorflow as tf; print(tf.test.is_built_with_cuda())' "
+			echo -e "-> If Returned True, then Tensorflow is ${GREEN}installed with CUDA Support${RESET}"
+			echo -n "Press [ENTER] to continue..."
+			read
+			sleep 1
+			python -c "import tensorflow as tf; print(tf.test.is_built_with_cuda())" || handle_error "Failed to check if Tensorflow with CUDA Support is installed"
+			echo -n "Press [ENTER] to continue..."
+			read
 
-		    fi
 		    return
 		    ;;
 		*)
@@ -182,7 +179,7 @@ createEnvironment(){
 			mkdir -p $CONDA_PREFIX/etc/conda/activate.d || handle_error "Failed to Configure System Paths for CONDA Environment"
 			echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/' > $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh || handle_error "Failed to Configure System Paths for CONDA Environment"
             echo "To Activate This Environment , Execute the Following :"
-            printc "GREEN" "conda activate $your_env"
+            printc "GREEN" "conda activate $new_env"
             echo -n "Press [ENTER] To Continue Installation..."
             read
 			break
@@ -238,8 +235,8 @@ createEnvironment(){
 
 echo "# Before Proceeding to the installation of Tensorflow"
 echo "# Make sure that : "
-printc "YELLOW" "#1. Conda is Installed on your machine"
-printc "YELLOW" "#2. The base conda environment of current shell session is (base)"
+printc "YELLOW" "-> 1. Conda is Installed on your machine"
+printc "YELLOW" "-> 2. The base conda environment of current shell session is (base)"
 echo "PRESS [ENTER] to Continue..."
 read
 
@@ -261,7 +258,7 @@ if check_internet; then
 
 	echo "Tensorflow Installation Completed Successfully at $(date)" >> "$LOG_FILE"
 	printc "GREEN" "Tensorflow Installation Completed Successfully..."
-	echo "PRESS [ENTER] to exit..."
+	echo -n "PRESS [ENTER] to exit Script..."
 	read
 
 else
