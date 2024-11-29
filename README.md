@@ -24,7 +24,9 @@ scripts
 ├── ai
 |   ├── pytorch_installer
 |   ├── tensorflow_installer
-|   └── conda_installer
+|   └── conda
+|          ├── conda_installer
+|          └── conda_remover
 ├── dev
 │   ├── android_studio_installer
 │   ├── angular_installer
