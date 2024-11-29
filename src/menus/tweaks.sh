@@ -19,20 +19,10 @@ showSystemTweaksMenu(){
 
     case $option in
         1)
-            log_message "INFO" "User chose to Install PipeWire Sound System"
-            log_message "INFO" "Displaying PipeWire Sound System Menu"
-            optionMenu "             PipeWire Sound System" \
-               "" \
-               "" \
-               "showSystemTweaksMenu"
+            showPipeWireMenu
             ;;
         2)
-            log_message "INFO" "User chose To Fix Keyboard RGB Backlight"
-            log_message "INFO" "Displaying Fix Keyboard RGB Backlight Menu"
-            optionMenu "           Fix Keyboard RGB Backlight" \
-               "" \
-               "" \
-               "showSystemTweaksMenu"
+            showFixKeyboardRGB
             ;;
         3)
             log_message "INFO" "User chose to Return to Previous Menu"
@@ -43,4 +33,22 @@ showSystemTweaksMenu(){
             invalidOption showSystemTweaksMenu
             ;;
     esac
+}
+
+showPipeWireMenu(){
+    log_message "INFO" "User chose to Install PipeWire Sound System"
+    log_message "INFO" "Displaying PipeWire Sound System Menu"
+    optionMenu "             PipeWire Sound System" \
+       "${scriptPaths["pipewire_installer"]}" \
+       "" \
+       "showSystemTweaksMenu"
+}
+
+showFixKeyboardRGB(){
+    log_message "INFO" "User chose To Fix Keyboard RGB Backlight"
+    log_message "INFO" "Displaying Fix Keyboard RGB Backlight Menu"
+    optionMenu "           Fix Keyboard RGB Backlight" \
+       "" \
+       "" \
+       "showSystemTweaksMenu"
 }
