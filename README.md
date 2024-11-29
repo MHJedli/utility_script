@@ -35,6 +35,9 @@ scripts
 |    ├── cuda_switcher 
 │    └── nvidia_installer
 └── tweaks
+     ├── keyboard_rgb_fix
+     |     ├── keyboard_rgb_fix_installer
+     |     └── keyboard_rgb_fix_remover
      └── pipewire_installer
 ```
 <br>
