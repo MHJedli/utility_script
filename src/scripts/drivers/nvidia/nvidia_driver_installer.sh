@@ -71,6 +71,9 @@ clear
 
 echo "Continue script execution in NVIDIA Driver Installation at $(date)" >> "$LOG_FILE"
 sleep 1
+printc "CYAN" "NOTE : This Script Will Install Nvidia Driver Using 'graphics-drivers/ppa' Method"
+echo -n "Press [ENTER] To Continue..."
+read
 
 printc "YELLOW" "-> Checking for Internet Connection..."
 if check_internet; then
