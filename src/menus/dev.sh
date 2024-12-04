@@ -86,7 +86,7 @@ showVirtualBoxMenu(){
 showDockerMenu(){
     log_message "INFO" "Displaying Docker Menu"
     optionMenu "                    Docker" \
-               "${scriptPath["docker_installer"]}" \
-               "${scriptPath["docker_remover"]}" \
+               "${scriptPaths["docker_installer"]}" \
+               "${scriptPaths["docker_remover"]}" \
                "showDevelopmentMenu" 
 }
