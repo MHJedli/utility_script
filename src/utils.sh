@@ -37,6 +37,8 @@ declare -A scriptPaths=(
     ["android_studio_installer"]="src/scripts/dev/android_studio_installer.sh"
     ["flutter_installer"]="src/scripts/dev/flutter_installer.sh"
     ["oracle_vm_installer"]="src/scripts/dev/oracle_vm_installer.sh"
+    ["docker_installer"]="src/scripts/dev/docker/docker_installer.sh"
+    ["docker_remover"]="src/scripts/dev/docker/docker_remover.sh"
 
     # Drivers Scripts
     ["nvidia_driver_installer"]="src/scripts/drivers/nvidia/nvidia_driver_installer.sh"
