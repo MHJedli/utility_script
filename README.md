@@ -31,7 +31,10 @@ scripts
 │   ├── android_studio_installer
 │   ├── angular_installer
 |   ├── oracle_vm_installer
-│   └── flutter_installer
+│   ├── flutter_installer
+|   └── docker
+|         ├── docker_installer
+|         └── docker_remover
 ├── drivers
 │    ├── cuda_installer
 |    ├── cuda_switcher 
