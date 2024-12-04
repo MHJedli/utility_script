@@ -13,6 +13,7 @@ showDevelopmentMenu(){
     "Install Android Studio" \
     "Setup Flutter" \
     "Install Oracle VirtualBox" \
+    "Install Docker" \
     "Return to Previous Menu"
 
     echo -n "Enter Option : "
@@ -37,6 +38,10 @@ showDevelopmentMenu(){
             showVirtualBoxMenu
             ;;
         5)
+            log_message "INFO" "User chose to install Docker"
+            showDockerMenu
+            ;;
+        6)
             log_message "INFO" "User chose To Return to Main Menu"
             showMainMenu
             ;;
@@ -77,4 +82,11 @@ showVirtualBoxMenu(){
                "${scriptPaths["oracle_vm_installer"]}" \
                "" \
                "showDevelopmentMenu"    
+}
+showDockerMenu(){
+    log_message "INFO" "Displaying Docker Menu"
+    optionMenu "                    Docker" \
+               "${scriptPath["docker_installer"]}" \
+               "${scriptPath["docker_remover"]}" \
+               "showDevelopmentMenu" 
 }
