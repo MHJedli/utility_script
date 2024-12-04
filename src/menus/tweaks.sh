@@ -11,6 +11,7 @@ showSystemTweaksMenu(){
     "         System Tweaks Menu" \
     "Install PipeWire Sound System" \
     "Fix Keyboard RGB backlight" \
+    "Install Spotify" \
     "Return to Previous Menu"
     
     echo -n "Enter Option : "
@@ -24,7 +25,10 @@ showSystemTweaksMenu(){
         2)
             showFixKeyboardRGB
             ;;
-        3)
+        3) 
+            showSpotifyMenu
+            ;;
+        4)
             log_message "INFO" "User chose to Return to Previous Menu"
             showMainMenu
             ;;
@@ -50,5 +54,14 @@ showFixKeyboardRGB(){
     optionMenu "           Fix Keyboard RGB Backlight" \
        "${scriptPaths["keyboard_rgb_fix_installer"]}" \
        "${scriptPaths["keyboard_rgb_fix_remover"]}" \
+       "showSystemTweaksMenu"
+}
+
+showSpotifyMenu(){
+    log_message "INFO" "User chose to Install Spotify"
+    log_message "INFO" "Displaying Spotify Menu"
+    optionMenu "              Spotify + Ad Blocker" \
+       "${scriptPaths["spotify_installer"]}" \
+       "${scriptPaths["spotify_remover"]}" \
        "showSystemTweaksMenu"
 }
