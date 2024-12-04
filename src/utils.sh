@@ -54,6 +54,8 @@ declare -A scriptPaths=(
     ["pipewire_installer"]="src/scripts/tweaks/pipewire_installer.sh"
     ["keyboard_rgb_fix_installer"]="src/scripts/tweaks/keyboard_rgb_fix/keyboard_rgb_fix_installer.sh"
     ["keyboard_rgb_fix_remover"]="src/scripts/tweaks/keyboard_rgb_fix/keyboard_rgb_fix_remover.sh"
+    ["spotify_installer"]="src/scripts/tweaks/spotify/spotify_installer.sh"
+    ["spotify_remover"]="src/scripts/tweaks/spotify/spotify_remover.sh"
     
 )
 
