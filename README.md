@@ -42,6 +42,9 @@ scripts
      ├── keyboard_rgb_fix
      |     ├── keyboard_rgb_fix_installer
      |     └── keyboard_rgb_fix_remover
+     ├── spotify
+     |     ├── spotify_installer
+     |     └── spotify_remover
      └── pipewire_installer
 ```
 <br>
