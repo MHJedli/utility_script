@@ -14,8 +14,8 @@ sleep 1
 
 if check_internet; then
 
-	log_message "INFO" "Internet Connection Detected. Proceeding with Spotify Installation"
-    printc "GREEN" "-> Internet Connection Detected. Proceeding with Spotify Installation..."
+	log_message "INFO" "Internet Connection Detected. Proceeding with Wine Installation"
+    printc "GREEN" "-> Internet Connection Detected. Proceeding with Wine Installation..."
     sleep 1
 
     log_message "INFO" "Enabling 32-bit Architecture"
