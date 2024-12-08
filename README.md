@@ -48,7 +48,10 @@ scripts
      ├── spotify
      |     ├── spotify_installer
      |     └── spotify_remover
-     └── pipewire_installer
+     ├── pipewire_installer
+     └── wine
+           ├── wine_installer
+           └── wine_remover
 ```
 <br>
 *  Screenshots of the script :
