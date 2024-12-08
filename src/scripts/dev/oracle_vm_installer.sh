@@ -17,7 +17,7 @@ installVirtualBox(){
     echo "3. 20.04"
     echo -n "Choose Your Option : "
     read option
-    log_message "INFO" "User chose option $option"
+    log_message "INFO" "User chose option ${option}"
 
     case $option in
     1)
@@ -39,7 +39,7 @@ installVirtualBox(){
         wget https://download.virtualbox.org/virtualbox/7.1.4/virtualbox-7.1_7.1.4-165100~Ubuntu~focal_amd64.deb
         ;;
     *)
-        log_message "WARN" "User chose wrong option : $option"
+        log_message "WARN" "User chose wrong option : ${option}"
         invalidOption "installVirtualBox"
         ;;
     esac
