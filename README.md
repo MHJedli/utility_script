@@ -80,6 +80,9 @@ To run the script :
 <pre>
     $ git clone https://github.com/MHJedli/utility_script.git
     $ cd utility_script/
+    $ chmod +x utility_script.sh
+    $ ./utility_script.sh (Recommended) 
+    or
     $ bash utility_script.sh
 </pre>
 
