@@ -58,7 +58,8 @@ declare -A scriptPaths=(
     ["keyboard_rgb_fix_remover"]="src/scripts/tweaks/keyboard_rgb_fix/keyboard_rgb_fix_remover.sh"
     ["spotify_installer"]="src/scripts/tweaks/spotify/spotify_installer.sh"
     ["spotify_remover"]="src/scripts/tweaks/spotify/spotify_remover.sh"
-    
+    ["wine_installer"]="src/scripts/tweaks/wine/wine_installer.sh"
+    ["wine_remover"]="src/scripts/tweaks/wine/wine_remover.sh"
 )
 
 # Function that log every step taken for easier debugging
