@@ -25,7 +25,7 @@ installVirtualBox(){
         rm $(pwd)/virtualbox-7.1_7.1.4-165100~Ubuntu~${CODENAME}_amd64.deb
     fi
 
-    wget https://download.virtualbox.org/virtualbox/7.1.4/virtualbox-7.1_7.1.4-165100~Ubuntu~${CODENAME}_amd64.deb
+    wget -c https://download.virtualbox.org/virtualbox/7.1.4/virtualbox-7.1_7.1.4-165100~Ubuntu~${CODENAME}_amd64.deb
 
     log_message "INFO" "Installing Oracle VM"
     printc "YELLOW" "-> Installing Oracle VM..."

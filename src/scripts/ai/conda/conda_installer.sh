@@ -12,7 +12,7 @@ installMiniConda(){
     log_message "INFO" "Downloading Latest Miniconda Package"
     printc "YELLOW" "-> Downloading Latest Miniconda Package..."
     sleep 1
-    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh || handle_error "Failed to Download Latest Miniconda Package"
+    wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh || handle_error "Failed to Download Latest Miniconda Package"
 
     log_message "INFO" "Making the Miniconda3 Package Executable"
     printc "YELLOW" "-> Making the Miniconda3 Package Executable..."
@@ -41,7 +41,7 @@ installAnaConda(){
     log_message "INFO" "Downloading Latest Anaconda Package"
     printc "YELLOW" "-> Downloading Latest Anaconda Package..."
     sleep 1
-    wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh || handle_error "Failed to Download Latest Anaconda Package"
+    wget -c https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh || handle_error "Failed to Download Latest Anaconda Package"
 
     log_message "INFO" "Making the Anaconda Package Executable"
     printc "YELLOW" "-> Making the Anaconda Package Executable..."

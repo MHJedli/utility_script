@@ -22,7 +22,7 @@ if check_internet; then
     log_message "INFO" "Downloading Keyboard RGB Fix Script"
     printc "YELLOW" "-> Downloading Script..."
     sleep 1
-    wget https://github.com/wessel-novacustom/clevo-keyboard/raw/master/kb.sh || handle_error "Failed to Download Script"
+    wget -c https://github.com/wessel-novacustom/clevo-keyboard/raw/master/kb.sh || handle_error "Failed to Download Script"
 
     log_message "INFO" "Setting Keyboard RGB Fix Script Permissions"
     printc "YELLOW" "-> Setting Keyboard RGB Fix Script Permissions..."
