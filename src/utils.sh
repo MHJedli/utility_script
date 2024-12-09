@@ -33,31 +33,41 @@ printc(){
 declare -A scriptPaths=(
 
     # Dev Scripts
-    ["angular_installer"]="src/scripts/dev/angular_installer.sh"
-    ["android_studio_installer"]="src/scripts/dev/android_studio_installer.sh"
-    ["flutter_installer"]="src/scripts/dev/flutter_installer.sh"
-    ["oracle_vm_installer"]="src/scripts/dev/oracle_vm_installer.sh"
+    ["angular_installer"]="src/scripts/dev/angular/angular_installer.sh"
+
+    ["android_studio_installer"]="src/scripts/dev/android/android_studio_installer.sh"
+
+    ["flutter_installer"]="src/scripts/dev/flutter/flutter_installer.sh"
+
+    ["oracle_vm_installer"]="src/scripts/dev/oracle_vm/oracle_vm_installer.sh"
+
     ["docker_installer"]="src/scripts/dev/docker/docker_installer.sh"
     ["docker_remover"]="src/scripts/dev/docker/docker_remover.sh"
 
     # Drivers Scripts
     ["nvidia_driver_installer"]="src/scripts/drivers/nvidia/nvidia_driver_installer.sh"
     ["nvidia_driver_remover"]="src/scripts/drivers/nvidia/nvidia_driver_remover.sh"
-    ["cuda_installer"]="src/scripts/drivers/cuda_installer.sh"
-    ["cuda_switcher"]="src/scripts/drivers/cuda_switcher.sh"
+
+    ["cuda_installer"]="src/scripts/drivers/cuda/cuda_installer.sh"
+    ["cuda_switcher"]="src/scripts/drivers/cuda/cuda_switcher.sh"
     
     # AI Scripts
     ["conda_installer"]="src/scripts/ai/conda/conda_installer.sh"
     ["conda_remover"]="src/scripts/ai/conda/conda_remover.sh"
-    ["pytorch_installer"]="src/scripts/ai/pytorch_installer.sh"
-    ["tensorflow_installer"]="src/scripts/ai/tensorflow_installer.sh"
+
+    ["pytorch_installer"]="src/scripts/ai/pytorch/pytorch_installer.sh"
+
+    ["tensorflow_installer"]="src/scripts/ai/tensorflow/tensorflow_installer.sh"
 
     # Tweaks Scripts
-    ["pipewire_installer"]="src/scripts/tweaks/pipewire_installer.sh"
+    ["pipewire_installer"]="src/scripts/tweaks/pipewire/pipewire_installer.sh"
+
     ["keyboard_rgb_fix_installer"]="src/scripts/tweaks/keyboard_rgb_fix/keyboard_rgb_fix_installer.sh"
     ["keyboard_rgb_fix_remover"]="src/scripts/tweaks/keyboard_rgb_fix/keyboard_rgb_fix_remover.sh"
+
     ["spotify_installer"]="src/scripts/tweaks/spotify/spotify_installer.sh"
     ["spotify_remover"]="src/scripts/tweaks/spotify/spotify_remover.sh"
+
     ["wine_installer"]="src/scripts/tweaks/wine/wine_installer.sh"
     ["wine_remover"]="src/scripts/tweaks/wine/wine_remover.sh"
 )
