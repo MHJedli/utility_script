@@ -22,33 +22,41 @@
 ```
 scripts
 ├── ai
-|   ├── pytorch_installer
-|   ├── tensorflow_installer
+|   ├── pytorch
+|   |      └── pytorch_installer
+|   ├── tensorflow
+|   |      └── tensorflow_installer
 |   └── conda
 |          ├── conda_installer
 |          └── conda_remover
 ├── dev
-│   ├── android_studio_installer
-│   ├── angular_installer
-|   ├── oracle_vm_installer
-│   ├── flutter_installer
+│   ├── android_studio
+|   |      └── android_studio_installer
+│   ├── angular
+|   |      └── angular_installer
+|   ├── oracle_vm
+|   |      └── oracle_vm_installer
+│   ├── flutter
+|   |      └── flutter_installer
 |   └── docker
-|         ├── docker_installer
-|         └── docker_remover
+|          ├── docker_installer
+|          └── docker_remover
 ├── drivers
 │    ├── cuda_installer
-|    ├── cuda_switcher 
+|    |     ├── cuda_installer
+|    |     └── cuda_switcher
 │    └── nvidia
-|           ├── nvidia_driver_installer
-|           └── nvidia_driver_remover
-└── tweaks
+|          ├── nvidia_driver_installer
+|          └── nvidia_driver_remover
+└── tweaks 
      ├── keyboard_rgb_fix
      |     ├── keyboard_rgb_fix_installer
      |     └── keyboard_rgb_fix_remover
      ├── spotify
      |     ├── spotify_installer
      |     └── spotify_remover
-     ├── pipewire_installer
+     ├── pipewire
+     |     └── pipewire_installer
      └── wine
            ├── wine_installer
            └── wine_remover
