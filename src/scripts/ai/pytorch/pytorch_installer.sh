@@ -74,7 +74,7 @@ dryRunCheck(){
                 read answer
                 if [[ "$answer" == "Y" || "$answer" == "y" || "$answer" == "" ]]; then
                 printc "CYAN" "Proceeding the Installation of NVIDIA..."
-                bash "${scriptPaths["nvidia_installer"]}"
+                bash "${scriptPaths["nvidia_driver_installer"]}"
                 else
                     printc "RED" "Skipping..."
                 fi
