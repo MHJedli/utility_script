@@ -31,8 +31,19 @@ dryRunCheck(){
 	sleep 1
     if ! command -v conda &> /dev/null; then
         printc "RED" "ERROR: Conda is not installed. Please install Conda before proceeding..."
+        echo -n "Do you want to install Conda now ? (Y/n) : "
+        read answer
+        if [[ "$answer" == "Y" || "$answer" == "y" || "$answer" == "" ]]; then
+            printc "CYAN" "Proceeding the Installation of Conda..."
+            bash "${scriptPaths["conda_installer"]}"
+            printc "YELLOW" "Press [ENTER] to Restart Your Shell Session..."
+            read
+            exec bash
+        else
+            printc "RED" "ERROR: Please install Conda before proceeding..."
+        fi
 		read
-        exit
+        # exit
     fi
     printc "GREEN" "-> Conda is installed."
 
@@ -59,6 +70,14 @@ dryRunCheck(){
 			sleep 1
     	    if ! command -v nvidia-smi &> /dev/null; then
                 printc "RED" "ERROR: NVIDIA Driver is not installed."
+                echo -n "Do you want to Install it ? (Y/n) : "
+                read answer
+                if [[ "$answer" == "Y" || "$answer" == "y" || "$answer" == "" ]]; then
+                printc "CYAN" "Proceeding the Installation of NVIDIA..."
+                bash "${scriptPaths["nvidia_installer"]}"
+                else
+                    printc "RED" "Skipping..."
+                fi
     	    else
                 printc "GREEN" "-> NVIDIA Driver is installed."
     	    fi
@@ -68,6 +87,14 @@ dryRunCheck(){
     	    sleep 1
     	    if ! nvcc --version &> /dev/null; then
                 printc "RED" "ERROR: CUDA Toolkit is not installed."
+                echo -n "Do you want to Install it ? (Y/n) : "
+                read answer
+                if [[ "$answer" == "Y" || "$answer" == "y" || "$answer" == "" ]]; then
+                printc "CYAN" "Proceeding the Installation of NVIDIA CUDA Toolkit..."
+                bash "${scriptPaths["cuda_installer"]}"
+                else
+                    printc "RED" "Skipping..."
+                fi
     	    else
                 printc "GREEN" "-> CUDA Toolkit is installed."
     	    fi
