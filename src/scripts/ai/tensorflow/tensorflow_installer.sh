@@ -11,54 +11,80 @@ echo "Continue script execution in Tensorflow Installation at $(date)" >> "$LOG_
 
 dryRunCheck(){
 
-	log_message "INFO" "Performing Dry Run for TensorFlow Installation"
-	printc "CYAN" "-> Performing Dry Run for TensorFlow Installation..."
+	log_message "INFO" "Performing Dry Run for Pytorch Installation"
+    printc "CYAN" "-> Performing Dry Run for Pytorch Installation..."
 	sleep 1
 
 	log_message "INFO" "1. Checking for Conda Installation"
-	printc "YELLOW" "1. Checking for Conda Installation..."
+    printc "YELLOW" "1. Checking for Conda Installation..."
 	sleep 1
     if ! command -v conda &> /dev/null; then
-		printc "RED" "ERROR: Conda is not installed. Please install Conda before proceeding..."
+        printc "RED" "ERROR: Conda is not installed. Please install Conda before proceeding..."
+        echo -n "Do you want to install Conda now ? (Y/n) : "
+        read answer
+        if [[ "$answer" == "Y" || "$answer" == "y" || "$answer" == "" ]]; then
+            printc "CYAN" "Proceeding the Installation of Conda..."
+            bash "${scriptPaths["conda_installer"]}"
+            printc "YELLOW" "Press [ENTER] to Restart Your Shell Session..."
+            read
+            exec bash
+        else
+            printc "RED" "ERROR: Please install Conda before proceeding..."
+        fi
 		read
-        exit
     fi
-	printc "GREEN" "-> Conda is installed."
+    printc "GREEN" "-> Conda is installed."
 
 	log_message "INFO" "1.1. Checking for active CONDA environment"
-	printc "YELLOW" "1.1. Checking for active CONDA environment..."
+    printc "YELLOW" "1.1. Checking for active CONDA environment..."
 	sleep 1
 	local condaEnv=$CONDA_DEFAULT_ENV
 	if [[ "$condaEnv" == "base" ]]; then
-		printc "GREEN" "base is the default conda env in this current shell session"
+        printc "GREEN" "-> base is the default conda env in this current shell session"
 	else
-		printc "RED" "base is NOT the default conda env in this current shell session"
+        printc "RED" "-> base is NOT the default conda env in this current shell session"
     fi
 
 	log_message "INFO" "2. Checking for CUDA Toolkit and NVIDIA Drivers"
-	printc "YELLOW" "2. Checking for CUDA Toolkit and NVIDIA Drivers..."
+    printc "YELLOW" "2. Checking for CUDA Toolkit and NVIDIA Drivers..."
 	sleep 1
 	while true; do
-    	echo -n "-> Do you plan to install TensorFlow with CUDA Support? (Y/n): "
+    	echo -n -e "-> Do you plan to install Pytorch with CUDA Support? ${RED}[REQUIRES NVIDIA GPU]${RESET} (Y/n): "
     	read use_cuda
     	if [[ "$use_cuda" == "Y" || "$use_cuda" == "y" || "$use_cuda" == "" ]]; then
 
 			log_message "INFO" "2.1. Checking for NVIDIA Drivers"
-			printc "YELLOW" "2.1. Checking for NVIDIA Drivers..."
+            printc "YELLOW" "2.1. Checking for NVIDIA Drivers..."
 			sleep 1
     	    if ! command -v nvidia-smi &> /dev/null; then
-				printc "RED" "ERROR: NVIDIA Driver is not installed."
+                printc "RED" "ERROR: NVIDIA Driver is not installed."
+                echo -n "Do you want to Install it ? (Y/n) : "
+                read answer
+                if [[ "$answer" == "Y" || "$answer" == "y" || "$answer" == "" ]]; then
+                printc "CYAN" "Proceeding the Installation of NVIDIA..."
+                bash "${scriptPaths["nvidia_driver_installer"]}"
+                else
+                    printc "RED" "Skipping..."
+                fi
     	    else
-				printc "GREEN" "-> NVIDIA Driver is installed."
+                printc "GREEN" "-> NVIDIA Driver is installed."
     	    fi
 
 			log_message "INFO" "2.2. Checking for CUDA Toolkit"
-			printc "YELLOW" "2.2. Checking for CUDA Toolkit..."
+            printc "YELLOW" "2.2. Checking for CUDA Toolkit..."
     	    sleep 1
     	    if ! nvcc --version &> /dev/null; then
-				printc "RED" "ERROR: CUDA Toolkit is not installed."
+                printc "RED" "ERROR: CUDA Toolkit is not installed."
+                echo -n "Do you want to Install it ? (Y/n) : "
+                read answer
+                if [[ "$answer" == "Y" || "$answer" == "y" || "$answer" == "" ]]; then
+                printc "CYAN" "Proceeding the Installation of NVIDIA CUDA Toolkit..."
+                bash "${scriptPaths["cuda_installer"]}"
+                else
+                    printc "RED" "Skipping..."
+                fi
     	    else
-				printc "GREEN" "-> CUDA Toolkit is installed."
+                printc "GREEN" "-> CUDA Toolkit is installed."
     	    fi
 
 			break
