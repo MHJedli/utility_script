@@ -1,68 +1,58 @@
 #!/usr/bin/env bash
-
-# External Functions/Files
 source $(pwd)/src/utils.sh
 
-# Show Development Menu
 showDevelopmentMenu(){
-    clear
     log_message "INFO" "Displaying Development Menu"
-    showMenu \
-    "         Development Menu" \
-    "Install Angular CLI" \
-    "Install Android Studio" \
-    "Setup Flutter" \
-    "Install Oracle VirtualBox" \
-    "Install Docker" \
-    "Return to Previous Menu"
+    OPTION=$(whiptail --title "Development Menu" --menu "Choose an option" 30 80 16 \
+    "Angular CLI" "Used for FrontEnd Development" \
+    "Android Studio" "Used for Mobile Development" \
+    "Flutter SDK" "Used for Cross-Platform Developement" \
+    "Oracle VirtualBox" "Used for Virtualization Purposes" \
+    "Docker" "Used for Managing Containers" \
+    "<-- Back" "" \
+    3>&1 1>&2 2>&3)
 
-    echo -n "Enter Option : "
-    read option
-    log_message "INFO" "User selected option $option in Development Menu"
-
-    case $option in
-        1)
-            log_message "INFO" "User chose to Install Angular CLI"
+    case $OPTION in
+        "Angular CLI")
+            log_message "INFO" "User chose Angular Menu"
             showAngularMenu
             ;;
-        2)
-            log_message "INFO" "User chose to Install Android Studio"
+        "Android Studio")
+            log_message "INFO" "User chose Android Studio Menu"
             showAndroidStudioMenu
             ;;
-        3)
-            log_message "INFO" "User chose to setup flutter"
+        "Flutter SDK")
+            log_message "INFO" "User chose Flutter SDK Menu"
             showFlutterMenu
             ;;
-        4)
-            log_message "INFO" "User chose to install Oracle VirtualBox"
+        "Oracle VirtualBox")
+            log_message "INFO" "User chose Oracle VirtualBox Menu"
             showVirtualBoxMenu
             ;;
-        5)
-            log_message "INFO" "User chose to install Docker"
+        "Docker")
+            log_message "INFO" "User chose Docker Menu"
             showDockerMenu
             ;;
-        6)
-            log_message "INFO" "User chose To Return to Main Menu"
+        "<-- Back")
+            log_message "INFO" "User chose to return to Main Menu"
             showMainMenu
             ;;
         *)
-            log_message "WARN" "User chose an invalid option : $option"
-            invalidOption showDevelopmentMenu
+            echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
+            echo "Exiting..."
             ;;
     esac
 }
 
 showAngularMenu(){
-    log_message "INFO" "Displaying Angular Menu"
-    optionMenu "                    Angular" \
+    optionMenu "Angular" \
                "${scriptPaths["angular_installer"]}" \
                "" \
                "showDevelopmentMenu"
 }
 
 showAndroidStudioMenu(){
-    log_message "INFO" "Displaying Android Studio Menu"
-    optionMenu "                Android Studio" \
+    optionMenu "Android Studio" \
                "${scriptPaths["android_studio_installer"]}" \
                "" \
                "showDevelopmentMenu"
@@ -70,22 +60,19 @@ showAndroidStudioMenu(){
 }
 
 showFlutterMenu(){
-    log_message "INFO" "Displaying Flutter Menu"
-    optionMenu "                    Flutter" \
+    optionMenu "Flutter" \
                "${scriptPaths["flutter_installer"]}" \
                "" \
                "showDevelopmentMenu"   
 }
 showVirtualBoxMenu(){
-    log_message "INFO" "Displaying Flutter Menu"
-    optionMenu "               Oracle VirtualBox" \
+    optionMenu "Oracle VirtualBox" \
                "${scriptPaths["oracle_vm_installer"]}" \
                "" \
                "showDevelopmentMenu"    
 }
 showDockerMenu(){
-    log_message "INFO" "Displaying Docker Menu"
-    optionMenu "                    Docker" \
+    optionMenu "Docker" \
                "${scriptPaths["docker_installer"]}" \
                "${scriptPaths["docker_remover"]}" \
                "showDevelopmentMenu" 

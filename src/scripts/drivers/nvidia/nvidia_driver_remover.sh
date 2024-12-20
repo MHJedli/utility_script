@@ -16,6 +16,7 @@ if ! command -v nvidia-smi &> /dev/null; then
     printc "RED" "NVIDIA Driver is not installed !"
     echo -n "Press [ENTER] To Exit Script..."
     read
+    showDriversMenu
 
 else
 
@@ -33,11 +34,12 @@ else
     echo -n -e "${GREEN}NVIDIA Driver Removed Successfully.${RESET} Want to reboot now (Y/n) : "
     read a
     if [[ "$a" == "Y" || "$a" == "y" || "$a" == "" ]]; then
-        echo "Reboot in 3 seconds..."
+        echo "Rebooting..."
         reboot
     else
         echo -n "Press [ENTER] To Exit Script..."
         read
+        showDriversMenu
     fi
 
 fi

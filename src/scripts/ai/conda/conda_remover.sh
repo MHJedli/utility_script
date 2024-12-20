@@ -5,28 +5,24 @@ LOG_FILE=$(pwd)/src/logfile.log
 
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
-echo "Continue script execution in Conda Installation at $(date)" >> "$LOG_FILE"
+echo "Continue script execution in Conda Removal at $(date)" >> "$LOG_FILE"
 
-while true; do
+OPTION=$(whiptail --title "Conda Remover" --menu "What do you Want to Remove ?" 30 80 2 \
+"Miniconda" "" \
+"Anaconda" "" \
+3>&1 1>&2 2>&3)
 
-    printc "CYAN" "What Conda Distribution do you want to Remove ?"
-    echo "1. Miniconda"
-    echo "2. Anaconda"
-    echo -n "Your Option : "
-    read option
-    log_message "INFO" "User chose option $option"
-    case $option in
-        1)
+case $OPTION in
+    "Miniconda")
             log_message "INFO" "Searching for Miniconda"
             printc "YELLOW" "-> Searching for Miniconda..."
             sleep 1
-            minicondaPath=$(sudo find $HOME -type d -iname "miniconda*")
+            minicondaPath=$(find $HOME -type d -iname "miniconda*")
+
             if [[ "$minicondaPath" == "" ]]; then
 
                 log_message "INFO" "No Miniconda Installation Found !"
-                printc "YELLOW" "No Miniconda Installation Found !"
-                echo -n "Press [ENTER] to Exit Script..."
-                read
+                print_msgbox "WARNING !" "No Miniconda Installation Found !"
 
             else 
 
@@ -40,26 +36,22 @@ while true; do
                 sleep 1
                 rm -rf $minicondaPath
 
-                printc "GREEN" "-> Miniconda Deleted Successfully"
-                printc "YELLOW" "Close and Re-open the Terminal For Changes to be Taken !"
-                echo -n "Press [ENTER] to Exit Script..."
-                read
+                log_message "INFO" "Miniconda Deleted Successfully"
+                print_msgbox "Success !" "Miniconda Deleted Successfully
+                Close and Re-open the Terminal For Changes to be Taken !"
 
             fi
-            break
-            ;;
-        2)
+        ;;
+    "Anaconda")
             log_message "INFO" "Searching for Anaconda"
             printc "YELLOW" "-> Searching for Anaconda..."
             sleep 1
-            anacondaPath=$(sudo find $HOME -type d -iname "anaconda*")
+            anacondaPath=$(find $HOME -type d -iname "anaconda*")
 
             if [[ "$anacondaPath" == "" ]]; then
 
                 log_message "INFO" "No Anaconda Installation Found"
-                printc "YELLOW" "No Anaconda Installation Found !"
-                echo -n "Press [ENTER] to Exit Script..."
-                read
+                print_msgbox "WARNING !" "No Anaconda Installation Found !"
 
             else
                 log_message "INFO" "Found Anaconda Installation"
@@ -73,18 +65,13 @@ while true; do
                 sleep 1
                 rm -rf $anacondaPath
 
-                printc "GREEN" "-> Anaconda Deleted Successfully"
-                printc "YELLOW" "Close and Re-open the Terminal For Changes to be Taken !"
-                echo -n "Press [ENTER] to Exit Script..."
-                read
+                log_message "INFO" "Anaconda Deleted Successfully"
+                print_msgbox "Success !" "Anaconda Deleted Successfully
+                Close and Re-open the Terminal For Changes to be Taken !"
 
             fi
-            break
-            ;;
-        *)
-            invalidOption
-            clear
-            ;;
-    esac
-
-done
+        ;;
+    *)
+        handle_error "User chose to exit Script"
+        ;;
+esac

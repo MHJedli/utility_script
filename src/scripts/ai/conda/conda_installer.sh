@@ -65,6 +65,29 @@ installAnaConda(){
 
 }
 
+chooseMenu(){
+    log_message "INFO" "Displaying Available Options"
+    local OPTION=$(whiptail --title "Conda Installer Script" --menu "What Do you want to Install ?" 30 80 2 \
+    "Miniconda" "Minimal Installer ( 120MB+ Download Size )" \
+    "Anaconda" "Larger Distribution ( 1GB+ Download Size )" \
+    3>&1 1>&2 2>&3)
+
+    case $OPTION in
+        "Miniconda")
+            log_message "INFO" "User chose to install Miniconda"
+            installMiniConda
+            ;;
+        "Anaconda")
+            log_message "INFO" "User chose to install Anaconda"
+            installAnaConda
+            ;;
+        *)
+            handle_error "User chose to Exit Installer"
+            ;;
+    esac
+}
+
+log_message "INFO" "Checking for Internet Connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
 sleep 1
 if check_internet; then
@@ -78,29 +101,10 @@ if check_internet; then
     sleep 1
     sudo apt update || handle_error "Failed to Refresh Package Cache"
 
-    while true; do
-
-        printc "CYAN" "-> Select Your Conda Version : "
-        echo "1. Miniconda ( Minimal Installer ~ 120MB Download Size )" 
-        echo "2. Anaconda  ( Larger Distribution ~ 1GB Download Size )"
-        echo -n "Version to Install : "
-        read option
-        if [[ "$option" == "1" ]]; then
-            installMiniConda
-            break
-        elif [[ "$option" == "2" ]]; then
-            installAnaConda
-            break
-        else
-            invalidOption
-        fi
-
-    done
+    chooseMenu
 
     echo "Conda Script Completed Successfully at $(date)" >> "$LOG_FILE"
-    printc "GREEN" "-> Conda Script Completed Successfully"
-    echo "Press [ENTER] to exit..."
-    read
+    print_msgbox "Success !" "Conda Script Completed Successfully"
 
 else
 

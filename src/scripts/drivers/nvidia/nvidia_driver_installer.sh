@@ -3,65 +3,71 @@
 source $(pwd)/src/utils.sh
 LOG_FILE=$(pwd)/src/logfile.log
 
+downloadAndInstall(){
+    local DRIVER_VERSION=$1
+    log_message "INFO" "Installing NVIDIA Driver Version ${DRIVER_VERSION}"
+    printc "YELLOW" "-> Installing NVIDIA Driver Version ${DRIVER_VERSION}..."
+    sudo apt install nvidia-driver-${DRIVER_VERSION} -y || handle_error "Failed to Install NVIDIA Driver ${DRIVER_VERSION}"
+}
 
 installDriver(){
+    log_message "INFO" "Displaying NVIDIA Driver Menu"
+    local DRIVER_OPTIONS=$(whiptail --title "NVIDIA Driver Installer" --menu "Choose a Driver Version" 30 80 10 \
+    "NVIDIA Driver Version 560 [Latest Driver Currently]" "" \
+    "NVIDIA Driver Version 550" "" \
+    "NVIDIA Driver Version 545" "" \
+    "NVIDIA Driver Version 535" "" \
+    "NVIDIA Driver Version 530" "" \
+    "NVIDIA Driver Version 525" "" \
+    "NVIDIA Driver Version 520" "" \
+    "NVIDIA Driver Version 515" "" \
+    "NVIDIA Driver Version 510" "" \
+    "NVIDIA Driver Version 470" "" \
+    "NVIDIA Driver Version 450" "" \
+    "NVIDIA Driver Version 390" "" \
+    3>&1 1>&2 2>&3)
 
-    declare -A nvidiaVersions=(
-    ["560"]=1
-    ["550"]=1
-    ["545"]=1
-    ["535"]=1
-    ["530"]=1
-    ["525"]=1
-    ["520"]=1
-    ["515"]=1
-    ["510"]=1
-    ["470"]=1
-    ["450"]=1
-    ["390"]=1
-    )
-    
-    while true; do
-
-        printc "CYAN" "What NVIDIA Driver version do you want to install ?"
-        echo "1. Show Available versions"
-        echo -n "NVIDIA Driver Version [DEFAULT=560] : "
-        read version
-        log_message "INFO" "User selected option ${version}"
-
-        if [[ "$version" == "1" ]]; then
-
-            log_message "INFO" "Showing Available Version of NVIDIA Driver"
-            echo "Available NVIDIA Version to Install :"
-            for key in "${!nvidiaVersions[@]}"; do
-                echo "$key"
-            done
-            echo -n "Press [ENTER] to continue..."
-            read
-
-        elif [[ "$version" == "" ]]; then
-
-            log_message "INFO" "User chose the Default NVIDIA Driver Version"
-            printc "YELLOW" "-> Installing NVIDIA Driver Version 560..."
-            sudo apt install nvidia-driver-560 -y || handle_error "Failed to Install NVIDIA Driver 560"
-            return
-
-        elif [[ -v nvidiaVersions["$version"] ]]; then
-
-            log_message "INFO" "User chose NVIDIA Driver Version ${version}"
-            printc "YELLOW" "-> Installing NVIDIA Driver Version ${version}..."
-            sudo apt install nvidia-driver-${version} -y || handle_error "Failed to Install NVIDIA Driver ${version}"
-            return
-
-        else
-
-            log_message "WARN" "User chose invalid NVIDIA Driver Version : ${version}"
-            invalidOption
-            clear
-
-        fi
-
-    done
+    case $DRIVER_OPTIONS in
+        "NVIDIA Driver Version 560 [Latest Driver Currently]")
+            downloadAndInstall "560"
+            ;;
+        "NVIDIA Driver Version 550")
+            downloadAndInstall "550"
+            ;;
+        "NVIDIA Driver Version 545")
+            downloadAndInstall "545"
+            ;;
+        "NVIDIA Driver Version 535")
+            downloadAndInstall "535"
+            ;;
+        "NVIDIA Driver Version 530")
+            downloadAndInstall "530"
+            ;;
+        "NVIDIA Driver Version 525")
+            downloadAndInstall "525"
+            ;;
+        "NVIDIA Driver Version 520")
+            downloadAndInstall "520"
+            ;;
+        "NVIDIA Driver Version 515")
+            downloadAndInstall "515"
+            ;;
+        "NVIDIA Driver Version 510")
+            downloadAndInstall "510"
+            ;;
+        "NVIDIA Driver Version 470")
+            downloadAndInstall "470"
+            ;;
+        "NVIDIA Driver Version 450")
+            downloadAndInstall "450"
+            ;;
+        "NVIDIA Driver Version 390")
+            downloadAndInstall "390"
+            ;;
+        *)
+            handle_error "User chose to Exit Script"
+            ;;
+    esac
 
 }
 
@@ -117,12 +123,12 @@ if check_internet; then
     installDriver
 
     log_message "INFO" "NVIDIA Driver Installation Completed Successfully"
-    echo -n -e "${GREEN}NVIDIA Driver Installation Completed Successfully.${RESET} Want to reboot now (Y/n) : "
-    read a
-    if [[ "$a" == "Y" || "$a" == "y" || "$a" == "" ]]; then
-        echo "Reboot in 3 seconds..."
+    if whiptail --title "NVIDIA Driver Installed" --yesno "Do you Want to reboot now ?" 8 78; then
+        echo "Rebooting..."
         reboot
     fi
+
+    showDriversMenu
 
 else 
 

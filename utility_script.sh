@@ -11,48 +11,43 @@ source src/menus/drivers.sh
 LOG_FILE=src/logfile.log
 
 # Initialize log file
-echo "Starting script execution at $(date)" > "$LOG_FILE"
+echo "Starting Utility Script GUI Execution at $(date)" > "$LOG_FILE"
 
 # Show Main Menu
 showMainMenu(){
-    clear
-    log_message "INFO" "Displaying Main Menu"
-    showMenu \
-    "         Linux Utility Menu" \
-    "Development" \
-    "AI" \
-    "Drivers" \
-    "System Tweaks" \
-    "Quit" 
+    log_message "INFO" "Displaying The Main Menu"
+    OPTION=$(whiptail --title "Linux Utility Script" --menu "Choose an option" 30 80 16 \
+    "Development" "Install Development Apps like Android Studio and Angular" \
+    "AI" "Install Scientific Tools Like TensorFlow and Pytorch" \
+    "Drivers" "Install FOSS/Proprietary Drivers Like NVIDIA Drivers" \
+    "System Tweaks" "Install Some Goodies for Your System" \
+    "Quit" "Exit Linux Utility Script" \
+    3>&1 1>&2 2>&3)
 
-    echo -n "Enter Option : "
-    read option
-    log_message "INFO" "User selected option ${option} in Main Menu"
-
-    case $option in
-        1)
-            log_message "INFO" "User chose Development"
+    case $OPTION in
+        "Development")
+            log_message "INFO" "User chose the Development Menu"
             showDevelopmentMenu
             ;;
-        2)
-            log_message "INFO" "User chose AI Menu"
+        "AI")
+            log_message "INFO" "User chose the AI Menu"
             showAIMenu
             ;;
-        3)
-            log_message "INFO" "User chose Drivers Menu"
+        "Drivers")
+            log_message "INFO" "User chose the Drivers Menu"
             showDriversMenu
             ;;
-        4)
-            log_message "INFO" "User chose System Tweaks Menu"
+        "System Tweaks")
+            log_message "INFO" "User chose the System Tweaks Menu"
             showSystemTweaksMenu
             ;;
-        5)
-            log_message "INFO" "User chose to quit"
-            return
+        "Quit")
+            echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
+            echo "Exiting Script..."
             ;;
         *)
-            log_message "WARN" "User chose an invalid option : ${option}"
-            invalidOption showMainMenu
+            echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
+            echo "Exiting..."
             ;;
     esac
 }

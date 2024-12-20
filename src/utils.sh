@@ -28,7 +28,12 @@ printc(){
 
     echo -e "${color}$2${RESET}"
 }
-
+print_msgbox(){
+    local title=$1
+    local msg=$2
+    whiptail --title "$1" --msgbox \
+    "$2" \ 10 80
+}
 # Script Paths
 declare -A scriptPaths=(
 
@@ -94,9 +99,15 @@ handle_error() {
     local exit_status=$?
     local msg="$1"
     log_message "ERROR" "${msg} (Exit status: ${exit_status})"
-    echo -e "An error occurred: ${RED}${msg}${RESET}"
-    echo "Please check the log file at ${LOG_FILE} for more details."
-    read
+    # echo -e "An error occurred: ${RED}${msg}${RESET}"
+    # echo "Please check the log file at ${LOG_FILE} for more details."
+    # read
+	whiptail --title "ERROR" --msgbox \
+	"
+    An error occurred: ${msg}
+    Please check the log file for more details :
+    ${LOG_FILE}
+    " \ 10 80
     exit $exit_status
 }
 
@@ -147,39 +158,31 @@ optionMenu() {
     local installScript=$2
     local removeScript=$3
     local previousMenu=$4
-    while true; do
-        log_message "INFO" "Displaying ${selectedOption} Menu"
-        clear
-        echo "-------------------------------------------------"
-        echo " $selectedOption   "
-        echo "-------------------------------------------------"
-        echo -e "${GREEN}1. Install${RESET}"
-        echo -e "${RED}2. Remove${RESET}"
-        echo "3. Return To Previous Menu"
-        echo -n "Enter Option: "
-        read option
-        log_message "INFO" "User selected option ${option} in the ${selectedOption} Menu"
-        case $option in
-            1)
-                log_message "INFO" "User chose to Install ${selectedOption}" 
-                bash "$installScript" 
-                ;;
-            2)
-                log_message "INFO" "User chose to Remove ${selectedOption}"
-                bash "$removeScript" 
-                ;;
-            3)
-                log_message "INFO" "User chose to Return to Previous Menu"
-                "$previousMenu"
-                return 
-                ;;
-            *)
-                log_message "WARN" "User chose an invalid option : ${option}"
-                invalidOption 
-                optionMenu "$selectedOption" "$installScript" "$removeScript" "$previousMenu"
-                ;;
-        esac
-    done
+    log_message "INFO" "Displaying ${selectedOption} Menu"
+    OPTION=$(whiptail --title "$selectedOption" --menu "Choose an option" 30 80 16 \
+    "Install" "" \
+    "Remove" "" \
+    "<-- Back" "Return To Previous Menu" \
+    3>&1 1>&2 2>&3)
+
+    case $OPTION in
+        "Install")
+            log_message "INFO" "User chose to install ${selectedOption}"
+            bash "$installScript"
+            ;;
+        "Remove")
+            log_message "INFO" "User chose to remove ${selectedOption}"
+            bash "$removeScript"
+            ;;
+        "<-- Back")
+            log_message "INFO" "User chose to return To Previous Menu"
+            "$previousMenu"
+            ;;
+        *)
+            echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
+            echo "Exiting..."
+            ;;
+    esac
 }
 
 

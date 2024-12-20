@@ -6,10 +6,7 @@ LOG_FILE=$(pwd)/src/logfile.log
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
 echo "Continue script execution in CUDA Switcher at $(date)" >> "$LOG_FILE"
-
-printc "RED" "This script is used ONLY when the CUDA Toolkit is installed using the runfile Method !"
-echo "Press [ENTER] to Continue..."
-read
+print_msgbox "WARNING !" "This script is used ONLY when the CUDA Toolkit is installed using the runfile Method !"
 
 printc "YELLOW" "Assuming the CUDA Toolkit is Installed in the default path (/usr/local/)..."
 sleep 1
@@ -43,7 +40,11 @@ eval "$(cat ~/.bashrc | tail -n +10)" || handle_error "Failed to Apply CUDA Path
 log_message "INFO" "Checking the Switched Version"
 printc "YELLOW" "-> Checking the Switched Version..."
 sleep 1
-nvcc --version || handle_error "Failed to check the Installed Version"
-printc "GREEN" "-> CUDA Version Switched Successfully to ${version}..."
-echo "Press [ENTER] To exit Script..."
-read
+if ! command -v nvcc &> /dev/null; then
+    handle_error "Failed to check the Installed CUDA Version"
+else
+    whiptail --title "nvcc --version" --msgbox "$(nvcc --version)" 15 100
+
+    echo "CUDA Switcher Script Completed Successfully at $(date)" >> "$LOG_FILE"
+    print_msgbox "Success !" "CUDA Version Switched Successfully to ${version}"
+fi

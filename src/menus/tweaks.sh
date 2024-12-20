@@ -1,79 +1,67 @@
 #!/usr/bin/env bash
-
-# External Functions/Files
 source $(pwd)/src/utils.sh
 
-# Show System Tweaks Menu
 showSystemTweaksMenu(){
-    clear
     log_message "INFO" "Displaying System Tweaks Menu"
-    showMenu \
-    "         System Tweaks Menu" \
-    "Install PipeWire Sound System" \
-    "Fix Keyboard RGB backlight" \
-    "Install Spotify" \
-    "Install Wine (Run Windows Apps for Linux)" \
-    "Return to Previous Menu"
-    
-    echo -n "Enter Option : "
-    read option
-    log_message "INFO" "User selected option $option in System Tweaks Menu"
+    OPTION=$(whiptail --title "System Tweaks Menu" --menu "Choose an option" 30 80 16 \
+    "PipeWire" "Install the Modern Sound System For Better Sound Quality" \
+    "Keyboard RGB Backlight" "Fix Your RGB Backlight for Your Gaming PC" \
+    "Spotify" "Install the Famous Streaming Platform" \
+    "Wine" "Be able to Run Windows Apps on Your Linux Machine" \
+    "<-- Back" "" \
+    3>&1 1>&2 2>&3)
 
-    case $option in
-        1)
+    case $OPTION in
+        "PipeWire Sound System")
+            log_message "INFO" "User chose PipeWire Sound System Menu"
             showPipeWireMenu
             ;;
-        2)
+        "Keyboard RGB Backlight")
+            log_message "INFO" "User chose Keyboard RGB Backlight Menu"
             showFixKeyboardRGB
             ;;
-        3) 
+        "Spotify")
+            log_message "INFO" "User chose Spotify Menu"
             showSpotifyMenu
             ;;
-        4)
+        "Wine")
+            log_message "INFO" "User chose Wine Menu"
             showWineMenu
             ;;
-        5)
-            log_message "INFO" "User chose to Return to Previous Menu"
+        "<-- Back")
+            log_message "INFO" "User chose to return to Main Menu"
             showMainMenu
             ;;
         *)
-            log_message "WARN" "User chose an invalid option : $option"
-            invalidOption showSystemTweaksMenu
+            echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
+            echo "Exiting..."
             ;;
     esac
 }
 
 showPipeWireMenu(){
-    log_message "INFO" "User chose to Install PipeWire Sound System"
-    log_message "INFO" "Displaying PipeWire Sound System Menu"
-    optionMenu "             PipeWire Sound System" \
+    optionMenu "PipeWire Sound System" \
        "${scriptPaths["pipewire_installer"]}" \
        "" \
        "showSystemTweaksMenu"
 }
 
 showFixKeyboardRGB(){
-    log_message "INFO" "User chose To Fix Keyboard RGB Backlight"
-    log_message "INFO" "Displaying Fix Keyboard RGB Backlight Menu"
-    optionMenu "           Fix Keyboard RGB Backlight" \
+    optionMenu "Fix Keyboard RGB Backlight" \
        "${scriptPaths["keyboard_rgb_fix_installer"]}" \
        "${scriptPaths["keyboard_rgb_fix_remover"]}" \
        "showSystemTweaksMenu"
 }
 
 showSpotifyMenu(){
-    log_message "INFO" "User chose to Install Spotify"
-    log_message "INFO" "Displaying Spotify Menu"
-    optionMenu "              Spotify + Ad Blocker" \
+    optionMenu "Spotify + Ad Blocker" \
        "${scriptPaths["spotify_installer"]}" \
        "${scriptPaths["spotify_remover"]}" \
        "showSystemTweaksMenu"
 }
 
 showWineMenu(){
-    log_message "INFO" "User chose to Install Wine"
-    log_message "INFO" "Displaying Wine Menu"
-    optionMenu "                     Wine" \
+    optionMenu "Wine" \
        "${scriptPaths["wine_installer"]}" \
        "${scriptPaths["wine_remover"]}" \
        "showSystemTweaksMenu"    

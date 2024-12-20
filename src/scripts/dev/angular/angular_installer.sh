@@ -8,50 +8,47 @@ clear
 echo "Continue script execution in Angular Installation at $(date)" >> "$LOG_FILE"
 
 installAngular(){
-    declare -A versions=(
-        ["18"]=1
-        ["17"]=1
-        ["16"]=1
-        ["15"]=1
-    )
-    while true; do
-        echo -n -e "${CYAN}Install Latest Angular Version ? (Y/n) :${RESET} "
-        read a
-        log_message "INFO" "User chose option $a"
-        if [[ "$a" == "Y" || "$a" == "y" || "$a" == ""  ]]; then
+    log_message "INFO" "Displaying Angular Installer Options Menu"
+    if whiptail --title "Angular Installer" --yesno "Do you want to install The Latest Version of Angular CLI ?" 8 78; then
+        log_message "INFO" "Installing Latest Angular Version"
+        printc "YELLOW" "-> Installing Latest Angular Version..."
+        sleep 1
+        npm install @angular/cli --location=global || handle_error "Failed to Install Latest Angular Version"
+    else
+        log_message "INFO" "Displaying Available Angular Versions Menu"
+        OPTION=$(whiptail --title "Angular Installer" --menu "Choose a Version to Install" 30 80 3 \
+        "Angular CLI 18" "" \
+        "Angular CLI 17" "" \
+        "Angular CLI 16" "" \
+        3>&1 1>&2 2>&3)
 
-            log_message "INFO" "Installing Latest Angular Version"
-            printc "YELLOW" "-> Installing Latest Angular Version..."
-            sleep 1
-            npm install @angular/cli --location=global || handle_error "Failed to Install Latest Angular Version"
-            return
-
-        elif [[ "$a" == "n" || "$a" == "N" ]]; then
-
-            log_message "INFO" "User chose to select specific Angular version"
-            echo -e "What Version Do you want to install ? ${CYAN}(18, 17, 16, 15)${RESET}"
-            echo "Angular Version : "
-            read version
-            log_message "INFO" "User chose version ${version}"
-            if [[ -v versions["$version"] ]]; then
-
-                log_message "INFO" "Installing Angular version ${version}"
-                printc "YELLOW" "-> Installing Angular version ${version}..."
+        case $OPTION in
+            "Angular CLI 18")
+                log_message "INFO" "Installing Angular version 18"
+                printc "YELLOW" "-> Installing Angular version 18..."
                 sleep 1
-                npm install -g @angular/cli@"${version}" || handle_error "Failed to Install Angular version ${version}"
-                return
-
-            else
-
-                printc "RED" "Wrong Version Selected !"
-                read
-                clear
-
-            fi
-        fi
-    done
+                npm install -g @angular/cli@18 || handle_error "Failed to Install Angular version 18"
+                ;;
+            "Angular CLI 17")
+                log_message "INFO" "Installing Angular version 17"
+                printc "YELLOW" "-> Installing Angular version 17..."
+                sleep 1
+                npm install -g @angular/cli@17 || handle_error "Failed to Install Angular version 17"
+                ;;
+            "Angular CLI 16")
+                log_message "INFO" "Installing Angular version 16"
+                printc "YELLOW" "-> Installing Angular version 16..."
+                sleep 1
+                npm install -g @angular/cli@16 || handle_error "Failed to Install Angular version 16"
+                ;;
+            *)
+                handle_error "User chose to Exit Script"
+                ;;
+        esac
+    fi
 }
 
+log_message "INFO" "Checking for Internet Connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
 sleep 1
 
@@ -88,17 +85,15 @@ if check_internet; then
     sleep 1
     installAngular
 
-    echo -n -e "${GREEN}Angular Installed Successfully .${RESET} Want to check your Installed Version ? (Y/n) : "
-    read a
-    if [[ "$a" == "y" || "$a" == "Y" || "$a" == "" ]];then
+    log_message "INFO" "Displaying Angular Version Check Menu"
+    if whiptail --title "Angular Installed Successfully" --yesno "Do Want to check your Installed Version ?" 8 78; then
         log_message "INFO" "Printing Installed Angular Version"
         ng version || handle_error "Failed to Print Installed Angular Version"
     fi
 
     echo "Script Execution in Angular Installation Ended Successfully at $(date)" >> "$LOG_FILE"
-    printc "GREEN" "Angular Installed Successfully..."
-    echo "Press [ENTER] To Exit..."
-    read
+    print_msgbox "Success !" "Angular Installed Successfully"
+    showDevelopmentMenu
 
 else
 

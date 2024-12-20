@@ -1,50 +1,42 @@
 #!/usr/bin/env bash
-
-# External Functions/Files
 source $(pwd)/src/utils.sh
 
-# Show AI Menu
 showAIMenu(){
-    clear
     log_message "INFO" "Displaying AI Menu"
-    showMenu \
-    "              AI Menu" \
-    "Install PyTorch" \
-    "Install Conda" \
-    "Install TensorFlow" \
-    "Return to Previous Menu" 
-    echo -n "Enter Option : "
-    read option
-    log_message "INFO" "User selected option $option in AI Menu"
+    OPTION=$(whiptail --title "AI Menu" --menu "Choose an option" 30 80 16 \
+    "Pytorch" "Optimized Tensor Library for Deep Learning" \
+    "Conda" "Package and Environment Manager for Python and other Languages" \
+    "TensorFlow" "Platform for creating and deploying ML Models" \
+    "<-- Back" "" \
+    3>&1 1>&2 2>&3)
 
-    case $option in
-        1)
-            log_message "INFO" "User chose to Install PyTorch"
+    case $OPTION in
+        "Pytorch")
+            log_message "INFO" "User chose Pytorch Menu"
             showPyTorchMenu
             ;;
-        2)
-            log_message "INFO" "User chose to Install Conda"
+        "Conda")
+            log_message "INFO" "User chose Conda Menu"
             showCondaMenu
             ;;
-        3)
-            log_message "INFO" "User chose To Install TensorFlow"
+        "TensorFlow")
+            log_message "INFO" "User chose Tensorflow Menu"
             showTensorFlowMenu
             ;;
-        4)
-            log_message "INFO" "User chose to Return to Previous Menu"
+        "<-- Back")
+            log_message "INFO" "User chose to return to Main Menu"
             showMainMenu
             ;;
         *)
-            log_message "WARN" "User chose an invalid option : $option"
-            invalidOption showAIMenu
+            echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
+            echo "Exiting..."
             ;;
     esac
 }
 
 showPyTorchMenu(){
 
-    log_message "INFO" "Displaying PyTorch Menu"
-        optionMenu "                   PyTorch" \
+        optionMenu "PyTorch" \
                    "${scriptPaths["pytorch_installer"]}" \
                    "" \
                    "showAIMenu"
@@ -52,8 +44,7 @@ showPyTorchMenu(){
 }
 
 showCondaMenu(){
-    log_message "INFO" "Displaying Conda Menu"
-    optionMenu "                     Conda" \
+    optionMenu "Conda" \
                "${scriptPaths["conda_installer"]}" \
                "${scriptPaths["conda_remover"]}" \
                "showAIMenu"
@@ -61,8 +52,7 @@ showCondaMenu(){
 
 showTensorFlowMenu(){
 
-    log_message "INFO" "Displaying Tensor Flow Menu"
-    optionMenu "                  Tensor Flow" \
+    optionMenu "Tensor Flow" \
                "${scriptPaths["tensorflow_installer"]}" \
                "" \
                "showAIMenu"
