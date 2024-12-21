@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 source $(pwd)/src/utils.sh
 
-showDevelopmentMenu(){
+show_development_menu(){
     log_message "INFO" "Displaying Development Menu"
-    OPTION=$(whiptail --title "Development Menu" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "Development Menu" --menu "Choose an option" 30 80 16 \
     "Angular CLI" "Used for FrontEnd Development" \
     "Android Studio" "Used for Mobile Development" \
     "Flutter SDK" "Used for Cross-Platform Developement" \
@@ -12,30 +12,30 @@ showDevelopmentMenu(){
     "<-- Back" "" \
     3>&1 1>&2 2>&3)
 
-    case $OPTION in
+    case $option in
         "Angular CLI")
             log_message "INFO" "User chose Angular Menu"
-            showAngularMenu
+            show_angular_menu
             ;;
         "Android Studio")
             log_message "INFO" "User chose Android Studio Menu"
-            showAndroidStudioMenu
+            show_android_studio_menu
             ;;
         "Flutter SDK")
             log_message "INFO" "User chose Flutter SDK Menu"
-            showFlutterMenu
+            show_flutter_menu
             ;;
         "Oracle VirtualBox")
             log_message "INFO" "User chose Oracle VirtualBox Menu"
-            showVirtualBoxMenu
+            show_virtualbox_menu
             ;;
         "Docker")
             log_message "INFO" "User chose Docker Menu"
-            showDockerMenu
+            show_docker_menu
             ;;
         "<-- Back")
             log_message "INFO" "User chose to return to Main Menu"
-            showMainMenu
+            show_main_menu
             ;;
         *)
             echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
@@ -44,35 +44,35 @@ showDevelopmentMenu(){
     esac
 }
 
-showAngularMenu(){
-    optionMenu "Angular" \
+show_angular_menu(){
+    options_menu "Angular" \
                "${scriptPaths["angular_installer"]}" \
                "" \
                "showDevelopmentMenu"
 }
 
-showAndroidStudioMenu(){
-    optionMenu "Android Studio" \
+show_android_studio_menu(){
+    options_menu "Android Studio" \
                "${scriptPaths["android_studio_installer"]}" \
                "" \
                "showDevelopmentMenu"
 
 }
 
-showFlutterMenu(){
-    optionMenu "Flutter" \
+show_flutter_menu(){
+    options_menu "Flutter" \
                "${scriptPaths["flutter_installer"]}" \
                "" \
                "showDevelopmentMenu"   
 }
-showVirtualBoxMenu(){
-    optionMenu "Oracle VirtualBox" \
+show_virtualbox_menu(){
+    options_menu "Oracle VirtualBox" \
                "${scriptPaths["oracle_vm_installer"]}" \
                "" \
                "showDevelopmentMenu"    
 }
-showDockerMenu(){
-    optionMenu "Docker" \
+show_docker_menu(){
+    options_menu "Docker" \
                "${scriptPaths["docker_installer"]}" \
                "${scriptPaths["docker_remover"]}" \
                "showDevelopmentMenu" 

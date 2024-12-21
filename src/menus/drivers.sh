@@ -1,32 +1,32 @@
 #!/usr/bin/env bash
 source $(pwd)/src/utils.sh
 
-showDriversMenu(){
+show_drivers_menu(){
     log_message "INFO" "Displaying Drivers Menu"
-    OPTION=$(whiptail --title "Drivers Menu" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "Drivers Menu" --menu "Choose an option" 30 80 16 \
     "NVIDIA Driver" "Install The Proprietary NVIDIA Driver" \
     "NVIDIA CUDA Toolkit" "Install The NVIDIA CUDA Toolkit" \
     "CUDA Version Switcher" "Switch Between Installed CUDA Versions" \
     "<-- Back" "" \
     3>&1 1>&2 2>&3)
 
-    case $OPTION in
+    case $option in
         "NVIDIA Driver")
             log_message "INFO" "User chose NVIDIA Driver Menu"
-            showNVIDIADriverMenu
+            show_nvidia_driver_menu
             ;;
         "NVIDIA CUDA Toolkit")
             log_message "INFO" "User chose NVIDIA CUDA Toolkit Menu"
-            showNVIDIACUDAMenu
+            show_nvidia_cuda_menu
             ;;
         "CUDA Version Switcher")
             log_message "INFO" "User chose to use CUDA Version Switcher"
             . "${scriptPaths["cuda_switcher"]}"
-            showDriversMenu
+            show_drivers_menu
             ;;
         "<-- Back")
             log_message "INFO" "User chose to return to Main Menu"
-            showMainMenu
+            show_main_menu
             ;;
         *)
             echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
@@ -35,15 +35,15 @@ showDriversMenu(){
     esac
 }
 
-showNVIDIADriverMenu(){
-    optionMenu "NVIDIA Driver" \
+show_nvidia_driver_menu(){
+    options_menu "NVIDIA Driver" \
                "${scriptPaths["nvidia_driver_installer"]}" \
                "${scriptPaths["nvidia_driver_remover"]}" \
                "showDriversMenu"   
 }
 
-showNVIDIACUDAMenu(){
-    optionMenu "NVIDIA CUDA Toolkit" \
+show_nvidia_cuda_menu(){
+    options_menu "NVIDIA CUDA Toolkit" \
                "${scriptPaths["cuda_installer"]}" \
                "" \
                "showDriversMenu"

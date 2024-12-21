@@ -10,7 +10,7 @@ echo "Continue script execution in Oracle VirtualBox Installation at $(date)" >>
 installVirtualBox(){
 
     local system_release=$(cat /etc/issue)
-    local CODENAME=$(. /etc/os-release && echo "$UBUNTU_CODENAME")
+    local codename=$(. /etc/os-release && echo "$UBUNTU_CODENAME")
 
     log_message "WARN" "Warn User about System Requirement"
     printc "YELLOW" "NOTE : Your System Must be Ubuntu or Ubuntu-Based >= 20.04"
@@ -21,11 +21,11 @@ installVirtualBox(){
     printc "YELLOW" "-> Downloading Oracle VM for ${system_release:0:-6}..."
     sleep 1
 
-    if [[ -f $(pwd)/virtualbox-7.1_7.1.4-165100~Ubuntu~${CODENAME}_amd64.deb ]]; then
-        rm $(pwd)/virtualbox-7.1_7.1.4-165100~Ubuntu~${CODENAME}_amd64.deb
+    if [[ -f $(pwd)/virtualbox-7.1_7.1.4-165100~Ubuntu~${codename}_amd64.deb ]]; then
+        rm $(pwd)/virtualbox-7.1_7.1.4-165100~Ubuntu~${codename}_amd64.deb
     fi
 
-    wget -c https://download.virtualbox.org/virtualbox/7.1.4/virtualbox-7.1_7.1.4-165100~Ubuntu~${CODENAME}_amd64.deb
+    wget -c https://download.virtualbox.org/virtualbox/7.1.4/virtualbox-7.1_7.1.4-165100~Ubuntu~${codename}_amd64.deb
 
     log_message "INFO" "Installing Oracle VM"
     printc "YELLOW" "-> Installing Oracle VM..."

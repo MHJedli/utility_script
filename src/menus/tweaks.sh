@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 source $(pwd)/src/utils.sh
 
-showSystemTweaksMenu(){
+show_system_tweaks_menu(){
     log_message "INFO" "Displaying System Tweaks Menu"
-    OPTION=$(whiptail --title "System Tweaks Menu" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "System Tweaks Menu" --menu "Choose an option" 30 80 16 \
     "PipeWire" "Install the Modern Sound System For Better Sound Quality" \
     "Keyboard RGB Backlight" "Fix Your RGB Backlight for Your Gaming PC" \
     "Spotify" "Install the Famous Streaming Platform" \
@@ -11,26 +11,26 @@ showSystemTweaksMenu(){
     "<-- Back" "" \
     3>&1 1>&2 2>&3)
 
-    case $OPTION in
+    case $option in
         "PipeWire Sound System")
             log_message "INFO" "User chose PipeWire Sound System Menu"
-            showPipeWireMenu
+            show_pipewire_menu
             ;;
         "Keyboard RGB Backlight")
             log_message "INFO" "User chose Keyboard RGB Backlight Menu"
-            showFixKeyboardRGB
+            show_fix_keyboard_rgb
             ;;
         "Spotify")
             log_message "INFO" "User chose Spotify Menu"
-            showSpotifyMenu
+            show_spotify_menu
             ;;
         "Wine")
             log_message "INFO" "User chose Wine Menu"
-            showWineMenu
+            show_wine_menu
             ;;
         "<-- Back")
             log_message "INFO" "User chose to return to Main Menu"
-            showMainMenu
+            show_main_menu
             ;;
         *)
             echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
@@ -39,29 +39,29 @@ showSystemTweaksMenu(){
     esac
 }
 
-showPipeWireMenu(){
-    optionMenu "PipeWire Sound System" \
+show_pipewire_menu(){
+    options_menu "PipeWire Sound System" \
        "${scriptPaths["pipewire_installer"]}" \
        "" \
        "showSystemTweaksMenu"
 }
 
-showFixKeyboardRGB(){
-    optionMenu "Fix Keyboard RGB Backlight" \
+show_fix_keyboard_rgb(){
+    options_menu "Fix Keyboard RGB Backlight" \
        "${scriptPaths["keyboard_rgb_fix_installer"]}" \
        "${scriptPaths["keyboard_rgb_fix_remover"]}" \
        "showSystemTweaksMenu"
 }
 
-showSpotifyMenu(){
-    optionMenu "Spotify + Ad Blocker" \
+show_spotify_menu(){
+    options_menu "Spotify + Ad Blocker" \
        "${scriptPaths["spotify_installer"]}" \
        "${scriptPaths["spotify_remover"]}" \
        "showSystemTweaksMenu"
 }
 
-showWineMenu(){
-    optionMenu "Wine" \
+show_wine_menu(){
+    options_menu "Wine" \
        "${scriptPaths["wine_installer"]}" \
        "${scriptPaths["wine_remover"]}" \
        "showSystemTweaksMenu"    

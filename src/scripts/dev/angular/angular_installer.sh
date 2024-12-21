@@ -7,7 +7,7 @@ trap 'handle_error "An unexpected error occurred."' ERR
 clear
 echo "Continue script execution in Angular Installation at $(date)" >> "$LOG_FILE"
 
-installAngular(){
+install_angular(){
     log_message "INFO" "Displaying Angular Installer Options Menu"
     if whiptail --title "Angular Installer" --yesno "Do you want to install The Latest Version of Angular CLI ?" 8 78; then
         log_message "INFO" "Installing Latest Angular Version"
@@ -16,13 +16,13 @@ installAngular(){
         npm install @angular/cli --location=global || handle_error "Failed to Install Latest Angular Version"
     else
         log_message "INFO" "Displaying Available Angular Versions Menu"
-        OPTION=$(whiptail --title "Angular Installer" --menu "Choose a Version to Install" 30 80 3 \
+        local option=$(whiptail --title "Angular Installer" --menu "Choose a Version to Install" 30 80 3 \
         "Angular CLI 18" "" \
         "Angular CLI 17" "" \
         "Angular CLI 16" "" \
         3>&1 1>&2 2>&3)
 
-        case $OPTION in
+        case $option in
             "Angular CLI 18")
                 log_message "INFO" "Installing Angular version 18"
                 printc "YELLOW" "-> Installing Angular version 18..."
@@ -83,7 +83,7 @@ if check_internet; then
     log_message "INFO" "Installing Angular"
     printc "YELLOW" "-> Installing Angular..."
     sleep 1
-    installAngular
+    install_angular
 
     log_message "INFO" "Displaying Angular Version Check Menu"
     if whiptail --title "Angular Installed Successfully" --yesno "Do Want to check your Installed Version ?" 8 78; then
@@ -93,7 +93,7 @@ if check_internet; then
 
     echo "Script Execution in Angular Installation Ended Successfully at $(date)" >> "$LOG_FILE"
     print_msgbox "Success !" "Angular Installed Successfully"
-    showDevelopmentMenu
+    show_development_menu
 
 else
 

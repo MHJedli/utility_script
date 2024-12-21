@@ -14,9 +14,9 @@ LOG_FILE=src/logfile.log
 echo "Starting Utility Script GUI Execution at $(date)" > "$LOG_FILE"
 
 # Show Main Menu
-showMainMenu(){
+show_main_menu(){
     log_message "INFO" "Displaying The Main Menu"
-    OPTION=$(whiptail --title "Linux Utility Script" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "Linux Utility Script" --menu "Choose an option" 30 80 16 \
     "Development" "Install Development Apps like Android Studio and Angular" \
     "AI" "Install Scientific Tools Like TensorFlow and Pytorch" \
     "Drivers" "Install FOSS/Proprietary Drivers Like NVIDIA Drivers" \
@@ -24,22 +24,22 @@ showMainMenu(){
     "Quit" "Exit Linux Utility Script" \
     3>&1 1>&2 2>&3)
 
-    case $OPTION in
+    case $option in
         "Development")
             log_message "INFO" "User chose the Development Menu"
-            showDevelopmentMenu
+            show_development_menu
             ;;
         "AI")
             log_message "INFO" "User chose the AI Menu"
-            showAIMenu
+            show_ai_menu
             ;;
         "Drivers")
             log_message "INFO" "User chose the Drivers Menu"
-            showDriversMenu
+            show_drivers_menu
             ;;
         "System Tweaks")
             log_message "INFO" "User chose the System Tweaks Menu"
-            showSystemTweaksMenu
+            show_system_tweaks_menu
             ;;
         "Quit")
             echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
@@ -52,4 +52,4 @@ showMainMenu(){
     esac
 }
 
-showMainMenu
+show_main_menu

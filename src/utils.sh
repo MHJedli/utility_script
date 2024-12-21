@@ -31,8 +31,8 @@ printc(){
 print_msgbox(){
     local title=$1
     local msg=$2
-    whiptail --title "$1" --msgbox \
-    "$2" \ 10 80
+    whiptail --title "$title" --msgbox \
+    "$msg" \ 10 80
 }
 # Script Paths
 declare -A scriptPaths=(
@@ -85,10 +85,10 @@ declare -A scriptPaths=(
 # log_message "INFO" "Script execution started"
 # log_message "ERROR" "An error occurred in the script"
 log_message() {
-    local LOG_LEVEL="$1"
+    local log_level="$1"
     shift
-    local MESSAGE="$@"
-    echo "$(date '+%Y-%m-%d %H:%M:%S') [$LOG_LEVEL] $MESSAGE" >> "$LOG_FILE"
+    local message="$@"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') [$log_level] $message" >> "$LOG_FILE"
 }
 
 # Function that handle errors
@@ -112,7 +112,7 @@ handle_error() {
 }
 
 # invalidOption print Function
-invalidOption() {
+invalid_option() {
     printc "RED" "No Option Selected !"
     echo "Press Enter To Continue ..."
     read
@@ -133,7 +133,7 @@ check_internet() {
 # $@ : Menu Options
 # Example : 
 # showMenu "Title" "Option 1" "Option 2" ...
-showMenu() {
+show_menu() {
     local title="$1"
     shift
     clear
@@ -153,19 +153,19 @@ showMenu() {
 # $2 : /path/to/script_installer.sh
 # $3 : /path/to/script_remover.sh
 # $4 : Previous Menu to the Current One
-optionMenu() {
+options_menu() {
     local selectedOption=$1
     local installScript=$2
     local removeScript=$3
     local previousMenu=$4
     log_message "INFO" "Displaying ${selectedOption} Menu"
-    OPTION=$(whiptail --title "$selectedOption" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "$selectedOption" --menu "Choose an option" 30 80 16 \
     "Install" "" \
     "Remove" "" \
     "<-- Back" "Return To Previous Menu" \
     3>&1 1>&2 2>&3)
 
-    case $OPTION in
+    case $option in
         "Install")
             log_message "INFO" "User chose to install ${selectedOption}"
             bash "$installScript"
@@ -191,7 +191,7 @@ optionMenu() {
 # $1 : Title of the Selected Option
 # $2 : /path/to/script_installer.sh
 # $3 : Previous Menu to the Current One
-distroMenu() {
+distros_menu() {
     # System Release
     system_release=$(cat /etc/issue)
 

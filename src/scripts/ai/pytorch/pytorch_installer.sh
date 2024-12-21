@@ -7,7 +7,7 @@ trap 'handle_error "An unexpected error occurred."' ERR
 clear
 echo "Continue script execution in Pytorch Installation at $(date)" >> "$LOG_FILE"
 
-testCuda(){
+test_cuda(){
 
     log_message "INFO" "Checking if Pytorch with CUDA Support is working"
     printc "YELLOW" "-> Checking if Pytorch with CUDA Support is working"
@@ -20,7 +20,7 @@ testCuda(){
 
 }
 
-dryRunCheck(){
+dry_run_check(){
 
 	log_message "INFO" "Performing Dry Run for Pytorch Installation"
     printc "CYAN" "-> Performing Dry Run for Pytorch Installation..."
@@ -110,14 +110,14 @@ dryRunCheck(){
 	read
 }
 
-installPytorch(){
+install_pytorch(){
     log_message "INFO" "Displaying Compute Platform Options Menu"
-    local COMPUTE_OPTION=$(whiptail --title "Pytorch Installer Script" --menu "Choose The Compute Platform" 10 80 2 \
+    local compute_option=$(whiptail --title "Pytorch Installer Script" --menu "Choose The Compute Platform" 10 80 2 \
     "CPU" "" \
     "CUDA" "[REQUIRES NVIDIA GPU]" \
     3>&1 1>&2 2>&3)
 
-    case $COMPUTE_OPTION in
+    case $compute_option in
         "CPU")
             log_message "INFO" "User chose to Install PyTorch with CPU Support"
             printc "YELLOW" "-> Installing PyTorch with CPU Support..."
@@ -127,21 +127,21 @@ installPytorch(){
             ;;
         "CUDA")
             log_message "INFO" "Displaying CUDA Version Options Menu"
-            local CUDA_VERSIONS=$(whiptail --title "CUDA Selection" --menu "Choose the Compute Platform CUDA version" 15 80 4 \
+            local cuda_versions=$(whiptail --title "CUDA Selection" --menu "Choose the Compute Platform CUDA version" 15 80 4 \
             "11.8" "" \
             "12.1" "" \
             "12.4" "" \
             "<-- Back" "" \
             3>&1 1>&2 2>&3)
 
-            case $CUDA_VERSIONS in
+            case $cuda_versions in
                 "11.8")
                     log_message "INFO" "Installing Pytorch with CUDA 11.8 Support"
                     printc "YELLOW" "-> Installing Pytorch with CUDA 11.8 Support..."
                     sleep 1
                     conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia || handle_error "Failed to Installing PyTorch with CUDA 11.8 Support"
                     log_message "INFO" "Testing CUDA Support in Pytorch"
-                    testCuda
+                    test_cuda
                     ;;
                 "12.1")
                     log_message "INFO" "Installing Pytorch with CUDA 12.1 Support"
@@ -149,7 +149,7 @@ installPytorch(){
                     sleep 1
                     conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia || handle_error "Failed to Installing PyTorch with CUDA 12.1 Support"
                     log_message "INFO" "Testing CUDA Support in Pytorch"
-                    testCuda
+                    test_cuda
                     ;;
                 "12.4")
                     log_message "INFO" "Installing Pytorch with CUDA 12.4 Support"
@@ -157,11 +157,11 @@ installPytorch(){
                     sleep 1
                     conda install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c nvidia || handle_error "Failed to Installing PyTorch with CUDA 12.4 Support"
                     log_message "INFO" "Testing CUDA Support in Pytorch"
-                    testCuda
+                    test_cuda
                     ;;
                 "<-- Back")
                     log_message "INFO" "Returning to Compute Platform Options Menu"
-                    installPytorch
+                    install_pytorch
                     ;;
                 *)
                     handle_error "User chose to Exit Script"
@@ -175,40 +175,40 @@ installPytorch(){
     
 }
 
-createEnvironment(){
+create_environment(){
     log_message "INFO" "Displaying the Environment Options Menu"
-    local OPTIONS=$(whiptail --title "Creating Environment" --menu "Choose an option" 10 80 2 \
+    local options=$(whiptail --title "Creating Environment" --menu "Choose an option" 10 80 2 \
     "Create a new Environment" "" \
     "Choose an existing Environment" "" \
     3>&1 1>&2 2>&3)
 
-    case $OPTIONS in
+    case $options in
         "Create a new Environment")
             log_message "INFO" "User chose to Create a new environment"
-            local NEW_ENV=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
-            local EXIT_STATUS=$?
-            if [ $EXIT_STATUS = 0 ]; then
+            local new_env=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
+            local exit_status=$?
+            if [ $exit_status = 0 ]; then
 
                 log_message "INFO" "Checking for NULL Value String from the InputBox"
-				if [[ -z $NEW_ENV ]]; then
+				if [[ -z $new_env ]]; then
                     log_message "WARN" "NULL Value String Detected from the InputBox"
 					whiptail --title "WARNING" --msgbox \
 					"      You Typed an Empty Name " \ 10 40
                     log_message "INFO" "Returning to the Environment Options Menu"
-					createEnvironment
+					create_environment
 				fi
                 log_message "INFO" "NON-NULL Value String Detected, Continuing..."
-                log_message "INFO" "Creating ${NEW_ENV} Environment"
-                conda create --name $NEW_ENV || handle_error "Failed to create ${NEW_ENV} environment"
+                log_message "INFO" "Creating ${new_env} Environment"
+                conda create --name $new_env || handle_error "Failed to create ${new_env} environment"
 
-                log_message "INFO" "Activating The Working Environment : ${NEW_ENV}"
-                printc "YELLOW" "-> Activating The Working Environment : ${NEW_ENV}..."
+                log_message "INFO" "Activating The Working Environment : ${new_env}"
+                printc "YELLOW" "-> Activating The Working Environment : ${new_env}..."
                 sleep 1
-                source activate base || handle_error "Failed to Activate ${NEW_ENV} Environment"
-                conda activate $NEW_ENV || handle_error "Failed to Activate ${NEW_ENV} Environment"
+                source activate base || handle_error "Failed to Activate ${new_env} Environment"
+                conda activate $new_env || handle_error "Failed to Activate ${new_env} Environment"
 
                 echo "To Activate This Environment , Execute the Following :"
-                printc "GREEN" "conda activate ${NEW_ENV}"
+                printc "GREEN" "conda activate ${new_env}"
                 echo -n "Press [ENTER] To Continue Installation..."
                 read
             fi
@@ -216,43 +216,43 @@ createEnvironment(){
 
         "Choose an existing Environment")
             log_message "User chose to use an existing environment"
-            local YOUR_ENV=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
-            local EXIT_STATUS=$?
-            if [ $EXIT_STATUS = 0 ]; then
+            local your_env=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
+            local exit_status=$?
+            if [ $exit_status = 0 ]; then
                 log_message "INFO" "Checking for NULL Value String from the InputBox"
-				if [[ -z $YOUR_ENV ]]; then
+				if [[ -z $your_env ]]; then
                     log_message "WARN" "NULL Value String Detected from the InputBox"
 					whiptail --title "WARNING" --msgbox \
 					"      You Typed an Empty Name " \ 10 40
                     log_message "INFO" "Returning to the Environment Options Menu"
-					createEnvironment
+					create_environment
 				fi
                 log_message "INFO" "NON-NULL Value String Detected, Continuing..."
-                log_message "INFO" "Checking The Existence of ${YOUR_ENV}"
-                printc "YELLOW" "-> Checking The Existence of ${YOUR_ENV}..."
+                log_message "INFO" "Checking The Existence of ${your_env}"
+                printc "YELLOW" "-> Checking The Existence of ${your_env}..."
                 sleep 1
-                if conda info --envs | grep -q $YOUR_ENV; then
-                    log_message "INFO" "${YOUR_ENV} Exists"
-                    printc "GREEN" "${YOUR_ENV} Exists..."
+                if conda info --envs | grep -q $your_env; then
+                    log_message "INFO" "${your_env} Exists"
+                    printc "GREEN" "${your_env} Exists..."
                     sleep 1
 
-                    log_message "INFO" "Activating The Working Environment : ${YOUR_ENV}"
-                    printc "YELLOW" "-> Activating The Working Environment : ${YOUR_ENV}..."
+                    log_message "INFO" "Activating The Working Environment : ${your_env}"
+                    printc "YELLOW" "-> Activating The Working Environment : ${your_env}..."
                     sleep 1
-                    source activate base || handle_error "Failed to Activate ${YOUR_ENV} Environment"
-                    conda activate $YOUR_ENV || handle_error "Failed to Activate ${YOUR_ENV} Environment"
+                    source activate base || handle_error "Failed to Activate ${your_env} Environment"
+                    conda activate $your_env || handle_error "Failed to Activate ${your_env} Environment"
 
                     echo "To Activate This Environment , Execute the Following :"
-                    printc "GREEN" "conda activate ${YOUR_ENV}"
+                    printc "GREEN" "conda activate ${your_env}"
                     echo -n "Press [ENTER] To Continue Installation..."
                     read
 
                 else
-                    log_message "WARN" "${YOUR_ENV} Does NOT Exists"
-                    printc "RED" "${YOUR_ENV} Does NOT Exists !"
+                    log_message "WARN" "${your_env} Does NOT Exists"
+                    printc "RED" "${your_env} Does NOT Exists !"
                     echo -n "Press [ENTER] To Try Again..."
                     read
-                    createEnvironment
+                    create_environment
                 fi
             fi
             ;;
@@ -272,7 +272,7 @@ Before Proceeding to the installation of Pytorch, make sure that :
 2. The base conda environment of current shell session is (base) 
 " \ 10 80
 
-dryRunCheck
+dry_run_check
 
 log_message "INFO" "Checking for Internet Connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
@@ -284,12 +284,12 @@ if check_internet; then
     printc "GREEN" "-> Internet Connection Detected. Proceeding with Pytorch Installation..."
     sleep 1
 
-    createEnvironment
+    create_environment
 
     log_message "INFO" "Installing Pytorch"
     printc "YELLOW" "-> Installing Pytorch..."
     sleep 1
-    installPytorch
+    install_pytorch
 
     log_message "INFO" "Verifying the Pytorch installed Version"
     printc "YELLOW" "-> Verifying the installed Pytorch Version..."

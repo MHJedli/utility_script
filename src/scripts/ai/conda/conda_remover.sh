@@ -7,12 +7,12 @@ trap 'handle_error "An unexpected error occurred."' ERR
 clear
 echo "Continue script execution in Conda Removal at $(date)" >> "$LOG_FILE"
 
-OPTION=$(whiptail --title "Conda Remover" --menu "What do you Want to Remove ?" 30 80 2 \
+local option=$(whiptail --title "Conda Remover" --menu "What do you Want to Remove ?" 30 80 2 \
 "Miniconda" "" \
 "Anaconda" "" \
 3>&1 1>&2 2>&3)
 
-case $OPTION in
+case $option in
     "Miniconda")
             log_message "INFO" "Searching for Miniconda"
             printc "YELLOW" "-> Searching for Miniconda..."

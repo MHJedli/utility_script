@@ -16,7 +16,7 @@ if ! command -v nvidia-smi &> /dev/null; then
     printc "RED" "NVIDIA Driver is not installed !"
     echo -n "Press [ENTER] To Exit Script..."
     read
-    showDriversMenu
+    show_drivers_menu
 
 else
 

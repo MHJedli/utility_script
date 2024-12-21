@@ -7,7 +7,7 @@ trap 'handle_error "An unexpected error occurred."' ERR
 clear
 echo "Continue script execution in Tensorflow Installation at $(date)" >> "$LOG_FILE"
 
-dryRunCheck(){
+dry_run_check(){
 	log_message "INFO" "Performing Dry Run for Tensorflow Installation"
     printc "CYAN" "-> Performing Dry Run for Tensorflow Installation..."
 	sleep 1
@@ -38,8 +38,8 @@ dryRunCheck(){
 	log_message "INFO" "1.1. Checking for active CONDA environment"
     printc "YELLOW" "1.1. Checking for active CONDA environment..."
 	sleep 1
-	local condaEnv=$CONDA_DEFAULT_ENV
-	if [[ "$condaEnv" == "base" ]]; then
+	local conda_env=$CONDA_DEFAULT_ENV
+	if [[ "$conda_env" == "base" ]]; then
         log_message "INFO" "base is the default conda env"
         printc "GREEN" "-> base is the default conda env in this current shell session"
 	else
@@ -101,14 +101,14 @@ dryRunCheck(){
 	read
 }
 
-installTensorFlow(){
+install_tensorflow(){
 	log_message "INFO" "Displaying The Compute Platform Menu"
-    local COMPUTE_OPTION=$(whiptail --title "Pytorch Installer Script" --menu "Choose The Compute Platform" 10 80 2 \
+    local compute_options=$(whiptail --title "Pytorch Installer Script" --menu "Choose The Compute Platform" 10 80 2 \
     "CPU" "" \
     "CUDA" "[REQUIRES NVIDIA GPU]" \
     3>&1 1>&2 2>&3)
 
-    case $COMPUTE_OPTION in
+    case $compute_options in
         "CPU")
 			log_message "INFO" "User chose to Installing Tensorflow with CPU Support"
 			printc "YELLOW" "-> Installing Tensorflow with CPU Support..."
@@ -164,38 +164,38 @@ installTensorFlow(){
     esac
 }
 
-createEnvironment(){
+create_environment(){
 	log_message "INFO" "Displaying Creating Environment Menu"
-    local OPTIONS=$(whiptail --title "Creating Environment" --menu "Choose an option" 10 80 2 \
+    local options=$(whiptail --title "Creating Environment" --menu "Choose an option" 10 80 2 \
     "Create a new Environment" "" \
     "Choose an existing Environment" "" \
     3>&1 1>&2 2>&3)
 
-    case $OPTIONS in
+    case $options in
         "Create a new Environment")
 			log_message "INFO" "User chose to Create a new Environment"
-            local NEW_ENV=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
-            local EXIT_STATUS=$?
-            if [ $EXIT_STATUS = 0 ]; then
+            local new_env=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
+            local exit_status=$?
+            if [ $exit_status = 0 ]; then
                 log_message "INFO" "Checking for NULL Value String from the InputBox"
-				if [[ -z $NEW_ENV ]]; then
+				if [[ -z $new_env ]]; then
                     log_message "WARN" "NULL Value String Detected from the InputBox"
 					whiptail --title "WARNING" --msgbox \
 					"      You Typed an Empty Name " \ 10 40
                     log_message "INFO" "Returning to the Environment Options Menu"
-					createEnvironment
+					create_environment
 				fi
                 log_message "INFO" "NON-NULL Value String Detected, Continuing..."
-				log_message "INFO" "Creating Environment : ${NEW_ENV}"
-				printc "YELLOW" "-> Creating Environment : ${NEW_ENV}..."
+				log_message "INFO" "Creating Environment : ${new_env}"
+				printc "YELLOW" "-> Creating Environment : ${new_env}..."
 				sleep 1
-				conda create --name $NEW_ENV python=3.10 || handle_error "Failed to create ${NEW_ENV} environment"
+				conda create --name $new_env python=3.10 || handle_error "Failed to create ${new_env} environment"
 
-				log_message "INFO" "Activating The Working Environment : ${NEW_ENV}"
-				printc "YELLOW" "-> Activating The Working Environment : ${NEW_ENV}..."
+				log_message "INFO" "Activating The Working Environment : ${new_env}"
+				printc "YELLOW" "-> Activating The Working Environment : ${new_env}..."
 				sleep 1
-				source activate base || handle_error "Failed to Activate ${NEW_ENV} Environment"
-				conda activate $NEW_ENV || handle_error "Failed to Activate ${NEW_ENV} Environment"
+				source activate base || handle_error "Failed to Activate ${new_env} Environment"
+				conda activate $new_env || handle_error "Failed to Activate ${new_env} Environment"
 
 				log_message "INFO" "Configuring System Paths for CONDA Environment"
 				printc "YELLOW" "-> Configuring System Paths for CONDA Environment..."
@@ -204,7 +204,7 @@ createEnvironment(){
 				echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/' > $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh || handle_error "Failed to Configure System Paths for CONDA Environment"
 
 				echo "To Activate This Environment , Execute the Following :"
-				printc "GREEN" "conda activate ${NEW_ENV}"
+				printc "GREEN" "conda activate ${new_env}"
 				echo -n "Press [ENTER] To Continue Installation..."
 				read
 
@@ -213,32 +213,32 @@ createEnvironment(){
 
         "Choose an existing Environment")
 			log_message "INFO" "User chose an Existing Environment"
-            local YOUR_ENV=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
-            local EXIT_STATUS=$?
-            if [ $EXIT_STATUS = 0 ]; then
+            local your_env=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
+            local exit_status=$?
+            if [ $exit_status = 0 ]; then
                 log_message "INFO" "Checking for NULL Value String from the InputBox"
-				if [[ -z $YOUR_ENV ]]; then
+				if [[ -z $your_env ]]; then
                     log_message "WARN" "NULL Value String Detected from the InputBox"
 					whiptail --title "WARNING" --msgbox \
 					"      You Typed an Empty Name " \ 10 40
                     log_message "INFO" "Returning to the Environment Options Menu"
-					createEnvironment
+					create_environment
 				fi
                 log_message "INFO" "NON-NULL Value String Detected, Continuing..."
-				log_message "INFO" "Checking The Existence of ${YOUR_ENV}"
-                printc "YELLOW" "-> Checking The Existence of ${YOUR_ENV}..."
+				log_message "INFO" "Checking The Existence of ${your_env}"
+                printc "YELLOW" "-> Checking The Existence of ${your_env}..."
                 sleep 1
-                if conda info --envs | grep -q $YOUR_ENV; then
+                if conda info --envs | grep -q $your_env; then
 
-					log_message "INFO" "Environment ${YOUR_ENV} Exists"
-					printc "GREEN" "${YOUR_ENV} Exists..."
+					log_message "INFO" "Environment ${your_env} Exists"
+					printc "GREEN" "${your_env} Exists..."
 					sleep 1
 
-					log_message "INFO" "Activating The Working Environment : ${YOUR_ENV}"
-					printc "YELLOW" "-> Activating The Working Environment : ${YOUR_ENV}..."
+					log_message "INFO" "Activating The Working Environment : ${your_env}"
+					printc "YELLOW" "-> Activating The Working Environment : ${your_env}..."
 					sleep 1
-					source activate base || handle_error "Failed to Activate ${YOUR_ENV}Environment"
-					conda activate $YOUR_ENV || handle_error "Failed to Activate ${YOUR_ENV} Environment"
+					source activate base || handle_error "Failed to Activate ${your_env}Environment"
+					conda activate $your_env || handle_error "Failed to Activate ${your_env} Environment"
 
 					log_message "INFO" "Configuring System Paths for CONDA Environment"
 					printc "YELLOW" "-> Configuring System Paths for CONDA Environment..."
@@ -247,7 +247,7 @@ createEnvironment(){
 					echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/' > $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh || handle_error "Failed to Configure System Paths for CONDA Environment"
 
 					echo "To Activate This Environment , Execute the Following :"
-					printc "GREEN" "conda activate ${YOUR_ENV}"
+					printc "GREEN" "conda activate ${your_env}"
 					echo -n "Press [ENTER] To Continue Installation..."
 					read
 
@@ -255,8 +255,8 @@ createEnvironment(){
 				
 					log_message "WARN" "${YOUR_ENV} Does NOT Exists"
 					whiptail --title "WARNING" --msgbox \
-					"${YOUR_ENV} Does NOT Exists !" \ 10 60
-                    createEnvironment
+					"${your_env} Does NOT Exists !" \ 10 60
+                    create_environment
 
                 fi
 
@@ -279,7 +279,7 @@ Before Proceeding to the installation of Pytorch, make sure that :
 2. The base conda environment of current shell session is (base) 
 " \ 10 80
 
-dryRunCheck
+dry_run_check
 
 printc "YELLOW" "-> Checking for Internet Connection..."
 sleep 1
@@ -290,10 +290,10 @@ if check_internet; then
 	printc "GREEN" "-> Internet Connection Detected. Proceeding with Tensorflow Installation..."
 	sleep 1
 
-	createEnvironment
+	create_environment
 
 	log_message "INFO" "Installing Tensorflow"
-	installTensorFlow
+	install_tensorflow
 
 	echo "Tensorflow Installation Completed Successfully at $(date)" >> "$LOG_FILE"
 	print_msgbox "Success !" "Tensorflow Installation Completed Successfully"

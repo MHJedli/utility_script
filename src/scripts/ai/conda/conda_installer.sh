@@ -7,7 +7,7 @@ trap 'handle_error "An unexpected error occurred."' ERR
 clear
 echo "Continue script execution in Conda Installation at $(date)" >> "$LOG_FILE"
 
-installMiniConda(){
+install_miniconda(){
 
     log_message "INFO" "Downloading Latest Miniconda Package"
     printc "YELLOW" "-> Downloading Latest Miniconda Package..."
@@ -36,7 +36,7 @@ installMiniConda(){
 
 }
 
-installAnaConda(){
+install_anaconda(){
 
     log_message "INFO" "Downloading Latest Anaconda Package"
     printc "YELLOW" "-> Downloading Latest Anaconda Package..."
@@ -67,19 +67,19 @@ installAnaConda(){
 
 chooseMenu(){
     log_message "INFO" "Displaying Available Options"
-    local OPTION=$(whiptail --title "Conda Installer Script" --menu "What Do you want to Install ?" 30 80 2 \
+    local option=$(whiptail --title "Conda Installer Script" --menu "What Do you want to Install ?" 30 80 2 \
     "Miniconda" "Minimal Installer ( 120MB+ Download Size )" \
     "Anaconda" "Larger Distribution ( 1GB+ Download Size )" \
     3>&1 1>&2 2>&3)
 
-    case $OPTION in
+    case $option in
         "Miniconda")
             log_message "INFO" "User chose to install Miniconda"
-            installMiniConda
+            install_miniconda
             ;;
         "Anaconda")
             log_message "INFO" "User chose to install Anaconda"
-            installAnaConda
+            install_anaconda
             ;;
         *)
             handle_error "User chose to Exit Installer"

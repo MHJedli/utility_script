@@ -3,16 +3,16 @@
 source $(pwd)/src/utils.sh
 LOG_FILE=$(pwd)/src/logfile.log
 
-downloadAndInstall(){
-    local DRIVER_VERSION=$1
-    log_message "INFO" "Installing NVIDIA Driver Version ${DRIVER_VERSION}"
-    printc "YELLOW" "-> Installing NVIDIA Driver Version ${DRIVER_VERSION}..."
-    sudo apt install nvidia-driver-${DRIVER_VERSION} -y || handle_error "Failed to Install NVIDIA Driver ${DRIVER_VERSION}"
+download_and_install(){
+    local driver_version=$1
+    log_message "INFO" "Installing NVIDIA Driver Version ${driver_version}"
+    printc "YELLOW" "-> Installing NVIDIA Driver Version ${driver_version}..."
+    sudo apt install nvidia-driver-${driver_version} -y || handle_error "Failed to Install NVIDIA Driver ${driver_version}"
 }
 
-installDriver(){
+install_driver(){
     log_message "INFO" "Displaying NVIDIA Driver Menu"
-    local DRIVER_OPTIONS=$(whiptail --title "NVIDIA Driver Installer" --menu "Choose a Driver Version" 30 80 10 \
+    local driver_options=$(whiptail --title "NVIDIA Driver Installer" --menu "Choose a Driver Version" 30 80 10 \
     "NVIDIA Driver Version 560 [Latest Driver Currently]" "" \
     "NVIDIA Driver Version 550" "" \
     "NVIDIA Driver Version 545" "" \
@@ -27,42 +27,42 @@ installDriver(){
     "NVIDIA Driver Version 390" "" \
     3>&1 1>&2 2>&3)
 
-    case $DRIVER_OPTIONS in
+    case $driver_options in
         "NVIDIA Driver Version 560 [Latest Driver Currently]")
-            downloadAndInstall "560"
+            download_and_install "560"
             ;;
         "NVIDIA Driver Version 550")
-            downloadAndInstall "550"
+            download_and_install "550"
             ;;
         "NVIDIA Driver Version 545")
-            downloadAndInstall "545"
+            download_and_install "545"
             ;;
         "NVIDIA Driver Version 535")
-            downloadAndInstall "535"
+            download_and_install "535"
             ;;
         "NVIDIA Driver Version 530")
-            downloadAndInstall "530"
+            download_and_install "530"
             ;;
         "NVIDIA Driver Version 525")
-            downloadAndInstall "525"
+            download_and_install "525"
             ;;
         "NVIDIA Driver Version 520")
-            downloadAndInstall "520"
+            download_and_install "520"
             ;;
         "NVIDIA Driver Version 515")
-            downloadAndInstall "515"
+            download_and_install "515"
             ;;
         "NVIDIA Driver Version 510")
-            downloadAndInstall "510"
+            download_and_install "510"
             ;;
         "NVIDIA Driver Version 470")
-            downloadAndInstall "470"
+            download_and_install "470"
             ;;
         "NVIDIA Driver Version 450")
-            downloadAndInstall "450"
+            download_and_install "450"
             ;;
         "NVIDIA Driver Version 390")
-            downloadAndInstall "390"
+            download_and_install "390"
             ;;
         *)
             handle_error "User chose to Exit Script"
@@ -120,7 +120,7 @@ if check_internet; then
     log_message "INFO" "Installing NVIDIA Driver"
     printc "YELLOW" "-> Installing NVIDIA Driver..."
     sleep 1
-    installDriver
+    install_driver
 
     log_message "INFO" "NVIDIA Driver Installation Completed Successfully"
     if whiptail --title "NVIDIA Driver Installed" --yesno "Do you Want to reboot now ?" 8 78; then
@@ -128,7 +128,7 @@ if check_internet; then
         reboot
     fi
 
-    showDriversMenu
+    show_drivers_menu
 
 else 
 
