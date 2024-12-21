@@ -12,13 +12,13 @@ download_and_extract(){
     log_message "INFO" "Downloading Flutter SDK ${version}"
     printc "YELLOW" "-> Downloading Flutter SDK ${version}..."
     sleep 1
-    wget -c https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${version}-stable.tar.xz || handle_error "Failed to Download Flutter SDK ${version}"
+    wget -c -P $(pwd)/tmp/ https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${version}-stable.tar.xz || handle_error "Failed to Download Flutter SDK ${version}"
 
     log_message "INFO" "Extracting Flutter SDK to ~/"
     printc "YELLOW" "-> Extracting Flutter SDK to ~/"
     sleep 1
     rm -rf ~/flutter
-    tar -xvf flutter_linux_${version}-stable.tar.xz -C ~/ || handle_error "Failed to Extract Flutter SDK to ~/"
+    tar -xvf $(pwd)/tmp/flutter_linux_${version}-stable.tar.xz -C ~/ || handle_error "Failed to Extract Flutter SDK to ~/"
 }
 
 install_other_flutter_version(){

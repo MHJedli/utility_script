@@ -21,17 +21,13 @@ installVirtualBox(){
     printc "YELLOW" "-> Downloading Oracle VM for ${system_release:0:-6}..."
     sleep 1
 
-    if [[ -f $(pwd)/virtualbox-7.1_7.1.4-165100~Ubuntu~${codename}_amd64.deb ]]; then
-        rm $(pwd)/virtualbox-7.1_7.1.4-165100~Ubuntu~${codename}_amd64.deb
-    fi
-
-    wget -c https://download.virtualbox.org/virtualbox/7.1.4/virtualbox-7.1_7.1.4-165100~Ubuntu~${codename}_amd64.deb
+    wget -c -P $(pwd)/tmp/ https://download.virtualbox.org/virtualbox/7.1.4/virtualbox-7.1_7.1.4-165100~Ubuntu~${codename}_amd64.deb
 
     log_message "INFO" "Installing Oracle VM"
     printc "YELLOW" "-> Installing Oracle VM..."
     sleep 1
     sudo apt install libxcb-cursor0 || handle_error "Failed to Install Required Package"
-    sudo dpkg -i virtualbox-7.1*.deb
+    sudo dpkg -i $(pwd)/tmp/virtualbox-7.1*.deb
     sudo apt --fix-broken install -y || handle_error "Failed to install Oracle VM"
 
     echo "Oracle VirtualBox Script Execution Completed Successfully at $(date)" >> "$LOG_FILE"

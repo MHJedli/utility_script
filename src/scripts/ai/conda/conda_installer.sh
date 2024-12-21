@@ -12,17 +12,17 @@ install_miniconda(){
     log_message "INFO" "Downloading Latest Miniconda Package"
     printc "YELLOW" "-> Downloading Latest Miniconda Package..."
     sleep 1
-    wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh || handle_error "Failed to Download Latest Miniconda Package"
+    wget -c -P $(pwd)/tmp/ https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh || handle_error "Failed to Download Latest Miniconda Package"
 
     log_message "INFO" "Making the Miniconda3 Package Executable"
     printc "YELLOW" "-> Making the Miniconda3 Package Executable..."
     sleep 1
-    chmod +x Miniconda3-latest-Linux-x86_64.sh || handle_error "Failed to Make the Miniconda3 Package Executable"
+    chmod +x $(pwd)/tmp/Miniconda3-latest-Linux-x86_64.sh || handle_error "Failed to Make the Miniconda3 Package Executable"
 
     log_message "INFO" "Installing Miniconda3 to $HOME/miniconda3 in Silent Mode"
     printc "YELLOW" "-> Installing Miniconda3 to $HOME/miniconda3 in Silent Mode..."
     sleep 1
-    bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda3 || handle_error "Failed to Install Miniconda3 to $HOME/miniconda3 in Silent Mode"
+    bash $(pwd)/tmp/Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda3 || handle_error "Failed to Install Miniconda3 to $HOME/miniconda3 in Silent Mode"
 
     log_message "INFO" "Activating Conda to Current SHELL Session"
     printc "YELLOW" "-> Activating Conda to Current SHELL..."
@@ -41,17 +41,17 @@ install_anaconda(){
     log_message "INFO" "Downloading Latest Anaconda Package"
     printc "YELLOW" "-> Downloading Latest Anaconda Package..."
     sleep 1
-    wget -c https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh || handle_error "Failed to Download Latest Anaconda Package"
+    wget -c -P $(pwd)/tmp/ https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh || handle_error "Failed to Download Latest Anaconda Package"
 
     log_message "INFO" "Making the Anaconda Package Executable"
     printc "YELLOW" "-> Making the Anaconda Package Executable..."
     sleep 1
-    chmod +x Anaconda3-2024.10-1-Linux-x86_64.sh || handle_error "Failed to Make the Anaconda Package Executable"
+    chmod +x $(pwd)/tmp/Anaconda3-2024.10-1-Linux-x86_64.sh || handle_error "Failed to Make the Anaconda Package Executable"
 
     log_message "INFO" "Installing Anaconda to $HOME/anaconda in Silent Mode"
     printc "YELLOW" "-> Installing Anaconda3 to $HOME/anaconda in Silent Mode..."
     sleep 1
-    bash Anaconda3-2024.10-1-Linux-x86_64.sh -b -p $HOME/anaconda || handle_error "Failed to Install Anaconda3 to $HOME/anaconda in Silent Mode"
+    bash $(pwd)/tmp/Anaconda3-2024.10-1-Linux-x86_64.sh -b -p $HOME/anaconda || handle_error "Failed to Install Anaconda3 to $HOME/anaconda in Silent Mode"
 
     log_message "INFO" "Activating AnaConda to Current SHELL Session"
     printc "YELLOW" "-> Activating AnaConda to Current SHELL..."

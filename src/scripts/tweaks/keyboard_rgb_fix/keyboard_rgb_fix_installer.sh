@@ -22,15 +22,15 @@ if check_internet; then
     log_message "INFO" "Downloading Keyboard RGB Fix Script"
     printc "YELLOW" "-> Downloading Script..."
     sleep 1
-    wget -c https://github.com/wessel-novacustom/clevo-keyboard/raw/master/kb.sh || handle_error "Failed to Download Script"
+    wget -c -P $(pwd)/tmp/ https://github.com/wessel-novacustom/clevo-keyboard/raw/master/kb.sh || handle_error "Failed to Download Script"
 
     log_message "INFO" "Setting Keyboard RGB Fix Script Permissions"
     printc "YELLOW" "-> Setting Keyboard RGB Fix Script Permissions..."
-    chmod +x kb.sh || handle_error "Failed to Set up Script Permissions"
+    chmod +x $(pwd)/tmp/kb.sh || handle_error "Failed to Set up Script Permissions"
 
     log_message "INFO" "Executing Keyboard RGB Fix Script"
     printc "YELLOW" "-> Executing Keyboard RGB Fix Script..."
-    sudo bash kb.sh || handle_error "Failed to Execute Keyboard RGB Fix Script"
+    sudo bash $(pwd)/tmp/kb.sh || handle_error "Failed to Execute Keyboard RGB Fix Script"
 
     log_message "INFO" "Keyboard RGB Backlight Fixer Installation Completed Successfully"
     echo -n -e "${GREEN}Keyboard RGB Backlight Fixer Installation Completed Successfully.${RESET} Want to reboot now (Y/n) : "
