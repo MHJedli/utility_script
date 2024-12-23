@@ -38,19 +38,19 @@ show_pytorch_menu(){
     options_menu "PyTorch" \
                    "${scriptPaths["pytorch_installer"]}" \
                    "" \
-                   "showAIMenu"
+                   "show_ai_menu"
 }
 
 show_conda_menu(){
     options_menu "Conda" \
                "${scriptPaths["conda_installer"]}" \
                "${scriptPaths["conda_remover"]}" \
-               "showAIMenu"
+               "show_ai_menu"
 }
 
 show_tensorflow_meun(){
     options_menu "Tensor Flow" \
                "${scriptPaths["tensorflow_installer"]}" \
                "" \
-               "showAIMenu"
+               "show_ai_menu"
 }

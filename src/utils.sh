@@ -40,7 +40,7 @@ declare -A scriptPaths=(
     # Dev Scripts
     ["angular_installer"]="src/scripts/dev/angular/angular_installer.sh"
 
-    ["android_studio_installer"]="src/scripts/dev/android/android_studio_installer.sh"
+    ["android_studio_installer"]="src/scripts/dev/android_studio/android_studio_installer.sh"
 
     ["flutter_installer"]="src/scripts/dev/flutter/flutter_installer.sh"
 

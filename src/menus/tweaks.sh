@@ -43,26 +43,26 @@ show_pipewire_menu(){
     options_menu "PipeWire Sound System" \
        "${scriptPaths["pipewire_installer"]}" \
        "" \
-       "showSystemTweaksMenu"
+       "show_system_tweaks_menu"
 }
 
 show_fix_keyboard_rgb(){
     options_menu "Fix Keyboard RGB Backlight" \
        "${scriptPaths["keyboard_rgb_fix_installer"]}" \
        "${scriptPaths["keyboard_rgb_fix_remover"]}" \
-       "showSystemTweaksMenu"
+       "show_system_tweaks_menu"
 }
 
 show_spotify_menu(){
     options_menu "Spotify + Ad Blocker" \
        "${scriptPaths["spotify_installer"]}" \
        "${scriptPaths["spotify_remover"]}" \
-       "showSystemTweaksMenu"
+       "show_system_tweaks_menu"
 }
 
 show_wine_menu(){
     options_menu "Wine" \
        "${scriptPaths["wine_installer"]}" \
        "${scriptPaths["wine_remover"]}" \
-       "showSystemTweaksMenu"    
+       "show_system_tweaks_menu"    
 }

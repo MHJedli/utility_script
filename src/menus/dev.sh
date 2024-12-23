@@ -48,14 +48,14 @@ show_angular_menu(){
     options_menu "Angular" \
                "${scriptPaths["angular_installer"]}" \
                "" \
-               "showDevelopmentMenu"
+               "show_development_menu"
 }
 
 show_android_studio_menu(){
     options_menu "Android Studio" \
                "${scriptPaths["android_studio_installer"]}" \
                "" \
-               "showDevelopmentMenu"
+               "show_development_menu"
 
 }
 
@@ -63,17 +63,17 @@ show_flutter_menu(){
     options_menu "Flutter" \
                "${scriptPaths["flutter_installer"]}" \
                "" \
-               "showDevelopmentMenu"   
+               "show_development_menu"   
 }
 show_virtualbox_menu(){
     options_menu "Oracle VirtualBox" \
                "${scriptPaths["oracle_vm_installer"]}" \
                "" \
-               "showDevelopmentMenu"    
+               "show_development_menu"    
 }
 show_docker_menu(){
     options_menu "Docker" \
                "${scriptPaths["docker_installer"]}" \
                "${scriptPaths["docker_remover"]}" \
-               "showDevelopmentMenu" 
+               "show_development_menu" 
 }

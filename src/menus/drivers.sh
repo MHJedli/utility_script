@@ -39,12 +39,12 @@ show_nvidia_driver_menu(){
     options_menu "NVIDIA Driver" \
                "${scriptPaths["nvidia_driver_installer"]}" \
                "${scriptPaths["nvidia_driver_remover"]}" \
-               "showDriversMenu"   
+               "show_drivers_menu"   
 }
 
 show_nvidia_cuda_menu(){
     options_menu "NVIDIA CUDA Toolkit" \
                "${scriptPaths["cuda_installer"]}" \
                "" \
-               "showDriversMenu"
+               "show_drivers_menu"
 }
