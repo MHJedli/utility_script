@@ -94,7 +94,7 @@ if check_internet; then
     log_message "INFO" "Installing the following packages: curl, git, unzip, xz-utils, zip, libglu1-mesa"
     printc "YELLOW" "-> Installing the following packages: curl, git, unzip, xz-utils, zip, libglu1-mesa..."
     sleep 1
-    sudo apt install -y curl git unzip xz-utils zip libglu1-mesa || handle_error "Failed to Install Required Packages"
+    sudo apt install -y curl git unzip xz-utils zip libglu1-mesa jq || handle_error "Failed to Install Required Packages"
 
     log_message "INFO" "Fetching Available Flutter SDK from Servers"
     printc "YELLOW" "-> Fetching Available Flutter SDK from Servers..."
