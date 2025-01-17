@@ -64,18 +64,19 @@ scripts
 <br>
 *  Screenshots of the script :
 <br><br>
+![Screenshot from 2025-01-17 11-44-22](https://github.com/user-attachments/assets/b4ce1b03-07fe-4a16-a83f-d9069c36a017)
 
-![2024-12-06_20-55](https://github.com/user-attachments/assets/b477c59b-3abb-48a6-b271-4f773477d6fe)
+![Screenshot from 2025-01-17 11-44-38](https://github.com/user-attachments/assets/1252381a-6212-4060-a07a-548dd36af81c)
 
-![2024-12-06_20-56](https://github.com/user-attachments/assets/70783455-2701-4052-8593-1c6c1d3f4f82)
+![Screenshot from 2025-01-17 11-44-45](https://github.com/user-attachments/assets/0b63d747-d847-45b5-a849-3b33ff8896a4)
 
-![2024-12-06_20-58](https://github.com/user-attachments/assets/bbf11d7c-9129-470c-ad91-43d47513c450)
+![Screenshot from 2025-01-17 11-44-54](https://github.com/user-attachments/assets/c1ce9227-fe46-46af-8147-c0ed16cfc16f)
 
-![2024-12-06_20-59](https://github.com/user-attachments/assets/71beedf6-49f6-4d1f-9f76-59f97c37337a)
+![Screenshot from 2025-01-17 11-45-02](https://github.com/user-attachments/assets/63690e1a-ab58-41cc-984e-595cb062ca24)
 
-![2024-12-06_20-59_1](https://github.com/user-attachments/assets/98aab35c-36b2-4175-89cd-0f7896e58a86)
 <br>
 * DEMO :<br>
+
 Live Script Installation of Conda on Ubuntu 24.04 :
   
 
