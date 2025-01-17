@@ -19,12 +19,19 @@ if check_internet; then
     log_message "INFO" "fetching the security key"
     printc "YELLOW" "-> Fetching the security key..."
     sleep 1 
-    curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg || handle_error "Failed to Fetch Spotify Security Key"
+    curl -sS https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg | sudo tee /etc/apt/keyrings/spotify.asc || handle_error "Failed to Fetch Spotify Security Key"
 
     log_message "INFO" "Adding Spotify APT Repository"
     printc "YELLOW" "-> Adding Spotify APT Repository..."
     sleep 1
-    echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list || handle_error "Failed to Add Spotify APT Repository"
+    echo 'deb [signed-by=/etc/apt/keyrings/spotify.asc] http://repository.spotify.com stable non-free' | sudo tee /etc/apt/sources.list.d/spotify.list || handle_error "Failed to Add Spotify APT Repository"
+
+    log_message "INFO" "Removing Old Key (If Existed)"
+    printc "YELLOW" "Removing Old Key (If Existed)..."
+    sleep 1
+    if [[ -f /etc/apt/trusted.gpg.d/spotify.gpg ]]; then
+        sudo rm /etc/apt/trusted.gpg.d/spotify.gpg
+    fi
 
     log_message "INFO" "Refreshing Package Cache"
     printc "YELLOW" "-> Refreshing Package Cache..."
