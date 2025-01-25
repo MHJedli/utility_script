@@ -154,12 +154,12 @@ show_menu() {
 # $3 : /path/to/script_remover.sh
 # $4 : Previous Menu to the Current One
 options_menu() {
-    local selectedOption=$1
-    local installScript=$2
-    local removeScript=$3
-    local previousMenu=$4
-    log_message "INFO" "Displaying ${selectedOption} Menu"
-    local option=$(whiptail --title "$selectedOption" --menu "Choose an option" 30 80 16 \
+    local selected_option=$1
+    local install_script=$2
+    local remove_script=$3
+    local previous_menu=$4
+    log_message "INFO" "Displaying ${selected_option} Menu"
+    local option=$(whiptail --title "$selected_option" --menu "Choose an option" 30 80 16 \
     "Install" "" \
     "Remove" "" \
     "<-- Back" "Return To Previous Menu" \
@@ -167,64 +167,20 @@ options_menu() {
 
     case $option in
         "Install")
-            log_message "INFO" "User chose to install ${selectedOption}"
-            bash "$installScript"
+            log_message "INFO" "User chose to install ${selected_option}"
+            bash "$install_script"
             ;;
         "Remove")
-            log_message "INFO" "User chose to remove ${selectedOption}"
-            bash "$removeScript"
+            log_message "INFO" "User chose to remove ${selected_option}"
+            bash "$remove_script"
             ;;
         "<-- Back")
             log_message "INFO" "User chose to return To Previous Menu"
-            "$previousMenu"
+            "$previous_menu"
             ;;
         *)
             echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
             echo "Exiting..."
             ;;
     esac
-}
-
-
-# Function that prints the menu of available distributions of a selected option
-# Parameters :
-# $1 : Title of the Selected Option
-# $2 : /path/to/script_installer.sh
-# $3 : Previous Menu to the Current One
-distros_menu() {
-    # System Release
-    system_release=$(cat /etc/issue)
-
-    local selectedOption=$1
-    local ubuntuScriptInstaller=$2
-    local previousMenu=$3
-    while true; do
-        log_message "INFO" "Displaying ${selectedOption} Menu"
-        clear
-        echo "-------------------------------------------------"
-        echo " $selectedOption   "
-        echo "-------------------------------------------------"
-        echo "Select Your Linux Distribution : ( Distribution In Use -> '${system_release:0:-6}' )"
-        echo "1. Ubuntu or Ubuntu-Based"
-        echo "2. Return To Previous Menu"
-        echo -n "Enter Option: "
-        read option
-        log_message "INFO" "User selected option ${option} in the ${selectedOption} Menu"
-        case $option in
-            1)
-                log_message "INFO" "User chose Ubuntu or Ubuntu-Based" 
-                optionMenu "$selectedOption" "$ubuntuScriptInstaller" "" "$previousMenu"
-                ;;
-            2)
-                log_message "INFO" "User chose to Return to Previous Menu"
-                "$previousMenu"
-                return 
-                ;;
-            *)
-                log_message "WARN" "User chose an invalid option : $option"
-                invalidOption 
-                distroMenu "$selectedOption" "$ubuntuScriptInstaller" "$previousMenu"
-                ;;
-        esac
-    done
 }
