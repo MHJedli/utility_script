@@ -9,7 +9,6 @@ echo "Continue script execution in Spotify Removing at $(date)" >> "$LOG_FILE"
 
 log_message "INFO" "Checking for Spotify Before Removing"
 printc "YELLOW" "-> Checking for Spotify Before Removing..."
-sleep 1
 
 if ! command -v spotify &> /dev/null; then
 
@@ -27,12 +26,10 @@ else
 
     log_message "INFO" "Removing Spotify Installation"
     printc "YELLOW" "-> Removing Spotify Installation..."
-    sleep 1
     sudo apt autoremove spotify-client --purge -y || handle_error "Failed to Remove Spotify"
 
     log_message "INFO" "Removing Spotify Directory"
     printc "YELLOW" "-> Removing Spotify Directory..."
-    sleep 1
     sudo rm -rf /usr/share/spotify
 
     echo "Spotify Remover Script Execution Completed Successfully at $(date)" >> "$LOG_FILE"

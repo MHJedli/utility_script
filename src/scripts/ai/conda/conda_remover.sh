@@ -16,7 +16,6 @@ case $option in
     "Miniconda")
             log_message "INFO" "Searching for Miniconda"
             printc "YELLOW" "-> Searching for Miniconda..."
-            sleep 1
             minicondaPath=$(find $HOME -type d -iname "miniconda*")
 
             if [[ "$minicondaPath" == "" ]]; then
@@ -33,7 +32,6 @@ case $option in
                 read
                 log_message "INFO" "Deleting Miniconda"
                 printc "YELLOW" "-> Deleting Miniconda..."
-                sleep 1
                 rm -rf $minicondaPath
 
                 log_message "INFO" "Miniconda Deleted Successfully"
@@ -45,7 +43,6 @@ case $option in
     "Anaconda")
             log_message "INFO" "Searching for Anaconda"
             printc "YELLOW" "-> Searching for Anaconda..."
-            sleep 1
             anacondaPath=$(find $HOME -type d -iname "anaconda*")
 
             if [[ "$anacondaPath" == "" ]]; then
@@ -62,7 +59,6 @@ case $option in
 
                 log_message "INFO" "Deleting Anaconda"
                 printc "YELLOW" "-> Deleting Anaconda..."
-                sleep 1
                 rm -rf $anacondaPath
 
                 log_message "INFO" "Anaconda Deleted Successfully"

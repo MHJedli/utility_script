@@ -11,12 +11,10 @@ download_and_extract(){
     local version=$1
     log_message "INFO" "Downloading Flutter SDK ${version}"
     printc "YELLOW" "-> Downloading Flutter SDK ${version}..."
-    sleep 1
     wget -c -P $(pwd)/tmp/ https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${version}-stable.tar.xz || handle_error "Failed to Download Flutter SDK ${version}"
 
     log_message "INFO" "Extracting Flutter SDK to ~/"
     printc "YELLOW" "-> Extracting Flutter SDK to ~/"
-    sleep 1
     rm -rf ~/flutter
     tar -xvf $(pwd)/tmp/flutter_linux_${version}-stable.tar.xz -C ~/ || handle_error "Failed to Extract Flutter SDK to ~/"
 }
@@ -73,27 +71,22 @@ install_flutter(){
 
 log_message "INFO" "Checking for Internet Connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
-sleep 1
 
 if check_internet; then
 
     log_message "INFO" "Internet Connection Detected. Proceeding with Flutter SDK Installation"
     printc "GREEN" "-> Internet Connection Detected. Proceeding with Flutter SDK Installation..."
-    sleep 1
 
     log_message "INFO" "Refreshing Package Cache"
     printc "YELLOW" "-> Refreshing Package Cache..."
-    sleep 1
     sudo apt update || handle_error "Failed to Refresh Package Cache"
 
     log_message "INFO" "Updating System Packages"
     printc "YELLOW" "-> Updating System Packages..."
-    sleep 1
     sudo apt upgrade -y || handle_error "Failed to Update System Packages"
 
     log_message "INFO" "Installing the following packages: curl, git, unzip, xz-utils, zip, libglu1-mesa"
     printc "YELLOW" "-> Installing the following packages: curl, git, unzip, xz-utils, zip, libglu1-mesa..."
-    sleep 1
     sudo apt install -y curl git unzip xz-utils zip libglu1-mesa jq || handle_error "Failed to Install Required Packages"
 
     log_message "INFO" "Fetching Available Flutter SDK from Servers"
@@ -107,17 +100,14 @@ if check_internet; then
 
     log_message "INFO" "Adding Flutter to PATH (bash)"
     printc "YELLOW" "-> Adding Flutter to PATH (bash)..."
-    sleep 1
     echo 'export PATH="$HOME/flutter/bin:$PATH"' >> ~/.bashrc || handle_error "Failed to Add Flutter to PATH (bash)"
 
     log_message "INFO" "Activating Flutter"
     printc "YELLOW" "-> Activating Flutter..."
-    sleep 1
     source ~/.bashrc || handle_error "Failed to Activate Flutter"
 
     log_message "INFO" "Executing flutter doctor -v"
     printc "YELLOW" "-> Executing flutter doctor -v (It May Take a Little While)"
-    sleep 1
     flutter doctor -v || handle_error "Failed to Execute flutter doctor -v"
     echo -n "Press [ENTER] to Continue..."
     read

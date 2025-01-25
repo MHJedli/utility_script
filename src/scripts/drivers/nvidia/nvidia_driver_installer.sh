@@ -76,7 +76,6 @@ trap 'handle_error "An unexpected error occurred."' ERR
 clear
 
 echo "Continue script execution in NVIDIA Driver Installation at $(date)" >> "$LOG_FILE"
-sleep 1
 printc "CYAN" "NOTE : This Script Will Install Nvidia Driver Using 'graphics-drivers/ppa' Method"
 echo -n "Press [ENTER] To Continue..."
 read
@@ -89,37 +88,30 @@ if check_internet; then
 
     log_message "INFO" "Purging Current NVIDIA Installation if Existed"
     printc "YELLOW" "-> Purging Current NVIDIA Installation if Existed..."
-    sleep 1
     sudo apt autoremove nvidia* --purge -y || handle_error "Failed to Purge NVIDIA"
 
     log_message "INFO" "Refreshing Package Cache"
     printc "YELLOW" "-> Refreshing Package Cache..."
-    sleep 1
     sudo apt update || handle_error "Failed to Refresh Package Cache"
 
     log_message "INFO" "Updating System"
     printc "YELLOW" "-> Updating System Packages..."
-    sleep 1
     sudo apt upgrade -y || handle_error "Failed to Upgrade System Packages"
 
     log_message "INFO" "Installing Required Dependencies"
     printc "YELLOW" "-> Installing Required Dependencies..."
-    sleep 1
     sudo apt install software-properties-common -y || handle_error "Failed To Install Required Dependencies"
 
     log_message "INFO" "Adding the graphics-drivers PPA"
     printc "YELLOW" "-> Adding the graphics-drivers PPA..."
-    sleep 1
     sudo add-apt-repository ppa:graphics-drivers/ppa -y || handle_error "Failed to Add the graphics-drivers PPA"
 
     log_message "INFO" "Refreshing Package Cache"
     printc "YELLOW" "-> Refreshing Package Cache..."
-    sleep 1
     sudo apt update || handle_error "Failed to Refresh Package Cache"
 
     log_message "INFO" "Installing NVIDIA Driver"
     printc "YELLOW" "-> Installing NVIDIA Driver..."
-    sleep 1
     install_driver
 
     log_message "INFO" "NVIDIA Driver Installation Completed Successfully"

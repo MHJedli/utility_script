@@ -10,11 +10,9 @@ echo "Continue script execution in Tensorflow Installation at $(date)" >> "$LOG_
 dry_run_check(){
 	log_message "INFO" "Performing Dry Run for Tensorflow Installation"
     printc "CYAN" "-> Performing Dry Run for Tensorflow Installation..."
-	sleep 1
 
 	log_message "INFO" "1. Checking for Conda Installation"
     printc "YELLOW" "1. Checking for Conda Installation..."
-	sleep 1
     if ! command -v conda &> /dev/null; then
         log_message "WARN" "Conda Not Found, Install ?"
         if whiptail --title "Conda NOT FOUND !" --yesno "Do you want to install Conda now ?" 8 78; then
@@ -37,7 +35,6 @@ dry_run_check(){
 
 	log_message "INFO" "1.1. Checking for active CONDA environment"
     printc "YELLOW" "1.1. Checking for active CONDA environment..."
-	sleep 1
 	local conda_env=$CONDA_DEFAULT_ENV
 	if [[ "$conda_env" == "base" ]]; then
         log_message "INFO" "base is the default conda env"
@@ -49,12 +46,10 @@ dry_run_check(){
 
 	log_message "INFO" "2. Checking for CUDA Toolkit and NVIDIA Drivers"
     printc "YELLOW" "2. Checking for CUDA Toolkit and NVIDIA Drivers..."
-	sleep 1
     log_message "INFO" "Verify NVIDIA Driver and CUDA Presence ?"
     if whiptail --title "NVIDIA Driver and CUDA Check" --yesno "Do you plan to install Pytorch with CUDA Support? [REQUIRES NVIDIA GPU]" 8 78; then
             log_message "INFO" "2.1. Checking for NVIDIA Drivers"
             printc "YELLOW" "2.1. Checking for NVIDIA Drivers..."
-            sleep 1
             if ! command -v nvidia-smi &> /dev/null; then
 
                 log_message "WARN" "NVIDIA Driver NOT found, Install ?"
@@ -74,7 +69,6 @@ dry_run_check(){
 
 			log_message "INFO" "2.2. Checking for CUDA Toolkit"
             printc "YELLOW" "2.2. Checking for CUDA Toolkit..."
-            sleep 1
             if ! nvcc --version &> /dev/null; then
                 log_message "WARN" "NVIDIA CUDA Toolkit NOT found. Install ?"
                 if whiptail --title "CUDA Toolkit NOT FOUND !" --yesno "Do you Want to Install it ?" 8 78; then
@@ -112,7 +106,6 @@ install_tensorflow(){
         "CPU")
 			log_message "INFO" "User chose to Installing Tensorflow with CPU Support"
 			printc "YELLOW" "-> Installing Tensorflow with CPU Support..."
-			sleep 1
 			python3 -m pip install tensorflow || handle_error "Failed to Install Tensorflow with CPU Support"
 
 			log_message "INFO" "Verifying TensorFlow Installation with CPU Support"
@@ -138,12 +131,10 @@ install_tensorflow(){
 
 			log_message "INFO" "Installing cuDNN Package"
 			printc "YELLOW" "-> Installing cuDNN Package..."
-			sleep 1
 			conda install -c conda-forge cudnn || handle_error "Failed to Install cuDNN Package"
 
 			log_message "INFO" "Installing Tensorflow with CUDA Support"
 			printc "YELLOW" "-> Installing Tensorflow with CUDA Support..."
-			sleep 1
 			python3 -m pip install tensorflow[and-cuda] || handle_error "Failed to Install Tensorflow with CUDA Support"
 
 			log_message "INFO" "Verifying TensorFlow Installation with CUDA Support"
@@ -188,18 +179,15 @@ create_environment(){
                 log_message "INFO" "NON-NULL Value String Detected, Continuing..."
 				log_message "INFO" "Creating Environment : ${new_env}"
 				printc "YELLOW" "-> Creating Environment : ${new_env}..."
-				sleep 1
 				conda create --name $new_env python=3.10 || handle_error "Failed to create ${new_env} environment"
 
 				log_message "INFO" "Activating The Working Environment : ${new_env}"
 				printc "YELLOW" "-> Activating The Working Environment : ${new_env}..."
-				sleep 1
 				source activate base || handle_error "Failed to Activate ${new_env} Environment"
 				conda activate $new_env || handle_error "Failed to Activate ${new_env} Environment"
 
 				log_message "INFO" "Configuring System Paths for CONDA Environment"
 				printc "YELLOW" "-> Configuring System Paths for CONDA Environment..."
-				sleep 1
 				mkdir -p $CONDA_PREFIX/etc/conda/activate.d || handle_error "Failed to Configure System Paths for CONDA Environment"
 				echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/' > $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh || handle_error "Failed to Configure System Paths for CONDA Environment"
 
@@ -227,22 +215,18 @@ create_environment(){
                 log_message "INFO" "NON-NULL Value String Detected, Continuing..."
 				log_message "INFO" "Checking The Existence of ${your_env}"
                 printc "YELLOW" "-> Checking The Existence of ${your_env}..."
-                sleep 1
                 if conda info --envs | grep -q $your_env; then
 
 					log_message "INFO" "Environment ${your_env} Exists"
 					printc "GREEN" "${your_env} Exists..."
-					sleep 1
 
 					log_message "INFO" "Activating The Working Environment : ${your_env}"
 					printc "YELLOW" "-> Activating The Working Environment : ${your_env}..."
-					sleep 1
 					source activate base || handle_error "Failed to Activate ${your_env}Environment"
 					conda activate $your_env || handle_error "Failed to Activate ${your_env} Environment"
 
 					log_message "INFO" "Configuring System Paths for CONDA Environment"
 					printc "YELLOW" "-> Configuring System Paths for CONDA Environment..."
-					sleep 1
 					mkdir -p $CONDA_PREFIX/etc/conda/activate.d || handle_error "Failed to Configure System Paths for CONDA Environment"
 					echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/' > $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh || handle_error "Failed to Configure System Paths for CONDA Environment"
 
@@ -282,13 +266,11 @@ Before Proceeding to the installation of Pytorch, make sure that :
 dry_run_check
 
 printc "YELLOW" "-> Checking for Internet Connection..."
-sleep 1
 
 if check_internet; then
 
 	log_message "INFO" "Internet Connection Detected. Proceeding with Tensorflow Installation"
 	printc "GREEN" "-> Internet Connection Detected. Proceeding with Tensorflow Installation..."
-	sleep 1
 
 	create_environment
 

@@ -13,17 +13,14 @@ download_and_install(){
 
     log_message "INFO" "Downloading NVIDIA CUDA Toolkit Version ${cuda_version}"
     printc "YELLOW" "-> Downloading NVIDIA CUDA ToolKit Version ${cuda_version}"
-    sleep 1
     wget -c -P $(pwd)/tmp/ "$download_link"
     
     log_message "INFO" "Installing NVIDIA CUDA ToolKit in Silent Mode"
     printc "YELLOW" "-> Installing NVIDIA CUDA ToolKit in Silent Mode..."
-    sleep 1
     sudo sh $(pwd)/tmp/cuda_${cuda_version}*.run --silent --toolkit --toolkitpath=/usr/local/cuda-${cuda_version} || handle_error "Failed to Install NVIDIA CUDA Toolkit"
 
     log_message "INFO" "Removing Old CUDA Path"
     printc "YELLOW" "-> Removing Old CUDA Path"
-    sleep 1
     local oldCudaPath=$(cat ~/.bashrc | grep "export PATH=/usr/local/cuda*")
     sed -i "s|${oldCudaPath}||g" ~/.bashrc
     local oldCudaLDPath=$(cat ~/.bashrc | grep "export LD_LIBRARY_PATH=/usr/local/cuda*")
@@ -32,19 +29,16 @@ download_and_install(){
 
     log_message "INFO" "Exporting new CUDA Path"
     printc "YELLOW" "-> Exporting CUDA Path..."
-    sleep 1
     echo '# CUDA PATH' >> ~/.bashrc || handle_error "Failed to add CUDA Path"
     echo export PATH=/usr/local/cuda-${cuda_version}/bin'${PATH:+:${PATH}}' >> ~/.bashrc || handle_error "Failed to add CUDA Path"
     echo export LD_LIBRARY_PATH=/usr/local/cuda-${cuda_version}/lib64'\ {LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}' >> ~/.bashrc || handle_error "Failed to add CUDA Path"
 
     log_message "INFO" "Applying CUDA Path"
     printc "YELLOW" "-> Applying CUDA Path..."
-    sleep 1
     source ~/.bashrc || handle_error "Failed to Apply CUDA Path"
 
     log_message "INFO" "Checking the Installed Version"
     printc "YELLOW" "-> Checking the Installed Version..."
-    sleep 1
     nvcc --version || handle_error "Failed to check the Installed Version"
 
     echo "NVIDIA CUDA Toolkit Script Completed Successfully at $(date)" >> "$LOG_FILE"
@@ -103,26 +97,21 @@ install_cuda(){
 }
 
 printc "YELLOW" "-> Checking for Internet Connection..."
-sleep 1
 if check_internet; then
 
     log_message "INFO" "Internet Connection Detected. Proceeding with NVIDIA CUDA ToolKit Installation"
     printc "GREEN" "-> Internet Connection Detected. Proceeding with NVIDIA CUDA ToolKit Installation..."
-    sleep 1
     
     log_message "INFO" "Refreshing Package Cache"
     printc "YELLOW" "-> Refreshing Package Cache..."
-    sleep 1
     sudo apt update || handle_error "Failed to Refresh Package Cache"
 
     log_message "INFO" "Updating System Packages"
     printc "YELLOW" "-> Updating System Packages..."
-    sleep 1
     sudo apt upgrade -y || handle_error "Failed to Update System Packages"
 
     log_message "INFO" "Installing NVIDIA CUDA ToolKit"
     printc "YELLOW" "-> Installing NVIDIA CUDA ToolKit..."
-    sleep 1
     install_cuda
 
     showDriversMenu

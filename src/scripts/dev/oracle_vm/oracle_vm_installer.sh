@@ -19,13 +19,11 @@ installVirtualBox(){
 
     log_message "INFO" "Downloading Oracle VM for ${system_release:0:-6}"
     printc "YELLOW" "-> Downloading Oracle VM for ${system_release:0:-6}..."
-    sleep 1
 
     wget -c -P $(pwd)/tmp/ https://download.virtualbox.org/virtualbox/7.1.4/virtualbox-7.1_7.1.4-165100~Ubuntu~${codename}_amd64.deb
 
     log_message "INFO" "Installing Oracle VM"
     printc "YELLOW" "-> Installing Oracle VM..."
-    sleep 1
     sudo apt install libxcb-cursor0 || handle_error "Failed to Install Required Package"
     sudo dpkg -i $(pwd)/tmp/virtualbox-7.1*.deb
     sudo apt --fix-broken install -y || handle_error "Failed to install Oracle VM"
@@ -37,17 +35,14 @@ installVirtualBox(){
 }
 
 printc "YELLOW" "-> Checking for Internet Connection..."
-sleep 1
 
 if check_internet; then
 
     log_message "INFO" "Internet Connection Detected. Proceeding with Oracle VirtualBox Installation"
     printc "GREEN" "-> Internet Connection Detected. Proceeding with Oracle VirtualBox Installation..."
-    sleep 1
 
     log_message "INFO" "Refreshing Package Cache"
     printc "YELLOW" "-> Refreshing Package Cache..."
-    sleep 1
     sudo apt update || handle_error "Failed to Refresh Package Cache"
 
     installVirtualBox

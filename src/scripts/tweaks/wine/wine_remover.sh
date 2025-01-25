@@ -9,7 +9,6 @@ echo "Continue script execution in Wine Removing at $(date)" >> "$LOG_FILE"
 
 log_message "INFO" "Checking for Wine Before Removing"
 printc "YELLOW" "-> Checking for Wine Before Removing..."
-sleep 1
 
 if ! command -v wine &> /dev/null; then
 
@@ -27,7 +26,6 @@ else
 
     log_message "INFO" "Removing Wine Installation"
     printc "YELLOW" "-> Removing Wine Installation..."
-    sleep 1
     sudo apt autoremove winehq-devel --purge -y || handle_error "Failed to Remove Spotify"
 
     echo "Wine Remover Script Execution Completed Successfully at $(date)" >> "$LOG_FILE"

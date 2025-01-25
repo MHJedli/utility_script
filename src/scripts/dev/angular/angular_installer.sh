@@ -12,7 +12,6 @@ install_angular(){
     if whiptail --title "Angular Installer" --yesno "Do you want to install The Latest Version of Angular CLI ?" 8 78; then
         log_message "INFO" "Installing Latest Angular Version"
         printc "YELLOW" "-> Installing Latest Angular Version..."
-        sleep 1
         npm install @angular/cli --location=global || handle_error "Failed to Install Latest Angular Version"
     else
         log_message "INFO" "Displaying Available Angular Versions Menu"
@@ -26,19 +25,16 @@ install_angular(){
             "Angular CLI 18")
                 log_message "INFO" "Installing Angular version 18"
                 printc "YELLOW" "-> Installing Angular version 18..."
-                sleep 1
                 npm install -g @angular/cli@18 || handle_error "Failed to Install Angular version 18"
                 ;;
             "Angular CLI 17")
                 log_message "INFO" "Installing Angular version 17"
                 printc "YELLOW" "-> Installing Angular version 17..."
-                sleep 1
                 npm install -g @angular/cli@17 || handle_error "Failed to Install Angular version 17"
                 ;;
             "Angular CLI 16")
                 log_message "INFO" "Installing Angular version 16"
                 printc "YELLOW" "-> Installing Angular version 16..."
-                sleep 1
                 npm install -g @angular/cli@16 || handle_error "Failed to Install Angular version 16"
                 ;;
             *)
@@ -59,30 +55,25 @@ if check_internet; then
 
     log_message "INFO" "Installing NVM"
     printc "YELLOW" "-> Installing NVM..."
-    sleep 1
     curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash || handle_error "Failed to install NVM"
 
     log_message "INFO" "Activating NVM Environment"
     printc "YELLOW" "-> Activating NVM Environment..."
-    sleep 1
     source $HOME/.bashrc || handle_error "Failed to Activate NVM Environment" 
     source ~/.nvm/nvm.sh || handle_error "Failed to Activate NVM Environment"
     source ~/.profile    || handle_error "Failed to Activate NVM Environment"
 
     log_message "INFO" "Installing Node.js 18 LTS"
     printc "YELLOW" "-> Installing Node.js 18 LTS..."
-    sleep 1
     nvm install 18 || handle_error "Failed to install Node.js 18 LTS"
 
     log_message "INFO" "Checking Installed Node and NPM Versions"
     printc "YELLOW" "-> Checking Installed Node and NPM Versions..."
-    sleep 1
     node -v || handle_error "Failed to Print Installed Node Version"
     npm -v || handle_error "Failed to Print Installed NPM Version"
 
     log_message "INFO" "Installing Angular"
     printc "YELLOW" "-> Installing Angular..."
-    sleep 1
     install_angular
 
     log_message "INFO" "Displaying Angular Version Check Menu"

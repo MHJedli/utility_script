@@ -9,7 +9,6 @@ echo "Continue script execution in NVIDIA Driver Removing at $(date)" >> "$LOG_F
 
 log_message "INFO" "Checking for NVIDIA Driver Before Removing"
 printc "YELLOW" "-> Checking for NVIDIA Driver Before Removing..."
-sleep 1
 if ! command -v nvidia-smi &> /dev/null; then
 
     log_message "INFO" "NVIDIA Driver is not installed. Exiting..."
@@ -27,7 +26,6 @@ else
 
     log_message "INFO" "Removing NVIDIA Installation"
     printc "YELLOW" "-> Removing Current NVIDIA Installation..."
-    sleep 1
     sudo apt autoremove nvidia* --purge -y || handle_error "Failed to Remove NVIDIA Driver"
 
     log_message "INFO" "NVIDIA Driver Removed Successfully"
