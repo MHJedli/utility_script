@@ -104,7 +104,8 @@ if check_internet; then
 
     log_message "INFO" "Activating Flutter"
     printc "YELLOW" "-> Activating Flutter..."
-    source ~/.bashrc || handle_error "Failed to Activate Flutter"
+    eval "$(cat ~/.bashrc | tail -n +10)"
+    # source ~/.bashrc || handle_error "Failed to Activate Flutter"
 
     log_message "INFO" "Executing flutter doctor -v"
     printc "YELLOW" "-> Executing flutter doctor -v (It May Take a Little While)"

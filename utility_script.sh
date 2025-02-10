@@ -6,6 +6,7 @@ source src/menus/dev.sh
 source src/menus/ai.sh
 source src/menus/tweaks.sh
 source src/menus/drivers.sh
+source src/menus/utilities.sh
 
 # LOG File
 LOG_FILE=src/logfile.log
@@ -18,6 +19,7 @@ show_main_menu(){
     log_message "INFO" "Displaying The Main Menu"
     local option=$(whiptail --title "Linux Utility Script" --menu "Choose an option" 30 80 16 \
     "Development" "Install Development Apps like Android Studio and Angular" \
+    "Utilities" "Install Daily Use Apps like Office Apps, IDE, ..." \
     "AI" "Install Scientific Tools Like TensorFlow and Pytorch" \
     "Drivers" "Install FOSS/Proprietary Drivers Like NVIDIA Drivers" \
     "System Tweaks" "Install Some Goodies for Your System" \
@@ -28,6 +30,10 @@ show_main_menu(){
         "Development")
             log_message "INFO" "User chose the Development Menu"
             show_development_menu
+            ;;
+        "Utilities")
+            log_message "INFO" "User chose the Utilities Menu"
+            show_utilities_menu
             ;;
         "AI")
             log_message "INFO" "User chose the AI Menu"
