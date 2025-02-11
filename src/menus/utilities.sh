@@ -2,7 +2,7 @@
 source $(pwd)/src/utils.sh
 
 show_utilities_menu(){
-    log_message "INFO" "Displaying Drivers Menu"
+    log_message "INFO" "Displaying Utilities Menu"
     local option=$(whiptail --title "Utilities Menu" --menu "Choose an option" 30 80 16 \
     "OFFICE" "" \
     "VS Code" "" \
@@ -11,6 +11,10 @@ show_utilities_menu(){
     3>&1 1>&2 2>&3)
 
     case $option in
+        "OFFICE")
+            log_message "INFO" "User chose OFFICE Menu"
+            show_office_menu
+            ;;
         "VS Code")
             log_message "INFO" "User chose VS Code Menu"
             show_vscode_menu
@@ -27,4 +31,30 @@ show_vscode_menu(){
        "${scriptPaths["vscode_installer"]}" \
        "${scriptPaths["vscode_remover"]}" \
        "show_utilities_menu"
+}
+
+show_office_menu(){
+    log_message "INFO" "Displaying Office Menu"
+    local option=$(whiptail --title "OFFICE" --menu "Choose an option" 30 80 16 \
+    "ONLY OFFICE" "" \
+    "<-- Back" "" \
+    3>&1 1>&2 2>&3)
+
+    case $option in
+        "ONLY OFFICE")
+            log_message "INFO" "User chose ONLY OFFICE Menu"
+            show_onlyoffice_menu
+            ;;
+        "<-- Back")
+            log_message "INFO" "User chose to return to Main Menu"
+            show_utilities_menu
+            ;;
+    esac
+}
+
+show_onlyoffice_menu(){
+    options_menu "ONLY OFFICE" \
+        "${scriptPaths["onlyoffice_installer"]}" \
+        "${scriptPaths["onlyoffice_remover"]}" \
+        "show_utilities_menu"
 }

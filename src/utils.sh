@@ -81,6 +81,9 @@ declare -A scriptPaths=(
     # Utilities Scripts
     ["vscode_installer"]="src/scripts/utilities/vscode/vscode_installer.sh"
     ["vscode_remover"]="src/scripts/utilities/vscode/vscode_remover.sh"
+
+    ["onlyoffice_installer"]="src/scripts/utilities/office/only_office/only_office_installer.sh"
+    ["onlyoffice_remover"]="src/scripts/utilities/office/only_office/only_office_remover.sh"
 )
 
 # Function that log every step taken for easier debugging
