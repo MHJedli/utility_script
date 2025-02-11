@@ -12,7 +12,7 @@ printc "YELLOW" "Assuming the CUDA Toolkit is Installed in the default path (/us
 
 log_message "INFO" "Printing Available CUDA Versions"
 printc "CYAN" "-> Available CUDA Version : (IGNORE the \"cuda\" option)"
-ls /usr/local | grep "cuda-*"
+ls /usr/local | grep "cuda-*" || handle_error "No Available CUDA Installation Found in /usr/local/ !"
 
 echo -n "Choose from the available option : "
 read version
