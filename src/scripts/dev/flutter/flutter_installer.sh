@@ -105,7 +105,6 @@ if check_internet; then
     log_message "INFO" "Activating Flutter"
     printc "YELLOW" "-> Activating Flutter..."
     eval "$(cat ~/.bashrc | tail -n +10)"
-    # source ~/.bashrc || handle_error "Failed to Activate Flutter"
 
     log_message "INFO" "Executing flutter doctor -v"
     printc "YELLOW" "-> Executing flutter doctor -v (It May Take a Little While)"
@@ -114,7 +113,8 @@ if check_internet; then
     read
 
     echo "Flutter SDK Installer Script Completed Successfully at $(date)" >> "$LOG_FILE"
-    print_msgbox "Success !" "lutter SDK Installer Script Completed Successfully"
+    print_msgbox "Success !" "Flutter SDK Installer Script Completed Successfully"
+    exec bash
 
 else
 
