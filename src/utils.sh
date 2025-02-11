@@ -28,12 +28,14 @@ printc(){
 
     echo -e "${color}$2${RESET}"
 }
+
 print_msgbox(){
     local title=$1
     local msg=$2
     whiptail --title "$title" --msgbox \
     "$msg" \ 10 80
 }
+
 # Script Paths
 declare -A scriptPaths=(
 
@@ -75,6 +77,10 @@ declare -A scriptPaths=(
 
     ["wine_installer"]="src/scripts/tweaks/wine/wine_installer.sh"
     ["wine_remover"]="src/scripts/tweaks/wine/wine_remover.sh"
+
+    # Utilities Scripts
+    ["vscode_installer"]="src/scripts/utilities/vscode/vscode_installer.sh"
+    ["vscode_remover"]="src/scripts/utilities/vscode/vscode_remover.sh"
 )
 
 # Function that log every step taken for easier debugging
