@@ -10,7 +10,7 @@ echo "Continue script execution in Pycharm Community Removal at $(date)" >> "$LO
 log_message "INFO" "Checking for Pycharm Community Before Removing"
 printc "YELLOW" "-> Checking for Pycharm Community Before Removing..."
 
-if ! command -v pycharm-community &> /dev/null; then
+if ! command -v pycharm &> /dev/null; then
 
     log_message "INFO" "Pycharm Community is not installed. Exiting..."
     printc "RED" "Pycharm Community is not installed !"
