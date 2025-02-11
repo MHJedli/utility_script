@@ -16,8 +16,10 @@ echo "Starting Utility Script GUI Execution at $(date)" > "$LOG_FILE"
 
 # Show Main Menu
 show_main_menu(){
+    local distro_name=$(grep ^PRETTY_NAME= /etc/os-release | cut -d= -f2 | tr -d '"')
+    local system_arch=$(uname -m)
     log_message "INFO" "Displaying The Main Menu"
-    local option=$(whiptail --title "Linux Utility Script" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "Linux Utility Script" --menu "Choose an option\n(Currently using : ${distro_name} - ${system_arch})" 30 80 16 \
     "Development" "Install Development Apps like Android Studio and Angular" \
     "Utilities" "Install Daily Use Apps like Office Apps, IDE, ..." \
     "AI" "Install Scientific Tools Like TensorFlow and Pytorch" \
