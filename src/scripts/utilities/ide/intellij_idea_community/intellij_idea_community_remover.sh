@@ -10,7 +10,7 @@ echo "Continue script execution in IntelliJ IDEA Community Removal at $(date)" >
 log_message "INFO" "Checking for IntelliJ IDEA Community Before Removing"
 printc "YELLOW" "-> Checking for IntelliJ IDEA Community Before Removing..."
 
-if ! command -v intellij-idea-community &> /dev/null; then
+if ! command -v idea-community &> /dev/null; then
 
     log_message "INFO" "IntelliJ IDEA Community is not installed. Exiting..."
     printc "RED" "IntelliJ IDEA Community is not installed !"
