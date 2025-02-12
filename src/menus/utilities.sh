@@ -72,6 +72,7 @@ show_office_menu(){
     log_message "INFO" "Displaying Office Menu"
     local option=$(whiptail --title "OFFICE" --menu "Choose an option" 30 80 16 \
     "ONLY OFFICE" "" \
+    "Libre Office" "" \
     "<-- Back" "" \
     3>&1 1>&2 2>&3)
 
@@ -79,6 +80,10 @@ show_office_menu(){
         "ONLY OFFICE")
             log_message "INFO" "User chose ONLY OFFICE Menu"
             show_onlyoffice_menu
+            ;;
+        "Libre Office")
+            log_message "INFO" "User chose Libre Office Menu"
+            show_libre_office_menu
             ;;
         "<-- Back")
             log_message "INFO" "User chose to return to Main Menu"
@@ -91,6 +96,13 @@ show_onlyoffice_menu(){
     options_menu "ONLY OFFICE" \
         "${scriptPaths["onlyoffice_installer"]}" \
         "${scriptPaths["onlyoffice_remover"]}" \
+        "show_utilities_menu"
+}
+
+show_libre_office_menu(){
+    options_menu "Libre Office" \
+        "${scriptPaths["libre_office_installer"]}" \
+        "${scriptPaths["libre_office_remover"]}" \
         "show_utilities_menu"
 }
 

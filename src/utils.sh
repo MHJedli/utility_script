@@ -91,6 +91,10 @@ declare -A scriptPaths=(
 
     ["pycharm_community_installer"]="${WORK_DIR}/src/scripts/utilities/ide/pycharm_community/pycharm_community_installer.sh"
     ["pycharm_community_remover"]="${WORK_DIR}/src/scripts/utilities/ide/pycharm_community/pycharm_community_remover.sh"
+
+    ["libre_office_installer"]="${WORK_DIR}/src/scripts/utilities/office/libre_office/libre_office_installer.sh"
+    ["libre_office_remover"]="${WORK_DIR}/src/scripts/utilities/office/libre_office/libre_office_remover.sh"
+
 )
 
 # Function that log every step taken for easier debugging
