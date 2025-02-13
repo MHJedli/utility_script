@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+# Define Distribution Variables : 
+DISTRIBUTION=$(grep ^ID= /etc/os-release | cut -d= -f2 | tr -d '"')
+DISTRIBUTION_NAME=$(grep ^PRETTY_NAME= /etc/os-release | cut -d= -f2 | tr -d '"')
+UBUNTU_BASE=$(grep ^ID_LIKE= /etc/os-release | cut -d= -f2 | tr -d '"' | grep "ubuntu")
+FEDORA_BASE=$(grep ^ID_LIKE= /etc/os-release | cut -d= -f2 | tr -d '"' | grep "fedora")
+
+
 # Define Color Variables
 # Usage : 
 # echo -e "${<COLOR_TO_USE>}<MESSAGE TO PRINT>${RESET}"
