@@ -77,6 +77,9 @@ chooseMenu(){
     esac
 }
 
+# Begin Script
+
+printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
 log_message "INFO" "Checking for Internet Connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
 if check_internet; then
@@ -86,8 +89,12 @@ if check_internet; then
 
     log_message "INFO" "Refreshing Package Cache"
     printc "YELLOW" "-> Refreshing Package Cache..."
-    sudo apt update || handle_error "Failed to Refresh Package Cache"
-
+    if [[ "$DISTRIBUTION" == "ubuntu" || -n $UBUNTU_BASE ]]; then
+        sudo apt update || handle_error "Failed to Refresh Package Cache"
+    elif [[ "$DISTRIBUTION" == "fedora" || -n $FEDORA_BASE ]]; then
+        sudo dnf check-update || handle_error "Failed to Refresh Package Cache"
+    fi
+    
     chooseMenu
 
     echo "Conda Script Completed Successfully at $(date)" >> "$LOG_FILE"
@@ -99,3 +106,4 @@ else
 
 fi
 
+# End Script
