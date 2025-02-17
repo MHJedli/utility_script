@@ -69,7 +69,9 @@ install_flutter(){
     fi
 }
 
-log_message "INFO" "Checking for Internet Connection"
+# Begin Flutter SDK Installation
+printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
+log_message "INFO" "Checking for Internet connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
 
 if check_internet; then
@@ -77,17 +79,31 @@ if check_internet; then
     log_message "INFO" "Internet Connection Detected. Proceeding with Flutter SDK Installation"
     printc "GREEN" "-> Internet Connection Detected. Proceeding with Flutter SDK Installation..."
 
-    log_message "INFO" "Refreshing Package Cache"
-    printc "YELLOW" "-> Refreshing Package Cache..."
-    sudo apt update || handle_error "Failed to Refresh Package Cache"
+    if [[ "$DISTRIBUTION" == "ubuntu" || -n $UBUNTU_BASE ]]; then
 
-    log_message "INFO" "Updating System Packages"
-    printc "YELLOW" "-> Updating System Packages..."
-    sudo apt upgrade -y || handle_error "Failed to Update System Packages"
+        log_message "INFO" "Refreshing Package Cache"
+        printc "YELLOW" "-> Refreshing Package Cache..."
+        sudo apt update || handle_error "Failed to Refresh Package Cache"
 
-    log_message "INFO" "Installing the following packages: curl, git, unzip, xz-utils, zip, libglu1-mesa"
-    printc "YELLOW" "-> Installing the following packages: curl, git, unzip, xz-utils, zip, libglu1-mesa..."
-    sudo apt install -y curl git unzip xz-utils zip libglu1-mesa jq || handle_error "Failed to Install Required Packages"
+        log_message "INFO" "Updating System Packages"
+        printc "YELLOW" "-> Updating System Packages..."
+        sudo apt upgrade -y || handle_error "Failed to Update System Packages"
+        
+        log_message "INFO" "Installing the following packages: curl, git, unzip, xz-utils, zip, libglu1-mesa"
+        printc "YELLOW" "-> Installing the following packages: curl, git, unzip, xz-utils, zip, libglu1-mesa..."
+        sudo apt install -y curl git unzip xz-utils zip libglu1-mesa jq || handle_error "Failed to Install Required Packages"
+
+    elif [[ "$DISTRIBUTION" == "fedora" || -n $FEDORA_BASE ]]; then
+
+        log_message "INFO" "Updating System Packages"
+        printc "YELLOW" "-> Updating System Packages..."
+        sudo dnf upgrade -y || handle_error "Failed to Update System Packages"
+        
+        log_message "INFO" "Installing the following packages: curl, git, unzip, xz, zip"
+        printc "YELLOW" "-> Installing the following packages: curl, git, unzip, xz, zip..."
+        sudo dnf install -y curl git unzip xz zip jq || handle_error "Failed to Install Required Packages"
+        
+    fi
 
     log_message "INFO" "Fetching Available Flutter SDK from Servers"
     printc "YELLOW" "-> Fetching Available Flutter SDK from Servers..."
@@ -102,16 +118,6 @@ if check_internet; then
     printc "YELLOW" "-> Adding Flutter to PATH (bash)..."
     echo 'export PATH="$HOME/flutter/bin:$PATH"' >> ~/.bashrc || handle_error "Failed to Add Flutter to PATH (bash)"
 
-    log_message "INFO" "Activating Flutter"
-    printc "YELLOW" "-> Activating Flutter..."
-    eval "$(cat ~/.bashrc | tail -n +10)"
-
-    log_message "INFO" "Executing flutter doctor -v"
-    printc "YELLOW" "-> Executing flutter doctor -v (It May Take a Little While)"
-    flutter doctor -v || handle_error "Failed to Execute flutter doctor -v"
-    echo -n "Press [ENTER] to Continue..."
-    read
-
     echo "Flutter SDK Installer Script Completed Successfully at $(date)" >> "$LOG_FILE"
     print_msgbox "Success !" "Flutter SDK Installer Script Completed Successfully"
     exec bash
@@ -121,3 +127,4 @@ else
     handle_error "No Internet Connection Available, Exiting..."
 
 fi
+# End Flutter SDK Installation
