@@ -2,7 +2,9 @@
 
 source $(pwd)/src/utils.sh
 LOG_FILE=$(pwd)/src/logfile.log
-
+echo "Continue script execution in NVIDIA Driver Installation at $(date)" >> "$LOG_FILE"
+trap 'handle_error "An unexpected error occurred."' ERR
+clear
 download_and_install(){
     local driver_version=$1
     log_message "INFO" "Installing NVIDIA Driver Version ${driver_version}"
@@ -75,21 +77,11 @@ install_driver(){
 
 }
 
-trap 'handle_error "An unexpected error occurred."' ERR
-
-clear
-
-echo "Continue script execution in NVIDIA Driver Installation at $(date)" >> "$LOG_FILE"
-printc "CYAN" "NOTE : This Script Will Install Nvidia Driver Using 'graphics-drivers/ppa' Method"
-echo -n "Press [ENTER] To Continue..."
-read
-
-printc "YELLOW" "-> Checking for Internet Connection..."
-if check_internet; then
-
-    log_message "INFO" "Internet Connection Detected. Proceeding with NVIDIA Driver Installation"
-    printc "GREEN" "-> Internet Connection Detected. Proceeding with NVIDIA Driver Installation"
-
+install_nvidia_driver_for_ubuntu_or_based(){
+    printc "CYAN" "NOTE : This Script Will Install Nvidia Driver Using 'graphics-drivers/ppa' Method"
+    echo -n "Press [ENTER] To Continue..."
+    read
+    
     log_message "INFO" "Purging Current NVIDIA Installation if Existed"
     printc "YELLOW" "-> Purging Current NVIDIA Installation if Existed..."
     sudo apt autoremove nvidia* --purge -y || handle_error "Failed to Purge NVIDIA"
@@ -117,6 +109,47 @@ if check_internet; then
     log_message "INFO" "Installing NVIDIA Driver"
     printc "YELLOW" "-> Installing NVIDIA Driver..."
     install_driver
+}
+
+install_nvidia_driver_for_fedora_or_based(){
+    log_message "INFO" "Purging Current NVIDIA Installation if Existed"
+    printc "YELLOW" "-> Purging Current NVIDIA Installation if Existed..."
+    sudo dnf remove nvidia* --allowerasing -y || handle_error "Failed to Purge NVIDIA"
+
+    log_message "INFO" "Refreshing Package Cache"
+    printc "YELLOW" "-> Refreshing Package Cache..."
+    sudo dnf update -y || handle_error "Failed to Refresh Package Cache"
+
+    log_message "INFO" "Enabling RPM Fusion Repository"
+    printc "YELLOW" "-> Enabling RPM Fusion Repository..."
+    sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm -y || handle_error "Failed to Enable RPM Fusion Repository"
+    sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y || handle_error "Failed to Enable RPM Fusion Repository"
+
+    log_message "INFO" "Installing NVIDIA Driver"
+    printc "YELLOW" "-> Installing NVIDIA Driver..."
+    sudo dnf install akmod-nvidia -y || handle_error "Failed to Install NVIDIA Driver"
+
+    log_message "INFO" "Installing nvidia-smi"
+    printc "YELLOW" "-> Installing nvidia-smi..."
+    sudo dnf install xorg-x11-drv-nvidia-cuda -y || handle_error "Failed to Install nvidia-smi" || handle_error "Failed to Install nvidia-smi"
+}
+
+
+# Start NVIDIA Driver Installation
+printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
+printc "YELLOW" "-> Checking for Internet Connection..."
+if check_internet; then
+
+    log_message "INFO" "Internet Connection Detected. Proceeding with NVIDIA Driver Installation"
+    printc "GREEN" "-> Internet Connection Detected. Proceeding with NVIDIA Driver Installation"
+
+    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
+        install_nvidia_driver_for_ubuntu_or_based
+    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASE" ]]; then 
+        install_nvidia_driver_for_fedora_or_based
+    else 
+        handle_error "Unsupported Distribution: $DISTRIBUTION"
+    fi
 
     log_message "INFO" "NVIDIA Driver Installation Completed Successfully"
     if whiptail --title "NVIDIA Driver Installed" --yesno "Do you Want to reboot now ?" 8 78; then
@@ -124,10 +157,9 @@ if check_internet; then
         reboot
     fi
 
-    show_drivers_menu
-
 else 
 
     handle_error "No Connection Available ! Exiting..."
 
-fi 
+fi
+# End NVIDIA Driver Installation

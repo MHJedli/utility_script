@@ -7,6 +7,19 @@ trap 'handle_error "An unexpected error occurred."' ERR
 clear
 echo "Continue script execution in NVIDIA Driver Removing at $(date)" >> "$LOG_FILE"
 
+remove_for_ubuntu_or_based(){
+    log_message "INFO" "Removing NVIDIA Driver"
+    printc "YELLOW" "-> Removing NVIDIA Driver..."
+    sudo apt autoremove nvidia* --purge -y || handle_error "Failed to Remove NVIDIA Driver"
+}
+
+remove_for_fedora_or_based(){
+    log_message "INFO" "Removing NVIDIA Driver"
+    printc "YELLOW" "-> Removing NVIDIA Driver..."
+    sudo dnf remove nvidia* --purge -y || handle_error "Failed to Remove NVIDIA Driver"
+}
+
+# Begin NVIDIA Driver Removal
 log_message "INFO" "Checking for NVIDIA Driver Before Removing"
 printc "YELLOW" "-> Checking for NVIDIA Driver Before Removing..."
 if ! command -v nvidia-smi &> /dev/null; then
@@ -24,9 +37,15 @@ else
     echo -n "Press [ENTER] To Continue..."
     read
 
-    log_message "INFO" "Removing NVIDIA Installation"
-    printc "YELLOW" "-> Removing Current NVIDIA Installation..."
-    sudo apt autoremove nvidia* --purge -y || handle_error "Failed to Remove NVIDIA Driver"
+    log_message "INFO" "Removing NVIDIA Driver for ${DISTRIBUTION_NAME}"
+    printc "YELLOW" "-> Removing NVIDIA Driver for ${DISTRIBUTION_NAME}..."
+    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
+        remove_for_ubuntu_or_based
+    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASE" ]]; then
+        remove_for_fedora_or_based
+    else
+        handle_error "Unsupported distribution: ${DISTRIBUTION}"
+    fi
 
     log_message "INFO" "NVIDIA Driver Removed Successfully"
     echo -n -e "${GREEN}NVIDIA Driver Removed Successfully.${RESET} Want to reboot now (Y/n) : "
@@ -41,3 +60,4 @@ else
     fi
 
 fi
+# End NVIDIA Driver Removal
