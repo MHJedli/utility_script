@@ -60,4 +60,9 @@ show_main_menu(){
     esac
 }
 
+# Begin Utility Script
+log_message "INFO" "Checking for Required Packages : whiptail"
+printc "YELLOW" "-> Checking for Required Packages : whiptail..."
+verify_packages "whiptail"
 show_main_menu
+# End Utility Script
