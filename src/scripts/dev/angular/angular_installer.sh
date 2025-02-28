@@ -12,7 +12,15 @@ install_angular(){
     if whiptail --title "Angular Installer" --yesno "Do you want to install The Latest Version of Angular CLI ?" 8 78; then
         log_message "INFO" "Installing Latest Angular Version"
         printc "YELLOW" "-> Installing Latest Angular Version..."
-        npm install @angular/cli --location=global || handle_error "Failed to Install Latest Angular Version"
+        if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
+
+            npm install @angular/cli --location=global || handle_error "Failed to Install Latest Angular Version"
+
+        elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASE" ]]; then
+
+            sudo npm install @angular/cli --location=global || handle_error "Failed to Install Latest Angular Version"
+
+        fi
     else
         log_message "INFO" "Displaying Available Angular Versions Menu"
         local option=$(whiptail --title "Angular Installer" --menu "Choose a Version to Install" 30 80 3 \
@@ -20,38 +28,54 @@ install_angular(){
         "Angular CLI 17" "" \
         "Angular CLI 16" "" \
         3>&1 1>&2 2>&3)
+        if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
+            case $option in
+                "Angular CLI 18")
+                    log_message "INFO" "Installing Angular version 18"
+                    printc "YELLOW" "-> Installing Angular version 18..."
+                    npm install -g @angular/cli@18 || handle_error "Failed to Install Angular version 18"
+                    ;;
+                "Angular CLI 17")
+                    log_message "INFO" "Installing Angular version 17"
+                    printc "YELLOW" "-> Installing Angular version 17..."
+                    npm install -g @angular/cli@17 || handle_error "Failed to Install Angular version 17"
+                    ;;
+                "Angular CLI 16")
+                    log_message "INFO" "Installing Angular version 16"
+                    printc "YELLOW" "-> Installing Angular version 16..."
+                    npm install -g @angular/cli@16 || handle_error "Failed to Install Angular version 16"
+                    ;;
+                *)
+                    handle_error "User chose to Exit Script"
+                    ;;
+            esac        
+        elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASE" ]]; then
+            case $option in
+                "Angular CLI 18")
+                    log_message "INFO" "Installing Angular version 18"
+                    printc "YELLOW" "-> Installing Angular version 18..."
+                    sudo npm install -g @angular/cli@18 || handle_error "Failed to Install Angular version 18"
+                    ;;
+                "Angular CLI 17")
+                    log_message "INFO" "Installing Angular version 17"
+                    printc "YELLOW" "-> Installing Angular version 17..."
+                    sudo npm install -g @angular/cli@17 || handle_error "Failed to Install Angular version 17"
+                    ;;
+                "Angular CLI 16")
+                    log_message "INFO" "Installing Angular version 16"
+                    printc "YELLOW" "-> Installing Angular version 16..."
+                    sudo npm install -g @angular/cli@16 || handle_error "Failed to Install Angular version 16"
+                    ;;
+                *)
+                    handle_error "User chose to Exit Script"
+                    ;;
+            esac        
+        fi
 
-        case $option in
-            "Angular CLI 18")
-                log_message "INFO" "Installing Angular version 18"
-                printc "YELLOW" "-> Installing Angular version 18..."
-                npm install -g @angular/cli@18 || handle_error "Failed to Install Angular version 18"
-                ;;
-            "Angular CLI 17")
-                log_message "INFO" "Installing Angular version 17"
-                printc "YELLOW" "-> Installing Angular version 17..."
-                npm install -g @angular/cli@17 || handle_error "Failed to Install Angular version 17"
-                ;;
-            "Angular CLI 16")
-                log_message "INFO" "Installing Angular version 16"
-                printc "YELLOW" "-> Installing Angular version 16..."
-                npm install -g @angular/cli@16 || handle_error "Failed to Install Angular version 16"
-                ;;
-            *)
-                handle_error "User chose to Exit Script"
-                ;;
-        esac
     fi
 }
 
-log_message "INFO" "Checking for Internet Connection"
-printc "YELLOW" "-> Checking for Internet Connection..."
-sleep 1
-
-if check_internet; then
-
-    log_message "INFO" "Internet Connection Detected. Proceeding with Angular Installation"
-    printc "GREEN" "-> Internet Connection Detected. Proceeding with Angular Installation..."
+install_packages_for_ubuntu_or_based(){
 
     log_message "INFO" "Installing NVM"
     printc "YELLOW" "-> Installing NVM..."
@@ -61,11 +85,41 @@ if check_internet; then
     printc "YELLOW" "-> Activating NVM Environment..."
     source $HOME/.bashrc || handle_error "Failed to Activate NVM Environment" 
     source ~/.nvm/nvm.sh || handle_error "Failed to Activate NVM Environment"
-    source ~/.profile    || handle_error "Failed to Activate NVM Environment"
+    source ~/.profile    
 
     log_message "INFO" "Installing Node.js 18 LTS"
     printc "YELLOW" "-> Installing Node.js 18 LTS..."
     nvm install 18 || handle_error "Failed to install Node.js 18 LTS"
+
+    log_message "INFO" "Checking Installed Node and NPM Versions"
+    printc "YELLOW" "-> Checking Installed Node and NPM Versions..."
+    node -v || handle_error "Failed to Print Installed Node Version"
+    npm -v || handle_error "Failed to Print Installed NPM Version"
+}
+
+install_packages_for_fedora_or_based(){
+
+    log_message "INFO" "Installing NodeJS and npm"
+    printc "YELLOW" "-> Installing NodeJS and npm..."
+    sudo dnf install nodejs22 npm -y
+}
+
+# Begin Angular Installation
+printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
+log_message "INFO" "Checking for Internet Connection"
+printc "YELLOW" "-> Checking for Internet Connection..."
+sleep 1
+
+if check_internet; then
+
+    log_message "INFO" "Internet Connection Detected. Proceeding with Angular Installation"
+    printc "GREEN" "-> Internet Connection Detected. Proceeding with Angular Installation..."
+
+    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
+        install_packages_for_ubuntu_or_based
+    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASE" ]]; then
+        install_packages_for_fedora_or_based
+    fi
 
     log_message "INFO" "Checking Installed Node and NPM Versions"
     printc "YELLOW" "-> Checking Installed Node and NPM Versions..."
@@ -84,13 +138,10 @@ if check_internet; then
 
     echo "Script Execution in Angular Installation Ended Successfully at $(date)" >> "$LOG_FILE"
     print_msgbox "Success !" "Angular Installed Successfully"
-    show_development_menu
 
 else
 
     handle_error "No Internet Connection Available, Exiting..."
 
 fi
-
-
-
+# End Angular Installation
