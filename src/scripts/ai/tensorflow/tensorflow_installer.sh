@@ -55,14 +55,14 @@ dry_run_check(){
     printc "YELLOW" "2. Checking for CUDA Toolkit and NVIDIA Drivers..."
 	sleep 1
     log_message "INFO" "Verify NVIDIA Driver and CUDA Presence ?"
-    if whiptail --title "NVIDIA Driver and CUDA Check" --yesno "Do you plan to install Pytorch with CUDA Support? [REQUIRES NVIDIA GPU]" 8 78; then
+    if whiptail --title "NVIDIA Driver and CUDA Check" --yesno "Do you plan to install Tensorflow with CUDA Support? [REQUIRES NVIDIA GPU]" 8 78; then
             log_message "INFO" "2.1. Checking for NVIDIA Drivers"
             printc "YELLOW" "2.1. Checking for NVIDIA Drivers..."
 			sleep 1
             if ! command -v nvidia-smi &> /dev/null; then
 
-                log_message "WARN" "NVIDIA Driver NOT found, Install ?"
-                if whiptail --title "NVIDIA Driver NOT FOUND !" --yesno "Do you Want to Install it ?" 8 78; then
+                log_message "WARN" "NVIDIA Driver NOT found, Install?"
+                if whiptail --title "NVIDIA Driver NOT FOUND!" --yesno "Do you want to install it?" 8 78; then
 					log_message "INFO" "Proceeding with the Installation of NVIDIA"
                     printc "CYAN" "Proceeding with the Installation of NVIDIA..."
                     bash "${scriptPaths["nvidia_driver_installer"]}"
