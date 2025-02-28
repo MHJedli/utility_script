@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Define Working Directory Path : 
+WORK_DIR=$(pwd)
+
 # Define Distribution Variables : 
 DISTRIBUTION=$(grep ^ID= /etc/os-release | cut -d= -f2 | tr -d '"')
 DISTRIBUTION_NAME=$(grep ^PRETTY_NAME= /etc/os-release | cut -d= -f2 | tr -d '"')
@@ -7,7 +10,7 @@ UBUNTU_BASE=$(grep ^ID_LIKE= /etc/os-release | cut -d= -f2 | tr -d '"' | grep "u
 FEDORA_BASE=$(grep ^ID_LIKE= /etc/os-release | cut -d= -f2 | tr -d '"' | grep "fedora")
 
 
-# Define Color Variables
+# Define Color Variables :
 # Usage : 
 # echo -e "${<COLOR_TO_USE>}<MESSAGE TO PRINT>${RESET}"
 RED='\e[31m'
@@ -36,6 +39,7 @@ printc(){
     echo -e "${color}$2${RESET}"
 }
 
+# Function that prints a message box
 print_msgbox(){
     local title=$1
     local msg=$2
@@ -43,7 +47,7 @@ print_msgbox(){
     "$msg" \ 10 80
 }
 
-WORK_DIR=$(pwd)
+
 # Script Paths
 declare -A scriptPaths=(
 
@@ -138,40 +142,37 @@ handle_error() {
     exit $exit_status
 }
 
-# invalidOption print Function
-invalid_option() {
-    printc "RED" "No Option Selected !"
-    echo "Press Enter To Continue ..."
-    read
-    if [ $# -gt 0 ]; then
-        "$1"
+# Function that install required packages depending on the distribution
+install_package(){
+    local package=$1
+    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
+        sudo apt install -y "$package" || handle_error "Failed to Install Required Package ${package}"
+    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASE" ]]; then
+        sudo dnf install -y "$package" || handle_error "Failed to Install Required Package ${package}"
     fi
+}
+
+# Function that verify if the required packages are installed
+verify_packages() {
+    local packages=("$@")
+    log_message "INFO" "Verifying Required Packages"
+    printc "YELLOW" "-> Verifying Required Packages..."
+    for package in "${packages[@]}"; do
+        if ! command -v "$package" &> /dev/null; then
+            log_message "INFO" "Package ${package} is not installed !, Installing it..."
+            printc "RED" "Package ${package} is not installed !, Installing it..."
+            install_package "$package"
+        else
+            log_message "INFO" "Package ${package} is already installed"
+            printc "GREEN" "Package ${package} is already installed."
+        fi
+    done
 }
 
 # Function to check internet connectivity
 check_internet() {
     ping -c 1 -q google.com >&/dev/null
     return $?
-}
-
-# Function that prints the Menu of different versions of a selected distro
-# Parameters : 
-# $1 : Menu Title
-# $@ : Menu Options
-# Example : 
-# showMenu "Title" "Option 1" "Option 2" ...
-show_menu() {
-    local title="$1"
-    shift
-    clear
-    echo "--------------------------------------"
-    echo " $title "
-    echo "--------------------------------------"
-    local index=1
-    for option in "$@"; do
-        echo "${index}. ${option}"
-        ((index++))
-    done
 }
 
 # Function that prints the menu of a selected option
