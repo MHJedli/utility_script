@@ -1,6 +1,6 @@
 # My Utility Script :
 *  A TUI script that helps you install development tools depending on your use case.
-*  This script is meant for ubuntu or ubuntu-based users (Maybe port for other distros)
+*  This script is meant for Ubuntu or Ubuntu-based and Fedora or Fedora-based users.
 <br><br>
 *  Current Script Directory Structure :
 ```
@@ -81,6 +81,16 @@ scripts
             ├── vscode_installer
             └── vscode_remover
 ```
+>[!note]
+> Current available scripts for Fedora or Fedora-Based Distributions :
+> - AI Scripts
+> - Drivers Scripts
+> - Angular
+> - Oracle VM
+> - Flutter
+> - Docker
+> - VS Code
+
 <br>
 *  Screenshots of the script :
 <br><br>
