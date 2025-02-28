@@ -48,18 +48,38 @@ scripts
 │    └── nvidia
 |          ├── nvidia_driver_installer
 |          └── nvidia_driver_remover
-└── tweaks 
-     ├── keyboard_rgb_fix
-     |     ├── keyboard_rgb_fix_installer
-     |     └── keyboard_rgb_fix_remover
-     ├── spotify
-     |     ├── spotify_installer
-     |     └── spotify_remover
-     ├── pipewire
-     |     └── pipewire_installer
-     └── wine
-           ├── wine_installer
-           └── wine_remover
+├── tweaks 
+|    ├── keyboard_rgb_fix
+|    |     ├── keyboard_rgb_fix_installer
+|    |     └── keyboard_rgb_fix_remover
+|    ├── spotify
+|    |     ├── spotify_installer
+|    |     └── spotify_remover
+|    ├── pipewire
+|    |     └── pipewire_installer
+|    └── wine
+|          ├── wine_installer
+|          └── wine_remover
+└── utilities
+     ├── ide
+     |     ├── intellij_idea_community
+     |     |      ├── intellij_idea_community_installer
+     |     |      └── intellij_idea_community_remover
+     |     └── pycharm_community
+     |            ├── pycharm_community_installer
+     |            └── pycharm_community_remover
+     |
+     ├── office
+     |     ├── libre_office
+     |     |      ├── libre_office_installer
+     |     |      └── libre_office_remover
+     |     └── only_office
+     |            ├── only_office_installer
+     |            └── only_office_remover
+     |
+     └── vscode
+            ├── vscode_installer
+            └── vscode_remover
 ```
 <br>
 *  Screenshots of the script :
