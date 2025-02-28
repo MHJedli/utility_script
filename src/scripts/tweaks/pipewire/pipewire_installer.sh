@@ -7,11 +7,7 @@ trap 'handle_error "An unexpected error occurred."' ERR
 clear
 echo "Continue script execution in PipeWire Installation at $(date)" >> "$LOG_FILE"
 
-printc "YELLOW" "-> Checking for Internet Connection..."
-if check_internet; then
-
-    log_message "INFO" "Internet Connection Detected. Proceeding with Pipewire Installation"
-    printc "GREEN" "-> Internet Connection Detected. Proceeding with Pipewire Installation"
+install_for_ubuntu_or_based(){
 
     log_message "INFO" "Installing WirePlumber as the session manager"
     printc "YELLOW" "-> Install WirePlumber as the session manager..."
@@ -28,11 +24,31 @@ if check_internet; then
     log_message "INFO" "Installing codecs and remove Bluetooth from PulseAudio, so it would be handled directly by PipeWire"
     printc "YELLOW" "-> Installing codecs and remove Bluetooth from PulseAudio, so it would be handled directly by PipeWire..."
     sudo apt install -y libldacbt-{abr,enc}2 libspa-0.2-bluetooth pulseaudio-module-bluetooth- || handle_error "Failed to Install codecs"
+}
 
-    log_message "INFO" "Pipewire Sound Sytem Installation Completed Successfully"
-    echo "To verify If Pipewire is installed, execute the following command in the Terminal after rebooting :"
+install_for_fedora_or_based(){
+
+}
+
+printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
+printc "YELLOW" "-> Checking for Internet Connection..."
+if check_internet; then
+
+    log_message "INFO" "Internet Connection Detected. Proceeding with Pipewire Installation"
+    printc "GREEN" "-> Internet Connection Detected. Proceeding with Pipewire Installation"
+
+    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASED" ]]; then
+        install_for_ubuntu_or_based
+    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASED" ]]; then
+        install_for_fedora_or_based
+    else
+        handle_error "Unsupported OS. Exiting..."
+    fi
+
+    log_message "INFO" "Pipewire Sound System Installation Completed Successfully"
+    echo "To verify if Pipewire is installed, execute the following command in the Terminal after rebooting :"
     printc "CYAN" "LANG=C pactl info | grep '^Server Name'"
-    echo -n -e "${GREEN}Pipewire Sound Sytem Installation Completed Successfully.${RESET} Want to reboot now (Y/n) : "
+    echo -n -e "${GREEN}Pipewire Sound System Installation Completed Successfully.${RESET} Want to reboot now (Y/n) : "
     read a
     if [[ "$a" == "Y" || "$a" == "y" || "$a" == "" ]]; then
         echo "Reboot in 3 seconds..."

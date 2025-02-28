@@ -7,13 +7,7 @@ trap 'handle_error "An unexpected error occurred."' ERR
 clear
 echo "Continue script execution in Pycharm Community Installation at $(date)" >> "$LOG_FILE"
 
-log_message "INFO" "Checking for Internet Connection"
-printc "YELLOW" "-> Checking for Internet Connection..."
-
-if check_internet; then
-
-    log_message "INFO" "Internet Connection Detected. Proceeding with Pycharm Community Installation"
-    printc "GREEN" "-> Internet Connection Detected. Proceeding with Pycharm Community Installation..."
+install_for_ubuntu_or_based(){
 
     log_message "INFO" "Refreshing Package Cache"
     printc "YELLOW" "-> Refreshing Package Cache..."
@@ -34,6 +28,28 @@ if check_internet; then
     log_message "INFO" "Installing Pycharm Community"
     printc "YELLOW" "-> Installing Pycharm Community..."
     sudo apt install pycharm-community -y || handle_error "Failed to Install Pycharm Community"
+}
+
+install_for_fedora_or_based(){
+
+}
+
+printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
+log_message "INFO" "Checking for Internet Connection"
+printc "YELLOW" "-> Checking for Internet Connection..."
+
+if check_internet; then
+
+    log_message "INFO" "Internet Connection Detected. Proceeding with Pycharm Community Installation"
+    printc "GREEN" "-> Internet Connection Detected. Proceeding with Pycharm Community Installation..."
+
+    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASED" ]]; then
+        install_for_ubuntu_or_based
+    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASED" ]]; then
+        install_for_fedora_or_based
+    else
+        handle_error "Unsupported OS : ${DISTRIBUTION_NAME}. Exiting..."
+    fi
 
     echo "Pycharm Community Installer Script Completed Successfully at $(date)" >> "$LOG_FILE"
     print_msgbox "Success !" "Pycharm Community Installed Successfully"

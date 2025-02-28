@@ -2,18 +2,11 @@
 
 source $(pwd)/src/utils.sh
 LOG_FILE=$(pwd)/src/logfile.log
-
+echo "Continue script execution in Android Studio Installation at $(date)" >> "$LOG_FILE"
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
-echo "Continue script execution in Android Studio Installation at $(date)" >> "$LOG_FILE"
 
-printc "YELLOW" "-> Checking for Internet Connection..."
-
-if check_internet; then
-
-    log_message "INFO" "Internet Connection Detected. Proceeding with Android Studio Installation"
-    printc "GREEN" "-> Internet Connection Detected. Proceeding with Android Studio Installation..."
-
+install_android_studio_for_ubuntu_or_based(){
     log_message "INFO" "Refreshing Package Cache"
     printc "YELLOW" "-> Refreshing Package Cache..."
     sudo apt update || handle_error "Failed to Refresh Package Cache"
@@ -41,15 +34,38 @@ if check_internet; then
     log_message "INFO" "Installing Android Studio"
     printc "YELLOW" "-> Installing Android Studio..."
     sudo apt install android-studio -y || handle_error "Failed to Install Android Studio"
+}
+
+install_android_studio_for_fedora_or_based(){
+
+}
+
+# Begin Android Studio Installation
+printc "GREEN" "Installing Android Studio for ${DISTRIBUTION_NAME}..."
+log_message "INFO" "Checking for Internet Connection"
+printc "YELLOW" "-> Checking for Internet Connection..."
+if check_internet; then
+
+    log_message "INFO" "Internet Connection Detected. Proceeding with Android Studio Installation"
+    printc "GREEN" "-> Internet Connection Detected. Proceeding with Android Studio Installation..."
+
+    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
+        install_android_studio_for_ubuntu_or_based
+    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASE" ]]; then
+        install_android_studio_for_fedora_or_based
+    else
+        handle_error "Unsupported distribution: ${DISTRIBUTION}"
+    fi
 
     echo "Script Execution in Android Studio Installation Ended Successfully at $(date)" >> "$LOG_FILE"
     echo -e "${GREEN}Android Studio Installed Successfully...${RESET}"
     printc "GREEN" "-> Android Studio Installed Successfully..."
     echo "Press [ENTER] To Exit..."
     read
-    
+    exec bash
 else
 
     handle_error "No Connection Available ! Exiting..."
 
 fi
+# End Android Studio Installation

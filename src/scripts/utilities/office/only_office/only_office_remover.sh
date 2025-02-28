@@ -7,17 +7,7 @@ trap 'handle_error "An unexpected error occurred."' ERR
 clear
 echo "Continue script execution in ONLY OFFICE Removal at $(date)" >> "$LOG_FILE"
 
-log_message "INFO" "Checking for ONLY OFFICE Before Removing"
-printc "YELLOW" "-> Checking for ONLY OFFICE Before Removing..."
-if ! command -v onlyoffice-desktopeditors &> /dev/null; then
-
-    log_message "INFO" "ONLY OFFICE is not installed ! Exiting..."
-    printc "RED" "ONLY OFFICE is not installed !"
-    echo -n "Press [ENTER] To Exit Script..."
-    read
-
-else
-
+remove_for_ubuntu_or_based(){
     log_message "INFO" "ONLY OFFICE is installed. Proceeding with Removal..."
     printc "GREEN" "-> ONLY OFFICE is installed. Proceeding with Removal..."
     sudo apt autoremove --purge onlyoffice-desktopeditors -y || handle_error "Failed to remove ONLY OFFICE"
@@ -33,6 +23,30 @@ else
     log_message "INFO" "Updating Package List"
     printc "YELLOW" "-> Updating Package List..."
     sudo apt update || handle_error "Failed to update package list"
+}
+
+remove_for_fedora_or_based(){
+
+}
+
+log_message "INFO" "Checking for ONLY OFFICE Before Removing"
+printc "YELLOW" "-> Checking for ONLY OFFICE Before Removing..."
+if ! command -v onlyoffice-desktopeditors &> /dev/null; then
+
+    log_message "INFO" "ONLY OFFICE is not installed ! Exiting..."
+    printc "RED" "ONLY OFFICE is not installed !"
+    echo -n "Press [ENTER] To Exit Script..."
+    read
+
+else
+
+    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASED" ]]; then
+        remove_for_ubuntu_or_based
+    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASED" ]]; then
+        remove_for_fedora_or_based
+    else
+        handle_error "Unsupported OS: ${DISTRIBUTION_NAME}. Exiting..."
+    fi
 
     echo "ONLY OFFICE Remover Script Execution Completed Successfully at $(date)" >> "$LOG_FILE"
     print_msgbox "Success !" "ONLY OFFICE Removed Successfully"

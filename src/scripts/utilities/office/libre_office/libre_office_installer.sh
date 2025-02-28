@@ -7,13 +7,8 @@ trap 'handle_error "An unexpected error occurred."' ERR
 clear
 echo "Continue script execution in Libre Office Installation at $(date)" >> "$LOG_FILE"
 
-printc "YELLOW" "-> Checking for Internet Connection..."
+install_for_ubuntu_or_based(){
 
-if check_internet; then
-
-	log_message "INFO" "Internet Connection Detected. Proceeding with Libre Office Installation"
-	printc "GREEN" "-> Internet Connection Detected. Proceeding with Libre Office Installation..."
-	
     log_message "INFO" "Installing Required Packages : software-properties-common"
     printc "YELLOW" "-> Installing Required Packages : software-properties-common..."
     sudo apt-get update && sudo apt-get install -y software-properties-common || handle_error "Failed to install required packages"
@@ -29,6 +24,28 @@ if check_internet; then
     log_message "INFO" "Installing Libre Office"
     printc "YELLOW" "-> Installing Libre Office..."
     sudo apt install -y libreoffice || handle_error "Failed to install Libre Office"
+}
+
+install_for_fedora_or_based(){
+
+}
+
+printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
+log_message "INFO" "Checking for Internet Connection"
+printc "YELLOW" "-> Checking for Internet Connection..."
+
+if check_internet; then
+
+	log_message "INFO" "Internet Connection Detected. Proceeding with Libre Office Installation"
+	printc "GREEN" "-> Internet Connection Detected. Proceeding with Libre Office Installation..."
+	
+    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASED" ]]; then
+        install_for_ubuntu_or_based
+    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASED" ]]; then
+        install_for_fedora_or_based
+    else
+        handle_error "Unsupported OS : ${DISTRIBUTION_NAME}. Exiting..."
+    fi
 
     echo "Libre Office Installer Script Execution Completed Successfully at $(date)" >> "$LOG_FILE"
     print_msgbox "Success !" "Libre Office Installed Successfully"
