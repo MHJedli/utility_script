@@ -22,9 +22,11 @@ dry_run_check(){
 
 	log_message "INFO" "Performing Dry Run for Pytorch Installation"
     printc "CYAN" "-> Performing Dry Run for Pytorch Installation..."
+    sleep 1
 
 	log_message "INFO" "1. Checking for Conda Installation"
     printc "YELLOW" "1. Checking for Conda Installation..."
+    sleep 1
     if ! command -v conda &> /dev/null; then
         log_message "WARN" "Conda Not Found, Install ?"
         if whiptail --title "Conda NOT FOUND !" --yesno "Do you want to install Conda now ?" 8 78; then
@@ -43,24 +45,31 @@ dry_run_check(){
     fi
     log_message "INFO" "Conda is installed"
     printc "GREEN" "-> Conda is installed."
+    sleep 1
 
 	log_message "INFO" "1.1. Checking for active CONDA environment"
     printc "YELLOW" "1.1. Checking for active CONDA environment..."
+    sleep 1
 	local condaEnv=$CONDA_DEFAULT_ENV
 	if [[ "$condaEnv" == "base" ]]; then
         log_message "INFO" "base is the default conda env"
         printc "GREEN" "-> base is the default conda env in this current shell session"
+        sleep 1
 	else
         log_message "WARN" "base is NOT the default conda env"
         printc "RED" "-> base is NOT the default conda env in this current shell session"
+        sleep 1
     fi
 
 	log_message "INFO" "2. Checking for CUDA Toolkit and NVIDIA Drivers"
     printc "YELLOW" "2. Checking for CUDA Toolkit and NVIDIA Drivers..."
+    sleep 1
+
     log_message "INFO" "Verify NVIDIA Driver and CUDA Presence ?"
     if whiptail --title "NVIDIA Driver and CUDA Check" --yesno "Do you plan to install Pytorch with CUDA Support? [REQUIRES NVIDIA GPU]" 8 78; then
             log_message "INFO" "2.1. Checking for NVIDIA Drivers"
             printc "YELLOW" "2.1. Checking for NVIDIA Drivers..."
+            sleep 1
             if ! command -v nvidia-smi &> /dev/null; then
                 log_message "WARN" "NVIDIA Driver NOT found, Install ?"
                 if whiptail --title "NVIDIA Driver NOT FOUND !" --yesno "Do you Want to Install it ?" 8 78; then
@@ -70,14 +79,17 @@ dry_run_check(){
                 else
                     log_message "WARN" "Skipping NVIDIA Driver Installation"
                     printc "RED" "Skipping NVIDIA Driver Installation..."
+                    sleep 1
                 fi
             else
                 log_message "INFO" "NVIDIA Driver is installed"
                 printc "GREEN" "-> NVIDIA Driver is installed."
+                sleep 1
             fi
 
 			log_message "INFO" "2.2. Checking for CUDA Toolkit"
             printc "YELLOW" "2.2. Checking for CUDA Toolkit..."
+            sleep 1
             if ! nvcc --version &> /dev/null; then
                 log_message "WARN" "NVIDIA CUDA Toolkit NOT found. Install ?"
                 if whiptail --title "CUDA Toolkit NOT FOUND !" --yesno "Do you Want to Install it ?" 8 78; then
@@ -87,14 +99,17 @@ dry_run_check(){
                 else
                     log_message "WARN" "Skipping NVIDIA CUDA Toolkit Installation"
                     printc "RED" "Skipping NVIDIA CUDA Toolkit Installation..."
+                    sleep 1
                 fi
             else
                 log_message "INFO" "CUDA Toolkit is installed"
                 printc "GREEN" "-> CUDA Toolkit is installed."
+                sleep 1
             fi
     else
         log_message "INFO" "Skipping NVIDIA Driver and CUDA Check"
         printc "YELLOW" "-> Skipping NVIDIA Driver and CUDA Check..."
+        sleep 1
     fi
     log_message "INFO" "Dry Run Complete"
     echo -e "${GREEN}Dry Run Complete${RESET}. If no errors are reported, you can proceed with the installation."
@@ -176,7 +191,6 @@ create_environment(){
             local new_env=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
             local exit_status=$?
             if [ $exit_status = 0 ]; then
-
                 log_message "INFO" "Checking for NULL Value String from the InputBox"
 				if [[ -z $new_env ]]; then
                     log_message "WARN" "NULL Value String Detected from the InputBox"
@@ -249,6 +263,7 @@ create_environment(){
 
 }
 
+# Begin Pytorch Installation
 whiptail --msgbox \
 "
 Before Proceeding to the installation of Pytorch, make sure that :
@@ -258,6 +273,7 @@ Before Proceeding to the installation of Pytorch, make sure that :
 
 dry_run_check
 
+printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
 log_message "INFO" "Checking for Internet Connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
 
@@ -284,4 +300,4 @@ else
     handle_error "No Internet Connection Available, Exiting..."
 
 fi
-
+# End Pytorch Installation

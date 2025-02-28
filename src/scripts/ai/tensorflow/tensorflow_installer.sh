@@ -10,9 +10,11 @@ echo "Continue script execution in Tensorflow Installation at $(date)" >> "$LOG_
 dry_run_check(){
 	log_message "INFO" "Performing Dry Run for Tensorflow Installation"
     printc "CYAN" "-> Performing Dry Run for Tensorflow Installation..."
+	sleep 1
 
 	log_message "INFO" "1. Checking for Conda Installation"
     printc "YELLOW" "1. Checking for Conda Installation..."
+	sleep 1
     if ! command -v conda &> /dev/null; then
         log_message "WARN" "Conda Not Found, Install ?"
         if whiptail --title "Conda NOT FOUND !" --yesno "Do you want to install Conda now ?" 8 78; then
@@ -27,29 +29,36 @@ dry_run_check(){
             log_message "ERROR" "User chose NOT to install Conda"
             printc "RED" "ERROR: Please install Conda before proceeding..."
             read
-            exit
+            exit 1
         fi
     fi
     log_message "INFO" "Conda is installed"
     printc "GREEN" "-> Conda is installed."
+	sleep 1
 
 	log_message "INFO" "1.1. Checking for active CONDA environment"
     printc "YELLOW" "1.1. Checking for active CONDA environment..."
+	sleep 1
+
 	local conda_env=$CONDA_DEFAULT_ENV
 	if [[ "$conda_env" == "base" ]]; then
         log_message "INFO" "base is the default conda env"
         printc "GREEN" "-> base is the default conda env in this current shell session"
+		sleep 1
 	else
         log_message "WARN" "base is NOT the default conda env"
         printc "RED" "-> base is NOT the default conda env in this current shell session"
+		sleep 1
     fi
 
 	log_message "INFO" "2. Checking for CUDA Toolkit and NVIDIA Drivers"
     printc "YELLOW" "2. Checking for CUDA Toolkit and NVIDIA Drivers..."
+	sleep 1
     log_message "INFO" "Verify NVIDIA Driver and CUDA Presence ?"
     if whiptail --title "NVIDIA Driver and CUDA Check" --yesno "Do you plan to install Pytorch with CUDA Support? [REQUIRES NVIDIA GPU]" 8 78; then
             log_message "INFO" "2.1. Checking for NVIDIA Drivers"
             printc "YELLOW" "2.1. Checking for NVIDIA Drivers..."
+			sleep 1
             if ! command -v nvidia-smi &> /dev/null; then
 
                 log_message "WARN" "NVIDIA Driver NOT found, Install ?"
@@ -60,15 +69,18 @@ dry_run_check(){
                 else
 					log_message "WARN" "Skipping NVIDIA Driver Installation"
                     printc "RED" "Skipping NVIDIA Driver Installation..."
+					sleep 1
                 fi
 
             else
 				log_message "INFO" "NVIDIA Driver is installed"
                 printc "GREEN" "-> NVIDIA Driver is installed."
+				sleep 1
             fi
 
 			log_message "INFO" "2.2. Checking for CUDA Toolkit"
             printc "YELLOW" "2.2. Checking for CUDA Toolkit..."
+			sleep 1
             if ! nvcc --version &> /dev/null; then
                 log_message "WARN" "NVIDIA CUDA Toolkit NOT found. Install ?"
                 if whiptail --title "CUDA Toolkit NOT FOUND !" --yesno "Do you Want to Install it ?" 8 78; then
@@ -78,15 +90,18 @@ dry_run_check(){
                 else
 					log_message "WARN" "Skipping NVIDIA CUDA Toolkit Installation"
                     printc "RED" "Skipping NVIDIA CUDA Toolkit Installation..."
+					sleep 1
                 fi
 
             else
 				log_message "INFO" "CUDA Toolkit is installed"
                 printc "GREEN" "-> CUDA Toolkit is installed."
+				sleep 1
             fi
     else
         log_message "INFO" "Skipping NVIDIA Driver and CUDA Check"
         printc "YELLOW" "-> Skipping NVIDIA Driver and CUDA Check..."
+		sleep 1
     fi
 
 	log_message "INFO" "Dry Run Complete"
@@ -256,6 +271,7 @@ create_environment(){
 
 }
 
+# Begin Tensorflow Installation
 whiptail --msgbox \
 "
 Before Proceeding to the installation of Pytorch, make sure that :
@@ -264,7 +280,7 @@ Before Proceeding to the installation of Pytorch, make sure that :
 " \ 10 80
 
 dry_run_check
-
+printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
 printc "YELLOW" "-> Checking for Internet Connection..."
 
 if check_internet; then
@@ -285,3 +301,4 @@ else
     handle_error "No Internet Connection Available, Exiting..."
 
 fi
+# End Tensorflow Installation
