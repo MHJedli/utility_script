@@ -32,6 +32,14 @@ install_for_ubuntu_or_based(){
 
 install_for_fedora_or_based(){
 
+    log_message "INFO" "Verifying for Flatpak Installation"
+    printc "YELLOW" "-> Verifying for Flatpak Installation..."
+    verify_packages "flatpak"
+
+    log_message "INFO" "Installing Pycharm Community from flathub"
+    printc "YELLOW" "-> Installing Pycharm Community from flathub..."
+    flatpak install flathub com.jetbrains.PyCharm-Community -y || handle_error "Failed to Install Pycharm Community"
+
 }
 
 printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."

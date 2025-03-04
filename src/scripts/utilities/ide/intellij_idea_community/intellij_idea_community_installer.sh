@@ -31,7 +31,13 @@ install_for_ubuntu_or_based(){
 }
 
 install_for_fedora_or_based(){
+    log_message "INFO" "Verifying for Flatpak Installation"
+    printc "YELLOW" "-> Verifying for Flatpak Installation..."
+    verify_packages "flatpak"
 
+    log_message "INFO" "Installing Intellij IDEA Community from flathub"
+    printc "YELLOW" "-> Installing Intellij IDEA Community from flathub..."
+    flatpak install flathub com.jetbrains.IntelliJ-IDEA-Community -y || handle_error "Failed to Install Intellij IDEA Community"
 }
 
 printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."

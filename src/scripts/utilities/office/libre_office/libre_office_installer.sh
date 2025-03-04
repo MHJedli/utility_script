@@ -28,6 +28,25 @@ install_for_ubuntu_or_based(){
 
 install_for_fedora_or_based(){
 
+    log_message "INFO" "Updating System Packages"
+    printc "YELLOW" "-> Updating System Packages..."
+    sudo dnf update -y || handle_error "Failed to update system packages"
+
+    log_message "INFO" "Verifying Required Packages : wget"
+    printc "YELLOW" "-> Verifying Required Packages : wget"
+    verify_packages "wget"
+
+    log_message "INFO" "Downloading Libreoffice"
+    printc "YELLOW" "-> Downloading Libreoffice..."
+    local ver=25.2.1
+    local download_path=$WORK_DIR/tmp/
+    local download_link=https://download.documentfoundation.org/libreoffice/stable/${ver}/rpm/x86_64/LibreOffice_${ver}_Linux_x86-64_rpm.tar.gz
+    wget -c -P "$download_path" "$download_link" || handle_error "Failed to download Libreoffice"
+
+    log_message "INFO" "Installing Libreoffice"
+    printc "YELLOW" "-> Installing Libreoffice..."
+    tar -xvf $download_path/LibreOffice_${ver}_Linux_x86-64_rpm.tar.gz
+    cd $download_path/LibreOffice_${ver}_Linux_x86-64_rpm && cd RPM/ && sudo dnf install *.rpm -y || handle_error "Failed to install Libreoffice"
 }
 
 printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
