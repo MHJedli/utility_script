@@ -143,18 +143,30 @@ if check_internet; then
     log_message "INFO" "Internet Connection Detected. Proceeding with NVIDIA Driver Installation"
     printc "GREEN" "-> Internet Connection Detected. Proceeding with NVIDIA Driver Installation"
 
-    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
-        install_nvidia_driver_for_ubuntu_or_based
-    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASE" ]]; then 
-        install_nvidia_driver_for_fedora_or_based
-    else 
-        handle_error "Unsupported Distribution: $DISTRIBUTION"
-    fi
+    log_message "INFO" "Checking for NVIDIA Hardware"
+    printc "YELLOW" "-> Checking for NVIDIA Hardware..."
+    IS_NVIDIA=$(lspci | grep "NVIDIA")
+    if [[ -n "$IS_NVIDIA" ]]; then
+        echo "NVIDIA Present :"
+        echo $IS_NVIDIA
+        echo "Press [ENTER] To Continue..."
+        read
+        if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
+            install_nvidia_driver_for_ubuntu_or_based
+        elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASE" ]]; then 
+            install_nvidia_driver_for_fedora_or_based
+        else 
+            handle_error "Unsupported Distribution: $DISTRIBUTION"
+        fi
 
-    log_message "INFO" "NVIDIA Driver Installation Completed Successfully"
-    if whiptail --title "NVIDIA Driver Installed" --yesno "Do you Want to reboot now ?" 8 78; then
-        echo "Rebooting..."
-        reboot
+        log_message "INFO" "NVIDIA Driver Installation Completed Successfully"
+        if whiptail --title "NVIDIA Driver Installed" --yesno "Do you Want to reboot now ?" 8 78; then
+            echo "Rebooting..."
+            reboot
+        fi
+    else
+        log_message "ERROR" "No NVIDIA Hardware Detected"
+        print_msgbox "Info" "No NVIDIA Hardware Detected !"
     fi
 
 else 
