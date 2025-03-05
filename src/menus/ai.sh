@@ -8,13 +8,18 @@ source "$UTILS"
 show_ai_menu(){
     log_message "INFO" "Displaying AI Menu"
     local option=$(whiptail --title "AI Menu" --menu "Choose an option" 30 80 16 \
-    "Pytorch" "Optimized Tensor Library for Deep Learning" \
     "Conda" "Package and Environment Manager for Python and other Languages" \
+    "Jupyter" "Web-based interactive computing platform" \
+    "Pytorch" "Optimized Tensor Library for Deep Learning" \
     "TensorFlow" "Platform for creating and deploying ML Models" \
     "<-- Back" "" \
     3>&1 1>&2 2>&3)
 
     case $option in
+        "Jupyter")
+            log_message "INFO" "User chose Jupyter Menu"
+            show_jupyter_menu
+            ;;
         "Pytorch")
             log_message "INFO" "User chose Pytorch Menu"
             show_pytorch_menu
@@ -37,6 +42,13 @@ show_ai_menu(){
             exit 0
             ;;
     esac
+}
+
+show_jupyter_menu(){
+    options_menu "Jupyter" \
+                   "${scriptPaths["jupyter_installer"]}" \
+                   "" \
+                   "show_ai_menu"
 }
 
 show_pytorch_menu(){

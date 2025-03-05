@@ -71,6 +71,8 @@ declare -A scriptPaths=(
     ["cuda_switcher"]="${WORK_DIR}/src/scripts/drivers/cuda/cuda_switcher.sh"
     
     # AI Scripts
+    ["jupyter_installer"]="${WORK_DIR}/src/scripts/ai/jupyter/jupyter_installer.sh"
+    
     ["conda_installer"]="${WORK_DIR}/src/scripts/ai/conda/conda_installer.sh"
     ["conda_remover"]="${WORK_DIR}/src/scripts/ai/conda/conda_remover.sh"
 
