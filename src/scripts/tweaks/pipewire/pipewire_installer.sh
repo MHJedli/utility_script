@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
-source $(pwd)/src/utils.sh
-LOG_FILE=$(pwd)/src/logfile.log
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
+    
+LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
 
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
-echo "Continue script execution in PipeWire Installation at $(date)" >> "$LOG_FILE"
 
 install_for_ubuntu_or_based(){
 
@@ -30,7 +33,13 @@ install_for_fedora_or_based(){
 
 }
 
+# Begin PipeWire Installation
+echo "Continue script execution in PipeWire Installation at $(date)" >> "$LOG_FILE"
+
+log_message "INFO" "Installing for ${DISTRIBUTION_NAME}..."
 printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
+
+log_message "INFO" "Checking for Internet Connection" 
 printc "YELLOW" "-> Checking for Internet Connection..."
 if check_internet; then
 
@@ -45,20 +54,18 @@ if check_internet; then
         handle_error "Unsupported OS. Exiting..."
     fi
 
-    log_message "INFO" "Pipewire Sound System Installation Completed Successfully"
+    echo "Pipewire Sound System Installation Completed Successfully at $(date)" >> "$LOG_FILE"
     echo "To verify if Pipewire is installed, execute the following command in the Terminal after rebooting :"
-    printc "CYAN" "LANG=C pactl info | grep '^Server Name'"
-    echo -n -e "${GREEN}Pipewire Sound System Installation Completed Successfully.${RESET} Want to reboot now (Y/n) : "
-    read a
-    if [[ "$a" == "Y" || "$a" == "y" || "$a" == "" ]]; then
-        echo "Reboot in 3 seconds..."
+    print_msgbox "INFO" "To verify if Pipewire is installed, execute the following command in the Terminal after rebooting :
+                         LANG=C pactl info | grep '^Server Name'"
+    if whiptail --title "Pipewire Sound System Installed" --yesno "Do you Want to reboot now ?" 8 78; then
+        echo "Rebooting..."
         reboot
     fi
-    echo "Press [ENTER] To exit Script..."
-    read
 
 else
 
     handle_error "No Connection Available ! Exiting..."
 
 fi
+# End PipeWire Installation

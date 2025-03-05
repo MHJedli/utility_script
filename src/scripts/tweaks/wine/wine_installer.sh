@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
-source $(pwd)/src/utils.sh
-LOG_FILE=$(pwd)/src/logfile.log
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
+    
+LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
 CODENAME=$(. /etc/os-release && echo "$UBUNTU_CODENAME")
 
 
@@ -41,7 +45,11 @@ install_for_fedora_or_based(){
 
 }
 
+# Begin Wine Installation
+log_message "INFO" "Installing for ${DISTRIBUTION_NAME}..."
 printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
+
+log_message "INFO" "Checking for Internet Connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
 
 if check_internet; then
@@ -58,12 +66,11 @@ if check_internet; then
     fi
 
     echo "Wine Script Execution Completed Successfully at $(date)" >> "$LOG_FILE"
-    printc "GREEN" "-> Wine Installed Successfully"
-    echo -n "Press [ENTER] To Exit Script..."
-    read
+    print_msgbox "Success" "Wine Installed Successfully !"
 
 else
 
     handle_error "No Internet Connection Available, Exiting..."
 
 fi
+# End Wine Installation

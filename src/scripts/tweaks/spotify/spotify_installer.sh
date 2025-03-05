@@ -1,21 +1,18 @@
 #!/usr/bin/env bash
 
-source $(pwd)/src/utils.sh
-LOG_FILE=$(pwd)/src/logfile.log
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
+    
+LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
 
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
-echo "Continue script execution in Spotify Installation at $(date)" >> "$LOG_FILE"
 
-printc "YELLOW" "-> Checking for Internet Connection..."
-sleep 1
+install_for_ubuntu_or_based(){
 
-if check_internet; then
-
-	log_message "INFO" "Internet Connection Detected. Proceeding with Spotify Installation"
-    printc "GREEN" "-> Internet Connection Detected. Proceeding with Spotify Installation..."
-
-    log_message "INFO" "fetching the security key"
+    log_message "INFO" "Fetching the security key"
     printc "YELLOW" "-> Fetching the security key..."
     curl -sS https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg | sudo tee /etc/apt/keyrings/spotify.asc || handle_error "Failed to Fetch Spotify Security Key"
 
@@ -37,20 +34,51 @@ if check_internet; then
     printc "YELLOW" "-> Installing Spotify..."
     sudo apt install spotify-client -y || handle_error "Failed to Install Spotify"
 
-    log_message "INFO" "Installing Spotify Ad Blocker"
-    printc "YELLOW" "-> Installing Spotify Ad Blocker..."
-    bash <(curl -sSL https://spotx-official.github.io/run.sh) -f || handle_error "Failed to Install Spotify Ad Blocker"
-    printc "GREEN" "-> Spotify Ad Blocker Installed Successfully..."
-    echo -e "Credits for ${CYAN}https://github.com/SpotX-Official/SpotX-Bash${RESET} for the Ad Blocker"
+}
+
+install_for_fedora_or_based(){
+
+}
+
+# Begin Spotify Installation
+echo "Continue script execution in Spotify Installation at $(date)" >> "$LOG_FILE"
+
+log_message "INFO" "Installing for ${DISTRIBUTION_NAME}..."
+printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
+
+log_message "INFO" "Checking for Internet Connection"
+printc "YELLOW" "-> Checking for Internet Connection..."
+
+if check_internet; then
+
+	log_message "INFO" "Internet Connection Detected. Proceeding with Spotify Installation"
+    printc "GREEN" "-> Internet Connection Detected. Proceeding with Spotify Installation..."
+
+    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASED" ]]; then
+        install_for_ubuntu_or_based
+    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASED" ]]; then
+        install_for_fedora_or_based
+    else
+        handle_error "Unsupported OS : ${DISTRIBUTION_NAME}. Exiting..."
+    fi
+
+    if whiptail --title "Spotify Installed" --yesno "Do you Want to Install Adblocker for it ?" 8 78; then
+
+        log_message "INFO" "Installing Spotify Ad Blocker"
+        printc "YELLOW" "-> Installing Spotify Ad Blocker..."
+        bash <(curl -sSL https://spotx-official.github.io/run.sh) -f || handle_error "Failed to Install Spotify Ad Blocker"
+        printc "GREEN" "-> Spotify Ad Blocker Installed Successfully..."
+        echo -e "Credits for ${CYAN}https://github.com/SpotX-Official/SpotX-Bash${RESET} for the Ad Blocker"
+
+    fi
+
 
     echo "Spotify Script Execution Completed Successfully at $(date)" >> "$LOG_FILE"
-    printc "GREEN" "-> Spotify Installed Successfully"
-    echo -n "Press [ENTER] To Exit Script..."
-    read
+    print_msgbox "Success" "Spotify Installed Successfully !"
 
 else
 
     handle_error "No Internet Connection Available, Exiting..."
 
 fi
-
+# End Spotify Installation

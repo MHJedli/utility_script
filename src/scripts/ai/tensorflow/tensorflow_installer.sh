@@ -1,13 +1,17 @@
 #!/usr/bin/env bash -i
 
-source $(pwd)/src/utils.sh
-LOG_FILE=$(pwd)/src/logfile.log
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
+    
+LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
 
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
-echo "Continue script execution in Tensorflow Installation at $(date)" >> "$LOG_FILE"
 
 dry_run_check(){
+
 	log_message "INFO" "Performing Dry Run for Tensorflow Installation"
     printc "CYAN" "-> Performing Dry Run for Tensorflow Installation..."
 	sleep 1
@@ -16,22 +20,28 @@ dry_run_check(){
     printc "YELLOW" "1. Checking for Conda Installation..."
 	sleep 1
     if ! command -v conda &> /dev/null; then
+
         log_message "WARN" "Conda Not Found, Install ?"
         if whiptail --title "Conda NOT FOUND !" --yesno "Do you want to install Conda now ?" 8 78; then
+
 			log_message "INFO" "Proceeding with the Installation of Conda"
             printc "CYAN" "Proceeding with the Installation of Conda..."
             bash "${scriptPaths["conda_installer"]}"
+
             printc "YELLOW" "Press [ENTER] to Restart Your Shell Session..."
             read
             exec bash
 
         else
+
             log_message "ERROR" "User chose NOT to install Conda"
             printc "RED" "ERROR: Please install Conda before proceeding..."
             read
             exit 1
+
         fi
     fi
+
     log_message "INFO" "Conda is installed"
     printc "GREEN" "-> Conda is installed."
 	sleep 1
@@ -42,13 +52,17 @@ dry_run_check(){
 
 	local conda_env=$CONDA_DEFAULT_ENV
 	if [[ "$conda_env" == "base" ]]; then
+
         log_message "INFO" "base is the default conda env"
         printc "GREEN" "-> base is the default conda env in this current shell session"
 		sleep 1
+
 	else
+
         log_message "WARN" "base is NOT the default conda env"
         printc "RED" "-> base is NOT the default conda env in this current shell session"
 		sleep 1
+
     fi
 
 	log_message "INFO" "2. Checking for CUDA Toolkit and NVIDIA Drivers"
@@ -56,6 +70,7 @@ dry_run_check(){
 	sleep 1
     log_message "INFO" "Verify NVIDIA Driver and CUDA Presence ?"
     if whiptail --title "NVIDIA Driver and CUDA Check" --yesno "Do you plan to install Tensorflow with CUDA Support? [REQUIRES NVIDIA GPU]" 8 78; then
+
             log_message "INFO" "2.1. Checking for NVIDIA Drivers"
             printc "YELLOW" "2.1. Checking for NVIDIA Drivers..."
 			sleep 1
@@ -63,45 +78,60 @@ dry_run_check(){
 
                 log_message "WARN" "NVIDIA Driver NOT found, Install?"
                 if whiptail --title "NVIDIA Driver NOT FOUND!" --yesno "Do you want to install it?" 8 78; then
+
 					log_message "INFO" "Proceeding with the Installation of NVIDIA"
                     printc "CYAN" "Proceeding with the Installation of NVIDIA..."
                     bash "${scriptPaths["nvidia_driver_installer"]}"
+
                 else
+
 					log_message "WARN" "Skipping NVIDIA Driver Installation"
                     printc "RED" "Skipping NVIDIA Driver Installation..."
 					sleep 1
+
                 fi
 
             else
+
 				log_message "INFO" "NVIDIA Driver is installed"
                 printc "GREEN" "-> NVIDIA Driver is installed."
 				sleep 1
+
             fi
 
 			log_message "INFO" "2.2. Checking for CUDA Toolkit"
             printc "YELLOW" "2.2. Checking for CUDA Toolkit..."
 			sleep 1
             if ! nvcc --version &> /dev/null; then
+
                 log_message "WARN" "NVIDIA CUDA Toolkit NOT found. Install ?"
                 if whiptail --title "CUDA Toolkit NOT FOUND !" --yesno "Do you Want to Install it ?" 8 78; then
+
 					log_message "INFO" "Proceeding with the Installation of NVIDIA CUDA Toolkit"
                     printc "CYAN" "Proceeding with the Installation of NVIDIA CUDA Toolkit..."
                     bash "${scriptPaths["cuda_installer"]}"
+
                 else
+
 					log_message "WARN" "Skipping NVIDIA CUDA Toolkit Installation"
                     printc "RED" "Skipping NVIDIA CUDA Toolkit Installation..."
 					sleep 1
+
                 fi
 
             else
+
 				log_message "INFO" "CUDA Toolkit is installed"
                 printc "GREEN" "-> CUDA Toolkit is installed."
 				sleep 1
+
             fi
     else
+
         log_message "INFO" "Skipping NVIDIA Driver and CUDA Check"
         printc "YELLOW" "-> Skipping NVIDIA Driver and CUDA Check..."
 		sleep 1
+
     fi
 
 	log_message "INFO" "Dry Run Complete"
@@ -111,6 +141,7 @@ dry_run_check(){
 }
 
 install_tensorflow(){
+
 	log_message "INFO" "Displaying The Compute Platform Menu"
     local compute_options=$(whiptail --title "Pytorch Installer Script" --menu "Choose The Compute Platform" 10 80 2 \
     "CPU" "" \
@@ -131,6 +162,7 @@ install_tensorflow(){
 			-> If a result is returned, then tensorflow is installed 
 			" \ 10 80
 			python -c "import tensorflow as tf; print(tf.random.normal([5, 5]))" || handle_error "Failed to check if tensorflow is installed"
+
 			echo -n "Press [ENTER] To Continue..."
 			read
             ;;
@@ -171,6 +203,7 @@ install_tensorflow(){
 }
 
 create_environment(){
+
 	log_message "INFO" "Displaying Creating Environment Menu"
     local options=$(whiptail --title "Creating Environment" --menu "Choose an option" 10 80 2 \
     "Create a new Environment" "" \
@@ -183,14 +216,18 @@ create_environment(){
             local new_env=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
             local exit_status=$?
             if [ $exit_status = 0 ]; then
+
                 log_message "INFO" "Checking for NULL Value String from the InputBox"
 				if [[ -z $new_env ]]; then
+
                     log_message "WARN" "NULL Value String Detected from the InputBox"
 					whiptail --title "WARNING" --msgbox \
 					"      You Typed an Empty Name " \ 10 40
                     log_message "INFO" "Returning to the Environment Options Menu"
 					create_environment
+
 				fi
+
                 log_message "INFO" "NON-NULL Value String Detected, Continuing..."
 				log_message "INFO" "Creating Environment : ${new_env}"
 				printc "YELLOW" "-> Creating Environment : ${new_env}..."
@@ -206,6 +243,7 @@ create_environment(){
 				mkdir -p $CONDA_PREFIX/etc/conda/activate.d || handle_error "Failed to Configure System Paths for CONDA Environment"
 				echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/' > $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh || handle_error "Failed to Configure System Paths for CONDA Environment"
 
+				log_message "INFO" "Environment ${new_env} Created and Activated Successfully"
 				echo "To Activate This Environment , Execute the Following :"
 				printc "GREEN" "conda activate ${new_env}"
 				echo -n "Press [ENTER] To Continue Installation..."
@@ -219,14 +257,18 @@ create_environment(){
             local your_env=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
             local exit_status=$?
             if [ $exit_status = 0 ]; then
+
                 log_message "INFO" "Checking for NULL Value String from the InputBox"
 				if [[ -z $your_env ]]; then
+
                     log_message "WARN" "NULL Value String Detected from the InputBox"
 					whiptail --title "WARNING" --msgbox \
 					"      You Typed an Empty Name " \ 10 40
                     log_message "INFO" "Returning to the Environment Options Menu"
 					create_environment
+
 				fi
+
                 log_message "INFO" "NON-NULL Value String Detected, Continuing..."
 				log_message "INFO" "Checking The Existence of ${your_env}"
                 printc "YELLOW" "-> Checking The Existence of ${your_env}..."
@@ -245,6 +287,7 @@ create_environment(){
 					mkdir -p $CONDA_PREFIX/etc/conda/activate.d || handle_error "Failed to Configure System Paths for CONDA Environment"
 					echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/' > $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh || handle_error "Failed to Configure System Paths for CONDA Environment"
 
+					log_message "INFO" "Environment ${your_env} Activated Successfully"
 					echo "To Activate This Environment , Execute the Following :"
 					printc "GREEN" "conda activate ${your_env}"
 					echo -n "Press [ENTER] To Continue Installation..."
@@ -272,15 +315,22 @@ create_environment(){
 }
 
 # Begin Tensorflow Installation
+echo "Continue script execution in Tensorflow Installation at $(date)" >> "$LOG_FILE"
+
+log_message "INFO" "Displaying The Tensorflow Installer Requirements"
 whiptail --msgbox \
 "
-Before Proceeding to the installation of Pytorch, make sure that :
+Before Proceeding to the installation of Tensorflow, make sure that :
 1. Conda is Installed on your machine
 2. The base conda environment of current shell session is (base) 
 " \ 10 80
 
 dry_run_check
+
+log_message "INFO" "Installing for ${DISTRIBUTION_NAME}"
 printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
+
+log_message "INFO" "Checking for Internet Connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
 
 if check_internet; then

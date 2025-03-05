@@ -1,15 +1,20 @@
 #!/usr/bin/env bash
 
-source $(pwd)/src/utils.sh
-LOG_FILE=$(pwd)/src/logfile.log
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
+    
+LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
 
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
-echo "Continue script execution in Angular Installation at $(date)" >> "$LOG_FILE"
 
 install_angular(){
+
     log_message "INFO" "Displaying Angular Installer Options Menu"
     if whiptail --title "Angular Installer" --yesno "Do you want to install The Latest Version of Angular CLI ?" 8 78; then
+
         log_message "INFO" "Installing Latest Angular Version"
         printc "YELLOW" "-> Installing Latest Angular Version..."
         if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
@@ -21,7 +26,9 @@ install_angular(){
             sudo npm install @angular/cli --location=global || handle_error "Failed to Install Latest Angular Version"
 
         fi
+
     else
+
         log_message "INFO" "Displaying Available Angular Versions Menu"
         local option=$(whiptail --title "Angular Installer" --menu "Choose a Version to Install" 30 80 3 \
         "Angular CLI 18" "" \
@@ -29,6 +36,7 @@ install_angular(){
         "Angular CLI 16" "" \
         3>&1 1>&2 2>&3)
         if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
+
             case $option in
                 "Angular CLI 18")
                     log_message "INFO" "Installing Angular version 18"
@@ -49,7 +57,9 @@ install_angular(){
                     handle_error "User chose to Exit Script"
                     ;;
             esac        
+
         elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASE" ]]; then
+
             case $option in
                 "Angular CLI 18")
                     log_message "INFO" "Installing Angular version 18"
@@ -69,7 +79,8 @@ install_angular(){
                 *)
                     handle_error "User chose to Exit Script"
                     ;;
-            esac        
+            esac
+
         fi
 
     fi
@@ -105,7 +116,11 @@ install_packages_for_fedora_or_based(){
 }
 
 # Begin Angular Installation
-printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
+echo "Continue script execution in Angular Installation at $(date)" >> "$LOG_FILE"
+
+log_message "INFO" "Installing Angular for ${DISTRIBUTION_NAME}"
+printc "GREEN" "Installing Angular for ${DISTRIBUTION_NAME}..."
+
 log_message "INFO" "Checking for Internet Connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
 sleep 1

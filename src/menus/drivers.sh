@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-source $(pwd)/src/utils.sh
+
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
 
 show_drivers_menu(){
     log_message "INFO" "Displaying Drivers Menu"
@@ -31,6 +35,7 @@ show_drivers_menu(){
         *)
             echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
             echo "Exiting..."
+            exit 0
             ;;
     esac
 }

@@ -1,10 +1,32 @@
 #!/usr/bin/env bash
 
-source $(pwd)/src/utils.sh
-LOG_FILE=$(pwd)/src/logfile.log
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
+    
+LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
 
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
+
+remove_for_ubuntu_or_based(){
+
+    log_message "INFO" "Removing Spotify Installation"
+    printc "YELLOW" "-> Removing Spotify Installation..."
+    sudo apt autoremove spotify-client --purge -y || handle_error "Failed to Remove Spotify"
+
+    log_message "INFO" "Removing Spotify Directory"
+    printc "YELLOW" "-> Removing Spotify Directory..."
+    sudo rm -rf /usr/share/spotify
+
+}
+
+remove_for_fedora_or_based(){
+
+}
+
+# Begin Spotify Removal
 echo "Continue script execution in Spotify Removing at $(date)" >> "$LOG_FILE"
 
 log_message "INFO" "Checking for Spotify Before Removing"
@@ -24,16 +46,17 @@ else
     echo -n "Press [ENTER] To Continue..."
     read
 
-    log_message "INFO" "Removing Spotify Installation"
-    printc "YELLOW" "-> Removing Spotify Installation..."
-    sudo apt autoremove spotify-client --purge -y || handle_error "Failed to Remove Spotify"
+    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
+        remove_for_ubuntu_or_based
+    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASE" ]]; then
+        remove_for_fedora_or_based
+    else
+        handle_error "Unsupported distribution: ${DISTRIBUTION}"
+    fi
 
-    log_message "INFO" "Removing Spotify Directory"
-    printc "YELLOW" "-> Removing Spotify Directory..."
-    sudo rm -rf /usr/share/spotify
+
 
     echo "Spotify Remover Script Execution Completed Successfully at $(date)" >> "$LOG_FILE"
-    printc "GREEN" "-> Spotify Removed Successfully..."
-    echo -n "Press [ENTER] To Exit Script..."
-    read
+    print_msgbox "Success" "Spotify Removed Successfully !"
 fi
+# End Spotify Removal

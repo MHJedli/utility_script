@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-source $(pwd)/src/utils.sh
+
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
 
 show_ai_menu(){
     log_message "INFO" "Displaying AI Menu"
@@ -21,7 +25,7 @@ show_ai_menu(){
             ;;
         "TensorFlow")
             log_message "INFO" "User chose Tensorflow Menu"
-            show_tensorflow_meun
+            show_tensorflow_menu
             ;;
         "<-- Back")
             log_message "INFO" "User chose to return to Main Menu"
@@ -30,6 +34,7 @@ show_ai_menu(){
         *)
             echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
             echo "Exiting..."
+            exit 0
             ;;
     esac
 }
@@ -48,7 +53,7 @@ show_conda_menu(){
                "show_ai_menu"
 }
 
-show_tensorflow_meun(){
+show_tensorflow_menu(){
     options_menu "Tensor Flow" \
                "${scriptPaths["tensorflow_installer"]}" \
                "" \

@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 
-source $(pwd)/src/utils.sh
-LOG_FILE=$(pwd)/src/logfile.log
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
+    
+LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
 
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
-echo "Continue script execution in ONLY OFFICE Removal at $(date)" >> "$LOG_FILE"
 
 remove_for_ubuntu_or_based(){
+
     log_message "INFO" "ONLY OFFICE is installed. Proceeding with Removal..."
     printc "GREEN" "-> ONLY OFFICE is installed. Proceeding with Removal..."
     sudo apt autoremove --purge onlyoffice-desktopeditors -y || handle_error "Failed to remove ONLY OFFICE"
@@ -23,11 +27,15 @@ remove_for_ubuntu_or_based(){
     log_message "INFO" "Updating Package List"
     printc "YELLOW" "-> Updating Package List..."
     sudo apt update || handle_error "Failed to update package list"
+    
 }
 
 remove_for_fedora_or_based(){
 
 }
+
+# Begin ONLY OFFICE Removal
+echo "Continue script execution in ONLY OFFICE Removal at $(date)" >> "$LOG_FILE"
 
 log_message "INFO" "Checking for ONLY OFFICE Before Removing"
 printc "YELLOW" "-> Checking for ONLY OFFICE Before Removing..."
@@ -52,3 +60,4 @@ else
     print_msgbox "Success !" "ONLY OFFICE Removed Successfully"
 
 fi
+# End ONLY OFFICE Removal

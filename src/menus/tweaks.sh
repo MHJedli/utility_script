@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-source $(pwd)/src/utils.sh
+
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
 
 show_system_tweaks_menu(){
     log_message "INFO" "Displaying System Tweaks Menu"
@@ -35,6 +39,7 @@ show_system_tweaks_menu(){
         *)
             echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
             echo "Exiting..."
+            exit 0
             ;;
     esac
 }

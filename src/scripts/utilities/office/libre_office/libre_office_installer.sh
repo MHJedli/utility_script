@@ -1,17 +1,20 @@
 #!/usr/bin/env bash
 
-source $(pwd)/src/utils.sh
-LOG_FILE=$(pwd)/src/logfile.log
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
+    
+LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
 
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
-echo "Continue script execution in Libre Office Installation at $(date)" >> "$LOG_FILE"
 
 install_for_ubuntu_or_based(){
 
     log_message "INFO" "Installing Required Packages : software-properties-common"
     printc "YELLOW" "-> Installing Required Packages : software-properties-common..."
-    sudo apt-get update && sudo apt-get install -y software-properties-common || handle_error "Failed to install required packages"
+    sudo apt update && sudo apt install -y software-properties-common || handle_error "Failed to install required packages"
 
     log_message "INFO" "Adding Libre Office Repository"
     printc "YELLOW" "-> Adding Libre Office Repository..."
@@ -24,6 +27,7 @@ install_for_ubuntu_or_based(){
     log_message "INFO" "Installing Libre Office"
     printc "YELLOW" "-> Installing Libre Office..."
     sudo apt install -y libreoffice || handle_error "Failed to install Libre Office"
+
 }
 
 install_for_fedora_or_based(){
@@ -47,9 +51,15 @@ install_for_fedora_or_based(){
     printc "YELLOW" "-> Installing Libreoffice..."
     tar -xvf $download_path/LibreOffice_${ver}_Linux_x86-64_rpm.tar.gz
     cd $download_path/LibreOffice_${ver}_Linux_x86-64_rpm && cd RPM/ && sudo dnf install *.rpm -y || handle_error "Failed to install Libreoffice"
+    
 }
 
+# Begin Libre Office Installation
+echo "Continue script execution in Libre Office Installation at $(date)" >> "$LOG_FILE"
+
+log_message "INFO" "Installing for ${DISTRIBUTION_NAME}..."
 printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
+
 log_message "INFO" "Checking for Internet Connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
 
@@ -74,3 +84,4 @@ else
     handle_error "No Internet Connection Available, Exiting..."
 
 fi
+# End Libre Office Installation

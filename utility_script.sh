@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 
 # External Functions/Files
-source src/utils.sh
-source src/menus/dev.sh
-source src/menus/ai.sh
-source src/menus/tweaks.sh
-source src/menus/drivers.sh
-source src/menus/utilities.sh
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+DEV_MENU="${DIRECTORY_PATH}/src/menus/dev.sh"
+AI_MENU="${DIRECTORY_PATH}/src/menus/ai.sh"
+TWEAKS_MENU="${DIRECTORY_PATH}/src/menus/tweaks.sh"
+DRIVERS_MENU="${DIRECTORY_PATH}/src/menus/drivers.sh"
+UTILITIES_MENU="${DIRECTORY_PATH}/src/menus/utilities.sh"
+source "$UTILS"
+source "$DEV_MENU"
+source "$AI_MENU"
+source "$TWEAKS_MENU"
+source "$DRIVERS_MENU"
+source "$UTILITIES_MENU"
 
 # LOG File
 LOG_FILE=src/logfile.log

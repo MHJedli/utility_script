@@ -1,23 +1,28 @@
 #!/usr/bin/env bash -i
 
-source $(pwd)/src/utils.sh
-LOG_FILE=$(pwd)/src/logfile.log
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
+    
+LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
 
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
-echo "Continue script execution in NVIDIA CUDA ToolKit Installation at $(date)" >> "$LOG_FILE"
 
 download_and_install(){
+
     local cuda_version=$1
     local download_link=$2
+    local download_path="$(pwd)/tmp"
 
     log_message "INFO" "Downloading NVIDIA CUDA Toolkit Version ${cuda_version}"
     printc "YELLOW" "-> Downloading NVIDIA CUDA ToolKit Version ${cuda_version}"
-    wget -c -P $(pwd)/tmp/ "$download_link"
+    wget -c -P "$download_path/" "$download_link"
     
     log_message "INFO" "Installing NVIDIA CUDA ToolKit in Silent Mode"
     printc "YELLOW" "-> Installing NVIDIA CUDA ToolKit in Silent Mode..."
-    sudo sh $(pwd)/tmp/cuda_${cuda_version}*.run --silent --toolkit --toolkitpath=/usr/local/cuda-${cuda_version} || handle_error "Failed to Install NVIDIA CUDA Toolkit"
+    sudo sh "$download_path/cuda_${cuda_version}*.run" --silent --toolkit --toolkitpath=/usr/local/cuda-${cuda_version} || handle_error "Failed to Install NVIDIA CUDA Toolkit"
 
     log_message "INFO" "Removing Old CUDA Path"
     printc "YELLOW" "-> Removing Old CUDA Path"
@@ -43,9 +48,12 @@ download_and_install(){
 
     echo "NVIDIA CUDA Toolkit Script Completed Successfully at $(date)" >> "$LOG_FILE"
     print_msgbox "Success !" "NVIDIA CUDA Toolkit Script Completed Successfully"
+
 }
 
 install_cuda(){
+
+    log_message "INFO" "Displaying NVIDIA CUDA Toolkit Installer Options Menu"
     local cuda_options=$(whiptail --title "NVIDIA CUDA Toolkit Installer" --menu "Choose an option" 30 80 10 \
     "NVIDIA CUDA Toolkit Version 12.6.2" "" \
     "NVIDIA CUDA Toolkit Version 12.5.1" "" \
@@ -96,28 +104,26 @@ install_cuda(){
     esac
 }
 
+# Begin NVIDIA CUDA ToolKit Installation
+echo "Continue script execution in NVIDIA CUDA ToolKit Installation at $(date)" >> "$LOG_FILE"
+
+log_message "INFO" "Installing NVIDIA CUDA Toolkit for ${DISTRIBUTION_NAME}"
+printc "GREEN" "Installing NVIDIA CUDA Toolkit for ${DISTRIBUTION_NAME}..."
+
+log_message "INFO" "Checking for Internet Connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
 if check_internet; then
 
     log_message "INFO" "Internet Connection Detected. Proceeding with NVIDIA CUDA ToolKit Installation"
     printc "GREEN" "-> Internet Connection Detected. Proceeding with NVIDIA CUDA ToolKit Installation..."
-    
-    log_message "INFO" "Refreshing Package Cache"
-    printc "YELLOW" "-> Refreshing Package Cache..."
-    sudo apt update || handle_error "Failed to Refresh Package Cache"
-
-    log_message "INFO" "Updating System Packages"
-    printc "YELLOW" "-> Updating System Packages..."
-    sudo apt upgrade -y || handle_error "Failed to Update System Packages"
 
     log_message "INFO" "Installing NVIDIA CUDA ToolKit"
     printc "YELLOW" "-> Installing NVIDIA CUDA ToolKit..."
     install_cuda
-
-    showDriversMenu
 
 else
 
     handle_error "No Internet Connection Available, Exiting..."
 
 fi
+# End NVIDIA CUDA ToolKit Installation

@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
-source $(pwd)/src/utils.sh
+
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
 
 show_utilities_menu(){
     log_message "INFO" "Displaying Utilities Menu"
     local option=$(whiptail --title "Utilities Menu" --menu "Choose an option" 30 80 16 \
-    "OFFICE" "Choose you favorite OFFICE Suite" \
+    "OFFICE" "Choose your favorite OFFICE Suite" \
     "IDE" "Choose from multiple IDEs to code how you like" \
     "<-- Back" "" \
     3>&1 1>&2 2>&3)
@@ -50,6 +54,11 @@ show_ide_menu(){
         "<-- Back")
             log_message "INFO" "User chose to return to Main Menu"
             show_utilities_menu
+            ;;
+        *)
+            echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
+            echo "Exiting..."
+            exit 0
             ;;
     esac
 }

@@ -1,25 +1,34 @@
 #!/usr/bin/env bash
 
-source $(pwd)/src/utils.sh
-LOG_FILE=$(pwd)/src/logfile.log
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
+    
+LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
 
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
-echo "Continue script execution in NVIDIA Driver Removing at $(date)" >> "$LOG_FILE"
 
 remove_for_ubuntu_or_based(){
+
     log_message "INFO" "Removing NVIDIA Driver"
     printc "YELLOW" "-> Removing NVIDIA Driver..."
     sudo apt autoremove nvidia* --purge -y || handle_error "Failed to Remove NVIDIA Driver"
+
 }
 
 remove_for_fedora_or_based(){
+
     log_message "INFO" "Removing NVIDIA Driver"
     printc "YELLOW" "-> Removing NVIDIA Driver..."
-    sudo dnf remove nvidia* --purge -y || handle_error "Failed to Remove NVIDIA Driver"
+    sudo dnf remove nvidia* --allowerasing -y || handle_error "Failed to Remove NVIDIA Driver"
+    
 }
 
 # Begin NVIDIA Driver Removal
+echo "Continue script execution in NVIDIA Driver Removing at $(date)" >> "$LOG_FILE"
+
 log_message "INFO" "Checking for NVIDIA Driver Before Removing"
 printc "YELLOW" "-> Checking for NVIDIA Driver Before Removing..."
 if ! command -v nvidia-smi &> /dev/null; then
@@ -27,8 +36,6 @@ if ! command -v nvidia-smi &> /dev/null; then
     log_message "INFO" "NVIDIA Driver is not installed. Exiting..."
     printc "RED" "NVIDIA Driver is not installed !"
     echo -n "Press [ENTER] To Exit Script..."
-    read
-    show_drivers_menu
 
 else
 
@@ -46,17 +53,11 @@ else
     else
         handle_error "Unsupported distribution: ${DISTRIBUTION}"
     fi
-
-    log_message "INFO" "NVIDIA Driver Removed Successfully"
-    echo -n -e "${GREEN}NVIDIA Driver Removed Successfully.${RESET} Want to reboot now (Y/n) : "
-    read a
-    if [[ "$a" == "Y" || "$a" == "y" || "$a" == "" ]]; then
+    
+    echo "NVIDIA Driver Removal Script Completed Successfully at $(date)" >> "$LOG_FILE"
+    if whiptail --title "NVIDIA Driver Removed" --yesno "Do you Want to reboot now ?" 8 78; then
         echo "Rebooting..."
         reboot
-    else
-        echo -n "Press [ENTER] To Exit Script..."
-        read
-        showDriversMenu
     fi
 
 fi

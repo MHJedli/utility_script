@@ -1,20 +1,25 @@
 #!/usr/bin/env bash
 
-source $(pwd)/src/utils.sh
-LOG_FILE=$(pwd)/src/logfile.log
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
+    
+LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
 
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
-echo "Continue script execution in Oracle VirtualBox Installation at $(date)" >> "$LOG_FILE"
 
 install_oracle_vm_for_ubuntu_or_based(){
+
+    local system_release=$(cat /etc/issue)
+    local codename=$(. /etc/os-release && echo "$UBUNTU_CODENAME")
+    local download_link="https://download.virtualbox.org/virtualbox/7.1.4/virtualbox-7.1_7.1.4-165100~Ubuntu~${codename}_amd64.deb"
+    local download_path="$(pwd)/tmp"
 
     log_message "INFO" "Refreshing Package Cache"
     printc "YELLOW" "-> Refreshing Package Cache..."
     sudo apt update || handle_error "Failed to Refresh Package Cache"
-
-    local system_release=$(cat /etc/issue)
-    local codename=$(. /etc/os-release && echo "$UBUNTU_CODENAME")
 
     log_message "WARN" "Warn User about System Requirement"
     printc "YELLOW" "NOTE : Your System Must be Ubuntu or Ubuntu-Based >= 20.04"
@@ -23,13 +28,12 @@ install_oracle_vm_for_ubuntu_or_based(){
 
     log_message "INFO" "Downloading Oracle VM for ${system_release:0:-6}"
     printc "YELLOW" "-> Downloading Oracle VM for ${system_release:0:-6}..."
-
-    wget -c -P $(pwd)/tmp/ https://download.virtualbox.org/virtualbox/7.1.4/virtualbox-7.1_7.1.4-165100~Ubuntu~${codename}_amd64.deb
+    wget -c -P "$download_path/" "$download_link" || handle_error "Failed to Download Oracle VM"
 
     log_message "INFO" "Installing Oracle VM"
     printc "YELLOW" "-> Installing Oracle VM..."
-    sudo apt install libxcb-cursor0 || handle_error "Failed to Install Required Package"
-    sudo dpkg -i $(pwd)/tmp/virtualbox-7.1*.deb
+    sudo apt install -y libxcb-cursor0 || handle_error "Failed to Install Required Package"
+    sudo dpkg -i "$download_path/virtualbox-7.1*.deb"
     sudo apt --fix-broken install -y || handle_error "Failed to install Oracle VM"
 
 
@@ -65,7 +69,12 @@ install_oracle_vm_for_fedora_or_based(){
 }
 
 # Begin Oracle VirtualBox Installation
-printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
+echo "Continue script execution in Oracle VirtualBox Installation at $(date)" >> "$LOG_FILE"
+
+log_message "INFO" "Installing Oracle VM for ${DISTRIBUTION_NAME}"
+printc "GREEN" "Installing Oracle VM for ${DISTRIBUTION_NAME}..."
+
+log_message "INFO" "Checking for Internet Connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
 
 if check_internet; then
@@ -88,10 +97,8 @@ if check_internet; then
     fi
 
     echo "Oracle VirtualBox Script Execution Completed Successfully at $(date)" >> "$LOG_FILE"
-    printc "GREEN" "-> Oracle VirtualBox Installed Successfully..."
-    printc "YELLOW" "NOTE : Reboot Your System to Apply Changes"
-    echo "PRESS [ENTER] to exit..."
-    read
+    print_msgbox "Success !" "Oracle VirtualBox Installed Successfully"
+    print_msgbox "NOTE" "Reboot Your System to Apply Changes"
 
 else
 

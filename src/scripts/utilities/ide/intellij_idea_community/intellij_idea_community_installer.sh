@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
-source $(pwd)/src/utils.sh
-LOG_FILE=$(pwd)/src/logfile.log
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
+    
+LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
 
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
-echo "Continue script execution in Intellij IDEA Community Installation at $(date)" >> "$LOG_FILE"
 
 install_for_ubuntu_or_based(){
 
@@ -28,9 +31,11 @@ install_for_ubuntu_or_based(){
     log_message "INFO" "Installing Intellij IDEA Community"
     printc "YELLOW" "-> Installing Intellij IDEA Community..."
     sudo apt install intellij-idea-community -y || handle_error "Failed to Install Intellij IDEA Community"
+
 }
 
 install_for_fedora_or_based(){
+    
     log_message "INFO" "Verifying for Flatpak Installation"
     printc "YELLOW" "-> Verifying for Flatpak Installation..."
     verify_packages "flatpak"
@@ -38,9 +43,15 @@ install_for_fedora_or_based(){
     log_message "INFO" "Installing Intellij IDEA Community from flathub"
     printc "YELLOW" "-> Installing Intellij IDEA Community from flathub..."
     flatpak install flathub com.jetbrains.IntelliJ-IDEA-Community -y || handle_error "Failed to Install Intellij IDEA Community"
+
 }
 
+# Begin Intellij IDEA Community Installation
+echo "Continue script execution in Intellij IDEA Community Installation at $(date)" >> "$LOG_FILE"
+
+log_message "INFO" "Installing for ${DISTRIBUTION_NAME}..."
 printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
+
 log_message "INFO" "Checking for Internet Connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
 
@@ -65,3 +76,4 @@ else
     handle_error "No Internet Connection Available, Exiting..."
 
 fi
+# End Intellij IDEA Community Installation

@@ -1,18 +1,26 @@
 #!/usr/bin/env bash
 
-source $(pwd)/src/utils.sh
-LOG_FILE=$(pwd)/src/logfile.log
-echo "Continue script execution in NVIDIA Driver Installation at $(date)" >> "$LOG_FILE"
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
+    
+LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
+
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
+
 download_and_install(){
+
     local driver_version=$1
     log_message "INFO" "Installing NVIDIA Driver Version ${driver_version}"
     printc "YELLOW" "-> Installing NVIDIA Driver Version ${driver_version}..."
     sudo apt install nvidia-driver-${driver_version} -y || handle_error "Failed to Install NVIDIA Driver ${driver_version}"
+
 }
 
 install_driver(){
+
     log_message "INFO" "Displaying NVIDIA Driver Menu"
     local driver_options=$(whiptail --title "NVIDIA Driver Installer" --menu "Choose a Driver Version" 30 80 10 \
     "NVIDIA Driver Version 570 [Latest Driver Currently]" "" \
@@ -78,6 +86,8 @@ install_driver(){
 }
 
 install_nvidia_driver_for_ubuntu_or_based(){
+
+    log_message "INFO" "Printing NVIDIA Driver Installation Note"
     printc "CYAN" "NOTE : This Script Will Install Nvidia Driver Using 'graphics-drivers/ppa' Method"
     echo -n "Press [ENTER] To Continue..."
     read
@@ -109,9 +119,11 @@ install_nvidia_driver_for_ubuntu_or_based(){
     log_message "INFO" "Installing NVIDIA Driver"
     printc "YELLOW" "-> Installing NVIDIA Driver..."
     install_driver
+
 }
 
 install_nvidia_driver_for_fedora_or_based(){
+
     log_message "INFO" "Purging Current NVIDIA Installation if Existed"
     printc "YELLOW" "-> Purging Current NVIDIA Installation if Existed..."
     sudo dnf remove nvidia* --allowerasing -y || handle_error "Failed to Purge NVIDIA"
@@ -131,12 +143,18 @@ install_nvidia_driver_for_fedora_or_based(){
 
     log_message "INFO" "Installing nvidia-smi"
     printc "YELLOW" "-> Installing nvidia-smi..."
-    sudo dnf install xorg-x11-drv-nvidia-cuda -y || handle_error "Failed to Install nvidia-smi" || handle_error "Failed to Install nvidia-smi"
+    sudo dnf install xorg-x11-drv-nvidia-cuda -y || handle_error "Failed to Install nvidia-smi"
+
 }
 
 
 # Start NVIDIA Driver Installation
+echo "Continue script execution in NVIDIA Driver Installation at $(date)" >> "$LOG_FILE"
+
+log_message "INFO" "Installing for ${DISTRIBUTION_NAME}"
 printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
+
+log_message "INFO" "Checking for Internet Connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
 if check_internet; then
 
@@ -147,10 +165,12 @@ if check_internet; then
     printc "YELLOW" "-> Checking for NVIDIA Hardware..."
     IS_NVIDIA=$(lspci | grep "NVIDIA")
     if [[ -n "$IS_NVIDIA" ]]; then
+
         echo "NVIDIA Present :"
         echo $IS_NVIDIA
         echo "Press [ENTER] To Continue..."
         read
+
         if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
             install_nvidia_driver_for_ubuntu_or_based
         elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASE" ]]; then 
@@ -159,14 +179,17 @@ if check_internet; then
             handle_error "Unsupported Distribution: $DISTRIBUTION"
         fi
 
-        log_message "INFO" "NVIDIA Driver Installation Completed Successfully"
+        echo "NVIDIA Driver Installation Script Completed at $(date)" >> "$LOG_FILE"
         if whiptail --title "NVIDIA Driver Installed" --yesno "Do you Want to reboot now ?" 8 78; then
             echo "Rebooting..."
             reboot
         fi
+
     else
+
         log_message "ERROR" "No NVIDIA Hardware Detected"
         print_msgbox "Info" "No NVIDIA Hardware Detected !"
+
     fi
 
 else 

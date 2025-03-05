@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 
-source $(pwd)/src/utils.sh
-LOG_FILE=$(pwd)/src/logfile.log
-echo "Continue script execution in Android Studio Installation at $(date)" >> "$LOG_FILE"
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
+    
+LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
+
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
 
 install_android_studio_for_ubuntu_or_based(){
+
     log_message "INFO" "Refreshing Package Cache"
     printc "YELLOW" "-> Refreshing Package Cache..."
     sudo apt update || handle_error "Failed to Refresh Package Cache"
@@ -41,7 +46,11 @@ install_android_studio_for_fedora_or_based(){
 }
 
 # Begin Android Studio Installation
+echo "Continue script execution in Android Studio Installation at $(date)" >> "$LOG_FILE"
+
+log_message "INFO" "Installing Android Studio for ${DISTRIBUTION_NAME}"
 printc "GREEN" "Installing Android Studio for ${DISTRIBUTION_NAME}..."
+
 log_message "INFO" "Checking for Internet Connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
 if check_internet; then
@@ -58,10 +67,7 @@ if check_internet; then
     fi
 
     echo "Script Execution in Android Studio Installation Ended Successfully at $(date)" >> "$LOG_FILE"
-    echo -e "${GREEN}Android Studio Installed Successfully...${RESET}"
-    printc "GREEN" "-> Android Studio Installed Successfully..."
-    echo "Press [ENTER] To Exit..."
-    read
+    print_msgbox "Success !" "Android Studio Installed Successfully"
     exec bash
 else
 

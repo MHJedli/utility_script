@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
-source $(pwd)/src/utils.sh
+
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
 
 show_development_menu(){
     log_message "INFO" "Displaying Development Menu"
     local option=$(whiptail --title "Development Menu" --menu "Choose an option" 30 80 16 \
     "Angular CLI" "Used for FrontEnd Development" \
     "Android Studio" "Used for Mobile Development" \
-    "Flutter SDK" "Used for Cross-Platform Developement" \
+    "Flutter SDK" "Used for Cross-Platform Development" \
     "Oracle VirtualBox" "Used for Virtualization Purposes" \
     "Docker" "Used for Managing Containers" \
     "<-- Back" "" \
@@ -40,6 +44,7 @@ show_development_menu(){
         *)
             echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
             echo "Exiting..."
+            exit 0
             ;;
     esac
 }

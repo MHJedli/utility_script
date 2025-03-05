@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
-source $(pwd)/src/utils.sh
-LOG_FILE=$(pwd)/src/logfile.log
+# External Functions/Files
+DIRECTORY_PATH=$(pwd)
+UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$UTILS"
+    
+LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
 
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
-echo "Continue script execution in VS Code Installation at $(date)" >> "$LOG_FILE"
 
 download_and_install_for_ubuntu_or_based(){
 
@@ -18,6 +21,7 @@ download_and_install_for_ubuntu_or_based(){
     log_message "INFO" "Installing VS Code"
     printc "YELLOW" "-> Installing VS Code..."
     sudo dpkg -i $DOWNLOAD_PATH/code_*.deb || handle_error "Failed To Install VS Code"
+
 }
 
 download_and_install_for_fedora_or_based(){
@@ -31,9 +35,15 @@ download_and_install_for_fedora_or_based(){
     log_message "INFO" "Installing VS Code"
     printc "YELLOW" "-> Installing VS Code..."
     sudo dnf install $DOWNLOAD_PATH/code*.rpm -y || handle_error "Failed To Install VS Code"
+
 }
 
+# Begin VS Code Installation
+echo "Continue script execution in VS Code Installation at $(date)" >> "$LOG_FILE"
+
+log_message "INFO" "Installing for ${DISTRIBUTION_NAME}..."
 printc "GREEN" "Installing for ${DISTRIBUTION_NAME}..."
+
 log_message "INFO" "Checking for Internet Connection"
 printc "YELLOW" "-> Checking for Internet Connection..."
 
@@ -53,6 +63,7 @@ if check_internet; then
         log_message "INFO" "Refreshing Package Cache"
         printc "YELLOW" "-> Refreshing Package Cache..."
         sudo apt update || handle_error "Failed to Refresh Package Cache"
+
         download_and_install_for_ubuntu_or_based
 
     elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASED" ]]; then
@@ -60,10 +71,13 @@ if check_internet; then
         log_message "INFO" "Refreshing Package Cache"
         printc "YELLOW" "-> Refreshing Package Cache..."
         sudo dnf update -y || handle_error "Failed to Refresh Package Cache"
+
         download_and_install_for_fedora_or_based
 
     else
+
         handle_error "Unsupported OS : ${DISTRIBUTION_NAME}. Exiting..."
+        
     fi
 
     echo "VS Code Installer Script Completed Successfully at $(date)" >> "$LOG_FILE"
@@ -74,3 +88,4 @@ else
     handle_error "No Internet Connection Available, Exiting..."
 
 fi
+# End VS Code Installation
