@@ -26,6 +26,8 @@ scripts
 |   |      └── pytorch_installer
 |   ├── tensorflow
 |   |      └── tensorflow_installer
+|   ├── jupyter
+|   |      └── jupyter_installer
 |   └── conda
 |          ├── conda_installer
 |          └── conda_remover
@@ -65,21 +67,19 @@ scripts
      |     ├── intellij_idea_community
      |     |      ├── intellij_idea_community_installer
      |     |      └── intellij_idea_community_remover
-     |     └── pycharm_community
-     |            ├── pycharm_community_installer
-     |            └── pycharm_community_remover
-     |
-     ├── office
-     |     ├── libre_office
-     |     |      ├── libre_office_installer
-     |     |      └── libre_office_remover
-     |     └── only_office
-     |            ├── only_office_installer
-     |            └── only_office_remover
-     |
-     └── vscode
-            ├── vscode_installer
-            └── vscode_remover
+     |     ├── pycharm_community
+     |     |       ├── pycharm_community_installer
+     |     |       └── pycharm_community_remover
+     |     └── vscode
+     |             ├── vscode_installer
+     |             └── vscode_remover
+     └── office
+           ├── libre_office
+           |      ├── libre_office_installer
+           |      └── libre_office_remover
+           └── only_office
+                  ├── only_office_installer
+                  └── only_office_remover
 ```
 >[!note]
 > Current available scripts for Fedora or Fedora-Based Distributions :
