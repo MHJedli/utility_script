@@ -72,7 +72,7 @@ declare -A scriptPaths=(
     
     # AI Scripts
     ["jupyter_installer"]="${WORK_DIR}/src/scripts/ai/jupyter/jupyter_installer.sh"
-    
+
     ["conda_installer"]="${WORK_DIR}/src/scripts/ai/conda/conda_installer.sh"
     ["conda_remover"]="${WORK_DIR}/src/scripts/ai/conda/conda_remover.sh"
 
@@ -93,8 +93,8 @@ declare -A scriptPaths=(
     ["wine_remover"]="${WORK_DIR}/src/scripts/tweaks/wine/wine_remover.sh"
 
     # Utilities Scripts
-    ["vscode_installer"]="${WORK_DIR}/src/scripts/utilities/vscode/vscode_installer.sh"
-    ["vscode_remover"]="${WORK_DIR}/src/scripts/utilities/vscode/vscode_remover.sh"
+    ["vscode_installer"]="${WORK_DIR}/src/scripts/utilities/ide/vscode/vscode_installer.sh"
+    ["vscode_remover"]="${WORK_DIR}/src/scripts/utilities/ide/vscode/vscode_remover.sh"
 
     ["onlyoffice_installer"]="${WORK_DIR}/src/scripts/utilities/office/only_office/only_office_installer.sh"
     ["onlyoffice_remover"]="${WORK_DIR}/src/scripts/utilities/office/only_office/only_office_remover.sh"
