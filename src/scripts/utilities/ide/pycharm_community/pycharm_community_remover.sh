@@ -14,7 +14,9 @@ remove_for_ubuntu_or_based(){
 }
 
 remove_for_fedora_or_based(){
-
+    log_message "INFO" "Removing Pycharm Community"
+    printc "YELLOW" "-> Removing Pycharm Community..."
+    flatpak remove com.jetbrains.PyCharm-Community -y || handle_error "Failed to remove Pycharm Community"
 }
 
 log_message "INFO" "Checking for Pycharm Community Before Removing"

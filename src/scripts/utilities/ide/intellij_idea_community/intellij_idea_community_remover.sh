@@ -14,7 +14,9 @@ remove_for_ubuntu_or_based(){
 }
 
 remove_for_fedora_or_based(){
-
+    log_message "INFO" "Removing Intellij IDEA Community"
+    printc "YELLOW" "-> Removing Intellij IDEA Community..."
+    flatpak remove com.jetbrains.IntelliJ-IDEA-Community -y || handle_error "Failed to remove Intellij IDEA Community"
 }
 
 log_message "INFO" "Checking for IntelliJ IDEA Community Before Removing"
