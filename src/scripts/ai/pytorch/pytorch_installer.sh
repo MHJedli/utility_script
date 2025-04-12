@@ -163,7 +163,7 @@ install_pytorch(){
         "CPU")
             log_message "INFO" "User chose to Install PyTorch with CPU Support"
             printc "YELLOW" "-> Installing PyTorch with CPU Support..."
-            conda install pytorch torchvision torchaudio cpuonly -c pytorch || handle_error "Failed to Install PyTorch with CPU Support"
+            pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu || handle_error "Failed to Install PyTorch with CPU Support"
 
             log_message "INFO" "Pytorch with CPU Support installed Successfully"
             printc "GREEN" "-> Pytorch with CPU Support installed Successfully"
@@ -172,8 +172,8 @@ install_pytorch(){
             log_message "INFO" "Displaying CUDA Version Options Menu"
             local cuda_versions=$(whiptail --title "CUDA Selection" --menu "Choose the Compute Platform CUDA version" 15 80 4 \
             "11.8" "" \
-            "12.1" "" \
             "12.4" "" \
+            "12.6" "" \
             "<-- Back" "" \
             3>&1 1>&2 2>&3)
 
@@ -181,15 +181,7 @@ install_pytorch(){
                 "11.8")
                     log_message "INFO" "Installing Pytorch with CUDA 11.8 Support"
                     printc "YELLOW" "-> Installing Pytorch with CUDA 11.8 Support..."
-                    conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia || handle_error "Failed to Install PyTorch with CUDA 11.8 Support"
-
-                    log_message "INFO" "Testing CUDA Support in Pytorch"
-                    test_cuda
-                    ;;
-                "12.1")
-                    log_message "INFO" "Installing Pytorch with CUDA 12.1 Support"
-                    printc "YELLOW" "-> Installing Pytorch with CUDA 12.1 Support..."
-                    conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia || handle_error "Failed to Install PyTorch with CUDA 12.1 Support"
+                    pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 || handle_error "Failed to Install PyTorch with CUDA 11.8 Support"
 
                     log_message "INFO" "Testing CUDA Support in Pytorch"
                     test_cuda
@@ -197,7 +189,15 @@ install_pytorch(){
                 "12.4")
                     log_message "INFO" "Installing Pytorch with CUDA 12.4 Support"
                     printc "YELLOW" "-> Installing Pytorch with CUDA 12.4 Support..."
-                    conda install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c nvidia || handle_error "Failed to Install PyTorch with CUDA 12.4 Support"
+                    pip3 install torch torchvision torchaudio || handle_error "Failed to Install PyTorch with CUDA 12.4 Support"
+
+                    log_message "INFO" "Testing CUDA Support in Pytorch"
+                    test_cuda
+                    ;;
+                "12.6")
+                    log_message "INFO" "Installing Pytorch with CUDA 12.6 Support"
+                    printc "YELLOW" "-> Installing Pytorch with CUDA 12.6 Support..."
+                    pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126 || handle_error "Failed to Install PyTorch with CUDA 12.4 Support"
 
                     log_message "INFO" "Testing CUDA Support in Pytorch"
                     test_cuda
@@ -342,7 +342,16 @@ if check_internet; then
 	log_message "INFO" "Internet Connection Detected. Proceeding with Pytorch Installation"
     printc "GREEN" "-> Internet Connection Detected. Proceeding with Pytorch Installation..."
 
+    log_message "INFO" "Activating conda-forge channel"
+    printc "YELLOW" "-> Activating conda-forge channel..."
+    conda config --add channels conda-forge || handle_error "Failed to add conda-forge channel"
+    conda config --set channel_priority strict || handle_error "Failed to set channel priority to strict"
+
     create_environment
+
+    log_message "INFO" "Installing pip"
+    printc "YELLOW" "-> Installing pip..."
+    conda install pip || handle_error "Failed to Install pip"
 
     log_message "INFO" "Installing Pytorch"
     printc "YELLOW" "-> Installing Pytorch..."
