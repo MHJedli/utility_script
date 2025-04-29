@@ -48,9 +48,9 @@ if ! command -v onlyoffice-desktopeditors &> /dev/null; then
 
 else
 
-    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASED" ]]; then
+    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
         remove_for_ubuntu_or_based
-    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASED" ]]; then
+    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASE" ]]; then
         remove_for_fedora_or_based
     else
         handle_error "Unsupported OS: ${DISTRIBUTION_NAME}. Exiting..."

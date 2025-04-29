@@ -46,9 +46,9 @@ if check_internet; then
     log_message "INFO" "Internet Connection Detected. Proceeding with Pipewire Installation"
     printc "GREEN" "-> Internet Connection Detected. Proceeding with Pipewire Installation"
 
-    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASED" ]]; then
+    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
         install_for_ubuntu_or_based
-    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASED" ]]; then
+    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASE" ]]; then
         install_for_fedora_or_based
     else
         handle_error "Unsupported OS. Exiting..."

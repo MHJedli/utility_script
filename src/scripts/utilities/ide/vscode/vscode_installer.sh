@@ -20,7 +20,8 @@ download_and_install_for_ubuntu_or_based(){
 
     log_message "INFO" "Installing VS Code"
     printc "YELLOW" "-> Installing VS Code..."
-    sudo dpkg -i $DOWNLOAD_PATH/code_*.deb || handle_error "Failed To Install VS Code"
+    VSCODE_VERSION=$(curl -s https://code.visualstudio.com/sha/ | jq -r '.products[] | select(.platform.os=="linux-deb-x64" and .build == "stable") | .name')
+    sudo dpkg -i $DOWNLOAD_PATH/code_${VSCODE_VERSION}*.deb || handle_error "Failed To Install VS Code"
 
 }
 
@@ -34,7 +35,8 @@ download_and_install_for_fedora_or_based(){
 
     log_message "INFO" "Installing VS Code"
     printc "YELLOW" "-> Installing VS Code..."
-    sudo dnf install $DOWNLOAD_PATH/code*.rpm -y || handle_error "Failed To Install VS Code"
+    VSCODE_VERSION=$(curl -s https://code.visualstudio.com/sha/ | jq -r '.products[] | select(.platform.os=="linux-rpm-x64" and .build == "stable") | .name')
+    sudo dnf install $DOWNLOAD_PATH/code-${VSCODE_VERSION}*.rpm -y || handle_error "Failed To Install VS Code"
 
 }
 
@@ -58,7 +60,7 @@ if check_internet; then
     printc "YELLOW" "-> Fetching The Latest VS Code Version..."
     LATEST_VSCODE_VERSION=$(curl -s https://code.visualstudio.com/sha/) || handle_error "Failed to Fetch Latest VS Code Version"
 
-    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASED" ]]; then
+    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
 
         log_message "INFO" "Refreshing Package Cache"
         printc "YELLOW" "-> Refreshing Package Cache..."
@@ -66,7 +68,7 @@ if check_internet; then
 
         download_and_install_for_ubuntu_or_based
 
-    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASED" ]]; then
+    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASE" ]]; then
 
         log_message "INFO" "Refreshing Package Cache"
         printc "YELLOW" "-> Refreshing Package Cache..."
@@ -78,7 +80,7 @@ if check_internet; then
 
         handle_error "Unsupported OS : ${DISTRIBUTION_NAME}. Exiting..."
         
-    fi
+    fi 
 
     echo "VS Code Installer Script Completed Successfully at $(date)" >> "$LOG_FILE"
     print_msgbox "Success !" "VS Code Installed Successfully"
