@@ -3,7 +3,9 @@
 # External Functions/Files
 DIRECTORY_PATH=$(pwd)
 UTILS="${DIRECTORY_PATH}/src/utils.sh"
+SCRIPTS_PATH="${DIRECTORY_PATH}/src/scripts/scripts_path.sh"
 source "$UTILS"
+source "$SCRIPTS_PATH"
 
 show_utilities_menu(){
     log_message "INFO" "Displaying Utilities Menu"
@@ -122,4 +124,6 @@ show_vscode_menu(){
        "show_utilities_menu"
 }
 
+# Begin Utilities Menu
 show_utilities_menu
+# End Utilities Menu

@@ -3,7 +3,9 @@
 # External Functions/Files
 DIRECTORY_PATH=$(pwd)
 UTILS="${DIRECTORY_PATH}/src/utils.sh"
+SCRIPTS_PATH="${DIRECTORY_PATH}/src/scripts/scripts_path.sh"
 source "$UTILS"
+source "$SCRIPTS_PATH"
 
 show_system_tweaks_menu(){
     log_message "INFO" "Displaying System Tweaks Menu"
@@ -72,4 +74,6 @@ show_wine_menu(){
        "show_system_tweaks_menu"    
 }
 
+# Begin System Tweaks Menu
 show_system_tweaks_menu
+# End System Tweaks Menu

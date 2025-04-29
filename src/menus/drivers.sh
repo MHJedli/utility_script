@@ -3,7 +3,9 @@
 # External Functions/Files
 DIRECTORY_PATH=$(pwd)
 UTILS="${DIRECTORY_PATH}/src/utils.sh"
+SCRIPTS_PATH="${DIRECTORY_PATH}/src/scripts/scripts_path.sh"
 source "$UTILS"
+source "$SCRIPTS_PATH"
 
 show_drivers_menu(){
     log_message "INFO" "Displaying Drivers Menu"
@@ -54,4 +56,6 @@ show_nvidia_cuda_menu(){
                "show_drivers_menu"
 }
 
+# Begin Drivers Menu
 show_drivers_menu
+# End Drivers Menu
