@@ -82,3 +82,5 @@ show_docker_menu(){
                "${scriptPaths["docker_remover"]}" \
                "show_development_menu" 
 }
+
+show_development_menu

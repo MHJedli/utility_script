@@ -53,3 +53,5 @@ show_nvidia_cuda_menu(){
                "" \
                "show_drivers_menu"
 }
+
+show_drivers_menu

@@ -71,3 +71,5 @@ show_wine_menu(){
        "${scriptPaths["wine_remover"]}" \
        "show_system_tweaks_menu"    
 }
+
+show_system_tweaks_menu

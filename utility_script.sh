@@ -9,11 +9,6 @@ TWEAKS_MENU="${DIRECTORY_PATH}/src/menus/tweaks.sh"
 DRIVERS_MENU="${DIRECTORY_PATH}/src/menus/drivers.sh"
 UTILITIES_MENU="${DIRECTORY_PATH}/src/menus/utilities.sh"
 source "$UTILS"
-source "$DEV_MENU"
-source "$AI_MENU"
-source "$TWEAKS_MENU"
-source "$DRIVERS_MENU"
-source "$UTILITIES_MENU"
 
 # LOG File
 LOG_FILE=src/logfile.log
@@ -21,12 +16,17 @@ LOG_FILE=src/logfile.log
 # Initialize log file
 echo "Starting Utility Script GUI Execution at $(date)" > "$LOG_FILE"
 
-# Show Main Menu
-show_main_menu(){
+show_system_info(){
     local distro_name=$(grep ^PRETTY_NAME= /etc/os-release | cut -d= -f2 | tr -d '"')
     local system_arch=$(uname -m)
+    echo ${distro_name} - ${system_arch}
+}
+
+# Show Main Menu
+show_main_menu(){
+    local system_info=$(show_system_info)
     log_message "INFO" "Displaying The Main Menu"
-    local option=$(whiptail --title "Linux Utility Script" --menu "Choose an option\n(Currently using : ${distro_name} - ${system_arch})" 30 80 16 \
+    local option=$(whiptail --title "Linux Utility Script" --menu "Choose an option\n(Currently using : ${system_info})" 30 80 16 \
     "Development" "Install Development Apps like Android Studio and Angular" \
     "Utilities" "Install Daily Use Apps like Office Apps, IDE, ..." \
     "AI" "Install Scientific Tools Like TensorFlow and Pytorch" \
@@ -38,23 +38,23 @@ show_main_menu(){
     case $option in
         "Development")
             log_message "INFO" "User chose the Development Menu"
-            show_development_menu
+            source "$DEV_MENU"
             ;;
         "Utilities")
             log_message "INFO" "User chose the Utilities Menu"
-            show_utilities_menu
+            source "$UTILITIES_MENU"
             ;;
         "AI")
             log_message "INFO" "User chose the AI Menu"
-            show_ai_menu
+            source "$AI_MENU"
             ;;
         "Drivers")
             log_message "INFO" "User chose the Drivers Menu"
-            show_drivers_menu
+            source "$DRIVERS_MENU"
             ;;
         "System Tweaks")
             log_message "INFO" "User chose the System Tweaks Menu"
-            show_system_tweaks_menu
+            source "$TWEAKS_MENU"
             ;;
         "Quit")
             echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"

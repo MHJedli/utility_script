@@ -121,3 +121,5 @@ show_vscode_menu(){
        "${scriptPaths["vscode_remover"]}" \
        "show_utilities_menu"
 }
+
+show_utilities_menu

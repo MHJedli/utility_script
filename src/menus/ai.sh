@@ -71,3 +71,5 @@ show_tensorflow_menu(){
                "" \
                "show_ai_menu"
 }
+
+show_ai_menu
