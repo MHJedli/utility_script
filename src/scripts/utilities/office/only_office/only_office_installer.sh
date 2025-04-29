@@ -35,7 +35,9 @@ install_for_ubuntu_or_based(){
 }
 
 install_for_fedora_or_based(){
-
+    printc "RED" "Not Available for Fedora or Based OS"
+    echo -n "Press [ENTER] To Exit Script..."
+    read
 }
 
 # Begin ONLY OFFICE Installation
