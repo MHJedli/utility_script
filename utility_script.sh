@@ -81,7 +81,6 @@ show_usage(){
     echo " --remove <tool1>,<tool2>,...    Remove a specified tool"
     echo " --list-tools                    List all available tools"
     echo " --help                          Show this help message"
-    echo " --integrity-check               Check the integrity of the script"
     echo "Examples:"
     echo "  $0 --install pytorch,vscode"
     echo "  $0 --remove intellij_idea_community"
