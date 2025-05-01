@@ -22,64 +22,39 @@
 ```
 scripts
 ├── ai
-|   ├── pytorch
-|   |      └── pytorch_installer
-|   ├── tensorflow
-|   |      └── tensorflow_installer
-|   ├── jupyter
-|   |      └── jupyter_installer
-|   └── conda
-|          ├── conda_installer
-|          └── conda_remover
-├── dev
-│   ├── android_studio
-|   |      └── android_studio_installer
-│   ├── angular
-|   |      └── angular_installer
-|   ├── oracle_vm
-|   |      └── oracle_vm_installer
-│   ├── flutter
-|   |      └── flutter_installer
-|   └── docker
-|          ├── docker_installer
-|          └── docker_remover
+|   ├── frameworks
+|   |      ├── pytorch
+|   |      └── tensorflow
+|   └── tools
+|          ├── conda
+|          └── jupyter
+├── dev    
+|   ├── mobile
+|   |      ├── android_studio
+|   |      └── flutter
+│   ├── virtualization       
+|   |       ├── oracle_vm
+|   |       └── docker
+|   └── web
+|          └── angular
 ├── drivers
-│    ├── cuda_installer
+│    ├── cuda
 |    |     ├── cuda_installer
 |    |     └── cuda_switcher
 │    └── nvidia
-|          ├── nvidia_driver_installer
-|          └── nvidia_driver_remover
 ├── tweaks 
 |    ├── keyboard_rgb_fix
-|    |     ├── keyboard_rgb_fix_installer
-|    |     └── keyboard_rgb_fix_remover
 |    ├── spotify
-|    |     ├── spotify_installer
-|    |     └── spotify_remover
 |    ├── pipewire
-|    |     └── pipewire_installer
 |    └── wine
-|          ├── wine_installer
-|          └── wine_remover
 └── utilities
      ├── ide
      |     ├── intellij_idea_community
-     |     |      ├── intellij_idea_community_installer
-     |     |      └── intellij_idea_community_remover
      |     ├── pycharm_community
-     |     |       ├── pycharm_community_installer
-     |     |       └── pycharm_community_remover
      |     └── vscode
-     |             ├── vscode_installer
-     |             └── vscode_remover
      └── office
            ├── libre_office
-           |      ├── libre_office_installer
-           |      └── libre_office_remover
            └── only_office
-                  ├── only_office_installer
-                  └── only_office_remover
 ```
 >[!note]
 > Current available scripts for Fedora or Fedora-Based Distributions :
@@ -90,20 +65,27 @@ scripts
 > - Flutter
 > - Docker
 > - VS Code
+> - Wine
+
+>[!note]
+> - The script can work in interactive and non-interactive mode
+> - Meaning, you can be guided to install your application by following the GUI menus
+> - or you can install them or delete them directly using the command line
 
 <br>
 *  Screenshots of the script :
 <br><br>
 
-![Screenshot from 2025-01-17 11-44-22](https://github.com/user-attachments/assets/b4ce1b03-07fe-4a16-a83f-d9069c36a017)
+![Screenshot From 2025-05-01 20-27-05](https://github.com/user-attachments/assets/8df02abd-d437-4532-a6c3-a43f2cf7eda9)
 
-![Screenshot from 2025-01-17 11-44-38](https://github.com/user-attachments/assets/1252381a-6212-4060-a07a-548dd36af81c)
+![Screenshot From 2025-05-01 20-27-13](https://github.com/user-attachments/assets/b975ebe4-96e1-413d-8bab-1aaa7225222b)
 
-![Screenshot from 2025-01-17 11-44-45](https://github.com/user-attachments/assets/0b63d747-d847-45b5-a849-3b33ff8896a4)
+![Screenshot From 2025-05-01 20-27-25](https://github.com/user-attachments/assets/e3a70ad0-c07c-40eb-a38f-698e411a9cce)
 
-![Screenshot from 2025-01-17 11-44-54](https://github.com/user-attachments/assets/c1ce9227-fe46-46af-8147-c0ed16cfc16f)
+![Screenshot From 2025-05-01 20-27-39](https://github.com/user-attachments/assets/482061e3-2cb6-41d9-a817-68dbc8e42219)
 
-![Screenshot from 2025-01-17 11-45-02](https://github.com/user-attachments/assets/63690e1a-ab58-41cc-984e-595cb062ca24)
+![Screenshot From 2025-05-01 20-28-25](https://github.com/user-attachments/assets/7e86f960-f635-43b8-b3fa-ee365c9d6527)
+
 
 <br>
 * DEMO :<br>
@@ -121,10 +103,11 @@ To run the script :
     $ git clone https://github.com/MHJedli/utility_script.git
     $ cd utility_script/
     $ chmod +x utility_script.sh
-    $ ./utility_script.sh (Recommended) 
-    or
-    $ bash utility_script.sh
+    $ ./utility_script.sh (it uses the interactive mode by default)
 </pre>
+Example of the non-interactive use :
+![Screenshot from 2025-05-01 20-22-48](https://github.com/user-attachments/assets/7d647d73-f90b-4cb8-883c-d225f03e1356)
+
 
 > [!NOTE]
 > The script is improving by time. Expect new features in the future.
