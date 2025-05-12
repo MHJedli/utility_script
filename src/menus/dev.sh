@@ -124,6 +124,7 @@ show_virtualization_menu(){
     local option=$(whiptail --title "Virtualization Tools and Frameworks Menu" --menu "Choose an option" 30 80 16 \
     "Oracle VirtualBox" "Create Multiple VMs for testing Purposes" \
     "Docker" "Containerization Platform" \
+    "Virtual Machine Manager" "Create near-native Performances VMs with QEMU/KVM" \
     "<-- Back" "" \
     3>&1 1>&2 2>&3)
 
@@ -131,6 +132,10 @@ show_virtualization_menu(){
         "Oracle VirtualBox")
             log_message "INFO" "User chose Oracle VirtualBox Menu"
             show_virtualbox_menu
+            ;;
+        "Virtual Machine Manager")
+            log_message "INFO" "User chose Virtual Machine Manager Menu"
+            show_virtual_machine_manager_menu
             ;;
         "Docker")
             log_message "INFO" "User chose Docker Menu"
@@ -152,6 +157,12 @@ show_virtualbox_menu(){
     options_menu "Oracle VirtualBox" \
                "${scriptPaths["oracle_vm_installer"]}" \
                "" \
+               "show_virtualization_menu"    
+}
+show_virtual_machine_manager_menu(){
+    options_menu "Virtual Machine Manager" \
+               "${scriptPaths["virtual_machine_manager_installer"]}" \
+               "${scriptPaths["virtual_machine_manager_remover"]}" \
                "show_virtualization_menu"    
 }
 show_docker_menu(){
