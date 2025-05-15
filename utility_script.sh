@@ -98,6 +98,7 @@ list_tools(){
     echo "flutter"
     echo "docker"
     echo "oracle_vm"
+    echo "virtual_machine_manager"
     echo "angular"
     echo "--------------DRIVERS-----------------"
     echo "cuda"
