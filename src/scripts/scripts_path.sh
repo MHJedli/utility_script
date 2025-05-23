@@ -75,4 +75,8 @@ declare -A scriptPaths=(
     ["libre_office_installer"]="${SCRIPT_DIR}/src/scripts/utilities/office/libre_office/libre_office_installer.sh"
     ["libre_office_remover"]="${SCRIPT_DIR}/src/scripts/utilities/office/libre_office/libre_office_remover.sh"
 
+    # Customs Scripts
+    ["gaming_setup_installer"]="${SCRIPT_DIR}/src/scripts/customs/gaming_setup/gaming_setup_installer.sh"
+    ["gaming_setup_remover"]="${SCRIPT_DIR}/src/scripts/customs/gaming_setup/gaming_setup_remover.sh"
+
 )
