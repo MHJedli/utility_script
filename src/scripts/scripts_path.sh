@@ -12,6 +12,9 @@ declare -A scriptPaths=(
     ["android_studio_installer"]="${SCRIPT_DIR}/src/scripts/dev/mobile/android_studio/android_studio_installer.sh"
     ["android_studio_remover"]="${SCRIPT_DIR}/src/scripts/dev/mobile/android_studio/android_studio_remover.sh"
 
+    ["waydroid_installer"]="${SCRIPT_DIR}/src/scripts/dev/mobile/waydroid/waydroid_installer.sh"
+    ["waydroid_remover"]="${SCRIPT_DIR}/src/scripts/dev/mobile/waydroid/waydroid_remover.sh"
+
     ["flutter_installer"]="${SCRIPT_DIR}/src/scripts/dev/mobile/flutter/flutter_installer.sh"
     ["flutter_remover"]="${SCRIPT_DIR}/src/scripts/dev/mobile/flutter/flutter_remover.sh"
 

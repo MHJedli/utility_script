@@ -95,6 +95,7 @@ list_tools(){
     echo "jupyter"
     echo "----------------DEV------------------"
     echo "android_studio"
+    echo "waydroid"
     echo "flutter"
     echo "docker"
     echo "oracle_vm"

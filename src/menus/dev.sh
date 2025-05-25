@@ -46,6 +46,7 @@ show_mobile_menu(){
     log_message "INFO" "Displaying Mobile Tools Menu"
     local option=$(whiptail --title "Mobile Tools and Frameworks Menu" --menu "Choose an option" 30 80 16 \
     "Android Studio" "IDE and Android Emulator" \
+    "Waydroid" "Android in a Linux Container" \
     "Flutter SDK" "Used for Cross-Platform Development (Mobile, Web, Desktop)" \
     "<-- Back" "" \
     3>&1 1>&2 2>&3)
@@ -54,6 +55,10 @@ show_mobile_menu(){
         "Android Studio")
             log_message "INFO" "User chose Android Studio Menu"
             show_android_studio_menu
+            ;;
+        "Waydroid")
+            log_message "INFO" "User chose Waydroid Menu"
+            show_waydroid_menu
             ;;
         "Flutter SDK")
             log_message "INFO" "User chose Flutter SDK Menu"
@@ -77,6 +82,13 @@ show_android_studio_menu(){
                "" \
                "show_mobile_menu"
 
+}
+
+show_waydroid_menu(){
+    options_menu "Waydroid" \
+               "${scriptPaths["waydroid_installer"]}" \
+               "${scriptPaths["waydroid_remover"]}" \
+               "show_mobile_menu"
 }
 
 show_flutter_menu(){
