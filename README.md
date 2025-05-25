@@ -31,6 +31,7 @@ scripts
 ├── dev    
 |   ├── mobile
 |   |      ├── android_studio
+|   |      ├── waydroid
 |   |      └── flutter
 │   ├── virtualization       
 |   |       ├── oracle_vm
@@ -67,6 +68,7 @@ scripts
 > - Docker
 > - VS Code
 > - Wine
+> - Waydroid
 
 >[!note]
 > - The script can work in interactive and non-interactive mode
