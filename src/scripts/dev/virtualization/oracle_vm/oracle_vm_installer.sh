@@ -28,14 +28,11 @@ install_oracle_vm_for_ubuntu_or_based(){
 
     log_message "INFO" "Downloading Oracle VM for ${system_release:0:-6}"
     printc "YELLOW" "-> Downloading Oracle VM for ${system_release:0:-6}..."
-    wget -c -P "$download_path/" "$download_link" || handle_error "Failed to Download Oracle VM"
+    wget -c "$download_link" -O "$download_path/oracle_for_ubuntu_${codename}.deb"  || handle_error "Failed to Download Oracle VM"
 
     log_message "INFO" "Installing Oracle VM"
     printc "YELLOW" "-> Installing Oracle VM..."
-    sudo apt install -y libxcb-cursor0 || handle_error "Failed to Install Required Package"
-    sudo dpkg -i "$download_path/virtualbox-7.1*.deb"
-    sudo apt --fix-broken install -y || handle_error "Failed to install Oracle VM"
-
+    sudo apt install "$download_path/oracle_for_ubuntu_${codename}.deb" || handle_error "Failed to Install Oracle VM"
 
 }
 

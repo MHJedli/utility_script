@@ -14,14 +14,14 @@ download_and_install_for_ubuntu_or_based(){
 
     log_message "INFO" "Downloading VS Code"
     printc "YELLOW" "-> Downloading VS Code..."
-    DOWNLOAD_LINK=$(echo $LATEST_VSCODE_VERSION | jq -r '.products[] | select(.platform.os=="linux-deb-x64" and .build == "stable") | .url')
-    DOWNLOAD_PATH=$(pwd)/tmp/ 
-    wget -c -P $DOWNLOAD_PATH $DOWNLOAD_LINK || handle_error "Failed to Download VS Code"
+    local download_link=$(echo $LATEST_VSCODE_VERSION | jq -r '.products[] | select(.platform.os=="linux-deb-x64" and .build == "stable") | .url')
+    local download_path=$(pwd)/tmp
+    local vscode_version=$(curl -s https://code.visualstudio.com/sha/ | jq -r '.products[] | select(.platform.os=="linux-deb-x64" and .build == "stable") | .name')
+    wget -c "$download_link" -O "$download_path/code_${vscode_version}.deb" || handle_error "Failed to Download VS Code"
 
     log_message "INFO" "Installing VS Code"
     printc "YELLOW" "-> Installing VS Code..."
-    VSCODE_VERSION=$(curl -s https://code.visualstudio.com/sha/ | jq -r '.products[] | select(.platform.os=="linux-deb-x64" and .build == "stable") | .name')
-    sudo dpkg -i $DOWNLOAD_PATH/code_${VSCODE_VERSION}*.deb || handle_error "Failed To Install VS Code"
+    sudo apt install -y "$download_path/code_${vscode_version}.deb" || handle_error "Failed To Install VS Code"
 
 }
 
@@ -29,14 +29,15 @@ download_and_install_for_fedora_or_based(){
 
     log_message "INFO" "Downloading VS Code"
     printc "YELLOW" "-> Downloading VS Code..."
-    DOWNLOAD_LINK=$(echo $LATEST_VSCODE_VERSION | jq -r '.products[] | select(.platform.os=="linux-rpm-x64" and .build == "stable") | .url')
-    DOWNLOAD_PATH=$(pwd)/tmp/ 
-    wget -c -P $DOWNLOAD_PATH $DOWNLOAD_LINK || handle_error "Failed to Download VS Code"
+    local download_link=$(echo $LATEST_VSCODE_VERSION | jq -r '.products[] | select(.platform.os=="linux-rpm-x64" and .build == "stable") | .url')
+    local download_path=$(pwd)/tmp 
+    local vscode_version=$(curl -s https://code.visualstudio.com/sha/ | jq -r '.products[] | select(.platform.os=="linux-rpm-x64" and .build == "stable") | .name')
+    wget -c "$download_link" -O "$download_path/code_${vscode_version}.rpm" || handle_error "Failed to Download VS Code"
 
     log_message "INFO" "Installing VS Code"
     printc "YELLOW" "-> Installing VS Code..."
-    VSCODE_VERSION=$(curl -s https://code.visualstudio.com/sha/ | jq -r '.products[] | select(.platform.os=="linux-rpm-x64" and .build == "stable") | .name')
-    sudo dnf install $DOWNLOAD_PATH/code-${VSCODE_VERSION}*.rpm -y || handle_error "Failed To Install VS Code"
+    local vscode_version=$(curl -s https://code.visualstudio.com/sha/ | jq -r '.products[] | select(.platform.os=="linux-rpm-x64" and .build == "stable") | .name')
+    sudo dnf install "$download_path/code_${vscode_version}.rpm" -y || handle_error "Failed To Install VS Code"
 
 }
 
