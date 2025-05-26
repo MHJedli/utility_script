@@ -38,7 +38,8 @@ scripts
 |   |       ├── virtual_machine_manager
 |   |       └── docker
 |   └── web
-|          └── angular
+|          ├── angular
+|          └── mongodb
 ├── drivers
 │    ├── cuda
 |    |     ├── cuda_installer
@@ -63,6 +64,7 @@ scripts
 > - AI Scripts
 > - Drivers Scripts
 > - Angular
+> - MongoDB
 > - Oracle VM
 > - Flutter
 > - Docker
