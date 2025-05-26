@@ -101,6 +101,7 @@ list_tools(){
     echo "oracle_vm"
     echo "virtual_machine_manager"
     echo "angular"
+    echo "mongodb"
     echo "--------------DRIVERS-----------------"
     echo "cuda"
     echo "nvidia_driver"

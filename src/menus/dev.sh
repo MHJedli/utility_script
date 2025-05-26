@@ -103,6 +103,7 @@ show_web_development_menu(){
     log_message "INFO" "Displaying Web Development Tools and Frameworks Menu"
     local option=$(whiptail --title "Web Development Tools and Frameworks Menu" --menu "Choose an option" 30 80 16 \
     "Angular CLI" "   Used for FrontEnd Development and SPA" \
+    "MongoDB" "   NoSQL Database for Web Apps" \
     "<-- Back" "" \
     3>&1 1>&2 2>&3)
 
@@ -110,6 +111,10 @@ show_web_development_menu(){
         "Angular CLI")
             log_message "INFO" "User chose Angular Menu"
             show_angular_menu
+            ;;
+        "MongoDB")
+            log_message "INFO" "User chose MongoDB Menu"
+            show_mongodb_menu
             ;;
         "<-- Back")
             log_message "INFO" "User chose to return to development Menu"
@@ -127,6 +132,12 @@ show_angular_menu(){
     options_menu "Angular" \
                "${scriptPaths["angular_installer"]}" \
                "" \
+               "show_web_development_menu"
+}
+show_mongodb_menu(){
+    options_menu "MongoDB" \
+               "${scriptPaths["mongodb_installer"]}" \
+               "${scriptPaths["mongodb_remover"]}" \
                "show_web_development_menu"
 }
 

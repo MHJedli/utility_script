@@ -9,6 +9,9 @@ declare -A scriptPaths=(
     ["angular_installer"]="${SCRIPT_DIR}/src/scripts/dev/web/angular/angular_installer.sh"
     ["angular_remover"]="${SCRIPT_DIR}/src/scripts/dev/web/angular/angular_remover.sh"
 
+    ["mongodb_installer"]="${SCRIPT_DIR}/src/scripts/dev/web/mongodb/mongodb_installer.sh"
+    ["mongodb_remover"]="${SCRIPT_DIR}/src/scripts/dev/web/mongodb/mongodb_remover.sh"
+
     ["android_studio_installer"]="${SCRIPT_DIR}/src/scripts/dev/mobile/android_studio/android_studio_installer.sh"
     ["android_studio_remover"]="${SCRIPT_DIR}/src/scripts/dev/mobile/android_studio/android_studio_remover.sh"
 
