@@ -44,6 +44,7 @@ else
     log_message "INFO" "VS Code is installed. Continue..."
     printc "GREEN" "-> VS Code is installed."
     echo -n "Press [ENTER] To Continue..."
+    read
     
     if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
         remove_for_ubuntu_or_based
