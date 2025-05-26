@@ -9,7 +9,7 @@ TWEAKS_MENU="${DIRECTORY_PATH}/src/menus/tweaks.sh"
 DRIVERS_MENU="${DIRECTORY_PATH}/src/menus/drivers.sh"
 UTILITIES_MENU="${DIRECTORY_PATH}/src/menus/utilities.sh"
 SCRIPTS_PATH="${DIRECTORY_PATH}/src/scripts/scripts_path.sh"
-
+GENERATION_SCRIPT="${DIRECTORY_PATH}/src/generate_tool.sh"
 # LOG File
 LOG_FILE=src/logfile.log
 
@@ -81,9 +81,13 @@ show_usage(){
     echo " --remove <tool1>,<tool2>,...    Remove a specified tool"
     echo " --list-tools                    List all available tools"
     echo " --help                          Show this help message"
+    echo "----------------------DEV-ONLY--------------------------"
+    echo " --generate-tool <tool_name1>,<tool_name2>,...   Generate a tool(s) installer/remover scripts"
+    echo "--------------------------------------------------------"
     echo "Examples:"
     echo "  $0 --install pytorch,vscode"
     echo "  $0 --remove intellij_idea_community"
+    echo "  $0 --generate-tool my_tool"
 }
 
 list_tools(){
@@ -127,7 +131,7 @@ take_action(){
         log_message "INFO" "Installing: $tool"
         if [[ ! -z "${scriptPaths["${tool}_installer"]}" && -f "${scriptPaths["${tool}_installer"]}" ]]; then
             log_message "INFO" "Installer script found for: $tool"
-            bash "${scriptPaths["${tool}_installer"]}"
+            . "${scriptPaths["${tool}_installer"]}"
         else
             log_message "ERROR" "Installer script not found for: $tool"
             echo "Installer script not found for: $tool"
@@ -138,12 +142,16 @@ take_action(){
         log_message "INFO" "Removing: $tool"
         if [[ ! -z "${scriptPaths["${tool}_remover"]}" && -f "${scriptPaths["${tool}_remover"]}" ]]; then
             log_message "INFO" "Remover script found for: $tool"
-            bash "${scriptPaths["${tool}_remover"]}"
+            . "${scriptPaths["${tool}_remover"]}"
         else
             log_message "ERROR" "Remover script not found for: $tool"
             echo "Remover script not found for: $tool"
         fi
 
+    elif [[ "$action" == "generate" ]]; then
+
+        log_message "INFO" "Generating script for: $tool"
+        . "$GENERATION_SCRIPT" "$tool"
     fi
 }
 
@@ -223,6 +231,17 @@ while [[ $# -gt 0 ]]; do
             log_message "INFO" "Showing help message"
             show_usage
             exit 0
+            ;;
+        --generate-tool)
+            log_message "INFO" "Generating tool installer/remover script for: $2"
+            if [[ -z "$2" ]]; then
+                log_message "ERROR" "Tool name not provided for --generate-tool"
+                echo "Tool name not provided for --generate-tool"
+                exit 1
+            fi
+            ACTION="generate"
+            TOOLS="$2"
+            shift 2
             ;;
         *)
             log_message "ERROR" "Unknown option: $1"
