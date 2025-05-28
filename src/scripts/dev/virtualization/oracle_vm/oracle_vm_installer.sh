@@ -38,10 +38,6 @@ install_oracle_vm_for_ubuntu_or_based(){
 
 install_oracle_vm_for_fedora_or_based(){
 
-    log_message "INFO" "Refreshing Package Cache for Fedora"
-    printc "YELLOW" "-> Refreshing Package Cache for Fedora..."
-    sudo dnf check-update || handle_error "Failed to Refresh Package Cache for Fedora"
-
     log_message "INFO" "Installing Required Packages"
     printc "YELLOW" "-> Installing Required Packages..."
     sudo dnf -y install @development-tools || handle_error "Failed to Install Required Packages"
