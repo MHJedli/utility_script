@@ -35,9 +35,14 @@ install_virtual_machine_manager_for_ubuntu_or_based(){
 
 install_virtual_machine_manager_for_fedora_or_based(){
 
-    log_message "INFO" "Feature not implemented yet"
-    printc "YELLOW" "-> Feature not implemented yet"
-    exit 1
+    log_message "INFO" "Updating System Packages"
+    printc "YELLOW" "-> Updating System Packages..."
+    sudo dnf update -y || handle_error "Failed to Update System Packages"
+
+    log_message "INFO" "Installing Virtual Machine Manager"
+    printc "YELLOW" "-> Installing Virtual Machine Manager..."
+    sudo dnf install @virtualization -y || handle_error "Failed to Install Virtual Machine Manager"
+
 }
 
 setup_configurations(){

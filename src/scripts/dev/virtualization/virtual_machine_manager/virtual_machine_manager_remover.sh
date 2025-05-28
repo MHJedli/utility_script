@@ -20,9 +20,9 @@ remove_for_ubuntu_or_based(){
 
 remove_for_fedora_or_based(){
 
-    log_message "INFO" "Feature not implemented yet"
-    printc "YELLOW" "-> Feature not implemented yet"
-    exit 1
+    log_message "INFO" "Removing Virtual Machine Manager"
+    printc "YELLOW" "-> Removing Virtual Machine Manager..."
+    sudo dnf remove @virtualization -y || handle_error "Failed to remove Virtual Machine Manager"
 
 }
 
