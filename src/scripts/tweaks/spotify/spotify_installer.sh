@@ -37,14 +37,9 @@ install_for_ubuntu_or_based(){
 }
 
 install_for_fedora_or_based(){
-
-    log_message "INFO" "Installing Spotify using Flatpak"
-    printc "YELLOW" "-> Installing Spotify using Flatpak..."
-    if ! command -v flatpak &> /dev/null; then
-        handle_error "Flatpak is not installed. Please install Flatpak first."
-    fi
-    sudo flatpak install flathub com.spotify.Client -y  || handle_error "Failed to Install Spotify using Flatpak"
-
+    printc "RED" "Not Available for Fedora or Based OS"
+    echo -n "Press [ENTER] To Exit Script..."
+    read
 }
 
 # Begin Spotify Installation
