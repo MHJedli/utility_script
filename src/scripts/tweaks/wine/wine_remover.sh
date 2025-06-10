@@ -19,7 +19,9 @@ remove_for_ubuntu_or_based(){
 }
 
 remove_for_fedora_or_based(){
-
+    log_message "INFO" "Removing Wine Installation"
+    printc "YELLOW" "-> Removing Wine Installation..."
+    sudo dnf remove wine* -y || handle_error "Failed to Remove Wine Installation"
 }
 
 # Begin Wine Removal

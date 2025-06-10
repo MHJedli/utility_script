@@ -8,7 +8,6 @@ AI_MENU="${DIRECTORY_PATH}/src/menus/ai.sh"
 TWEAKS_MENU="${DIRECTORY_PATH}/src/menus/tweaks.sh"
 DRIVERS_MENU="${DIRECTORY_PATH}/src/menus/drivers.sh"
 UTILITIES_MENU="${DIRECTORY_PATH}/src/menus/utilities.sh"
-CUSTOMS_MENU="${DIRECTORY_PATH}/src/menus/customs.sh"
 SCRIPTS_PATH="${DIRECTORY_PATH}/src/scripts/scripts_path.sh"
 GENERATION_SCRIPT="${DIRECTORY_PATH}/src/generate_tool.sh"
 # LOG File
@@ -40,7 +39,6 @@ show_main_menu(){
     "AI" "Install Scientific Tools Like TensorFlow and Pytorch" \
     "Drivers" "Install FOSS/Proprietary Drivers Like NVIDIA Drivers" \
     "System Tweaks" "Install Some Goodies for Your System" \
-    "Customs" "Install Custom Tools and Scripts" \
     "Quit" "Exit Linux Utility Script" \
     3>&1 1>&2 2>&3)
 
@@ -64,10 +62,6 @@ show_main_menu(){
         "System Tweaks")
             log_message "INFO" "User chose the System Tweaks Menu"
             source "$TWEAKS_MENU"
-            ;;
-        "Customs")
-            log_message "INFO" "User chose the Customs Menu"
-            source "$CUSTOMS_MENU"
             ;;
         "Quit")
             echo "Ending Utility Script GUI Execution at $(date)" >> "$LOG_FILE"
@@ -166,7 +160,7 @@ check_integrity(){
     log_message "INFO" "Checking integrity of the script in auto mode"
 
     log_message "INFO" "1. Checking for Menus and Utils Definitions"
-    local menus=("$DEV_MENU" "$AI_MENU" "$TWEAKS_MENU" "$DRIVERS_MENU" "$UTILITIES_MENU" "$CUSTOMS_MENU" )
+    local menus=("$DEV_MENU" "$AI_MENU" "$TWEAKS_MENU" "$DRIVERS_MENU" "$UTILITIES_MENU" )
     for menu in "${menus[@]}"; do
         if [[ ! -f "$menu" ]]; then
             log_message "ERROR" "Menu file not found: $menu"

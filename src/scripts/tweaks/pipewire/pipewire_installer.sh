@@ -30,7 +30,11 @@ install_for_ubuntu_or_based(){
 }
 
 install_for_fedora_or_based(){
-
+    if command -v pipewire &> /dev/null; then
+        log_message "INFO" "PipeWire is already installed. Exiting..."
+        print_msgbox "WARNING !" "PipeWire is already installed !"
+        return
+    fi
 }
 
 # Begin PipeWire Installation
