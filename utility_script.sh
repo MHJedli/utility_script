@@ -273,5 +273,8 @@ log_message "INFO" "Using Utility Script in Interactive Mode"
 log_message "INFO" "Checking for Required Packages : whiptail"
 printc "YELLOW" "-> Checking for Required Packages : whiptail..."
 verify_packages "whiptail"
+log_message "INFO" "Creating Temporary Directory"
+printc "YELLOW" "-> Creating Temporary Directory..."
+mkdir -p "${DIRECTORY_PATH}/tmp" || handle_error "Failed to create temporary directory"
 show_main_menu
 # End Utility Script
