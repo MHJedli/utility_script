@@ -9,7 +9,7 @@ source "$SCRIPTS_PATH"
 
 show_drivers_menu(){
     log_message "INFO" "Displaying Drivers Menu"
-    local option=$(whiptail --title "Drivers Menu" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "Drivers Menu" --menu "Choose an option" $HEIGHT $WIDTH 4 \
     "NVIDIA Driver" "Install The Proprietary NVIDIA Driver" \
     "NVIDIA CUDA Toolkit" "Install The NVIDIA CUDA Toolkit" \
     "CUDA Version Switcher" "Switch Between Installed CUDA Versions" \

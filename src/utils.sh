@@ -1,24 +1,31 @@
 #!/usr/bin/env bash
 
-# Define Working Directory Path : 
+#--------------------------Global Variables------------------------------   
+# Working Directory Path : 
 WORK_DIR=$(pwd)
 
-# Define Distribution Variables : 
+# Distribution Variables : 
 DISTRIBUTION=$(grep ^ID= /etc/os-release | cut -d= -f2 | tr -d '"')
 DISTRIBUTION_NAME=$(grep ^PRETTY_NAME= /etc/os-release | cut -d= -f2 | tr -d '"')
 UBUNTU_BASE=$(grep ^ID_LIKE= /etc/os-release | cut -d= -f2 | tr -d '"' | grep "ubuntu")
 FEDORA_BASE=$(grep ^ID_LIKE= /etc/os-release | cut -d= -f2 | tr -d '"' | grep "fedora")
 
+# Terminal Dimensions :
+HEIGHT=$(($(tput lines)))
+WIDTH=$(($(tput cols)))
 
-# Define Color Variables :
-# Usage : 
-# echo -e "${<COLOR_TO_USE>}<MESSAGE TO PRINT>${RESET}"
+# Color Variables :
+
 RED='\e[31m'
 GREEN='\e[32m'
 YELLOW='\e[33m'
 CYAN='\e[36m'
 RESET='\e[0m'
+#------------------------End Global Variables------------------------------
 
+# Function that prints colored text
+# Usage : 
+# echo -e "${<COLOR_TO_USE>}<MESSAGE TO PRINT>${RESET}"
 printc(){
     
     case $1 in
@@ -44,7 +51,7 @@ print_msgbox(){
     local title=$1
     local msg=$2
     whiptail --title "$title" --msgbox \
-    "$msg" \ 10 80
+    "$msg" \ $HEIGHT $WIDTH
 }
 
 # Function that log every step taken for easier debugging
@@ -77,7 +84,7 @@ handle_error() {
     An error occurred: ${msg}
     Please check the log file for more details :
     ${LOG_FILE}
-    " \ 10 80
+    " \ $HEIGHT $WIDTH
     exit $exit_status
 }
 
@@ -126,7 +133,7 @@ options_menu() {
     local remove_script=$3
     local previous_menu=$4
     log_message "INFO" "Displaying ${selected_option} Menu"
-    local option=$(whiptail --title "$selected_option" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "$selected_option" --menu "Choose an option" $HEIGHT $WIDTH 3 \
     "Install" "" \
     "Remove" "" \
     "<-- Back" "Return To Previous Menu" \

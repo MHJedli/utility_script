@@ -9,7 +9,7 @@ source "$SCRIPTS_PATH"
 
 show_utilities_menu(){
     log_message "INFO" "Displaying Utilities Menu"
-    local option=$(whiptail --title "Utilities Menu" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "Utilities Menu" --menu "Choose an option" $HEIGHT $WIDTH 3 \
     "OFFICE" "Choose your favorite OFFICE Suite" \
     "IDE" "Choose from multiple IDEs to code how you like" \
     "<-- Back" "" \
@@ -33,7 +33,7 @@ show_utilities_menu(){
 
 show_ide_menu(){
     log_message "INFO" "Displaying IDE Menu"
-    local option=$(whiptail --title "IDE" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "IDE" --menu "Choose an option" $HEIGHT $WIDTH 4 \
     "Intellij IDEA Community" "The IDE for Java and Kotlin enthusiasts" \
     "Pycharm Community" "Out-of-the-box support for Python, Jupyter, Conda,..." \
     "VS Code" "IDE developed by Microsoft for Windows, Linux, macOS" \
@@ -81,7 +81,7 @@ show_pycharm_community_menu(){
 
 show_office_menu(){
     log_message "INFO" "Displaying Office Menu"
-    local option=$(whiptail --title "OFFICE" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "OFFICE" --menu "Choose an option" $HEIGHT $WIDTH 3 \
     "ONLY OFFICE" "" \
     "Libre Office" "" \
     "<-- Back" "" \

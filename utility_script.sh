@@ -34,7 +34,7 @@ show_system_info(){
 show_main_menu(){
     local system_info=$(show_system_info)
     log_message "INFO" "Displaying The Main Menu"
-    local option=$(whiptail --title "Linux Utility Script" --menu "Choose an option\n(Currently using : ${system_info})" 30 80 16 \
+    local option=$(whiptail --title "Linux Utility Script" --menu "Choose an option\n(Currently using : ${system_info})" $HEIGHT $WIDTH 7 \
     "Development" "Install Development Apps like Android Studio and Angular" \
     "Utilities" "Install Daily Use Apps like Office Apps, IDE, ..." \
     "AI" "Install Scientific Tools Like TensorFlow and Pytorch" \
@@ -213,6 +213,8 @@ if check_integrity; then
     source "$SCRIPTS_PATH"
 fi
 
+mkdir -p "${DIRECTORY_PATH}/tmp" || handle_error "Failed to create temporary directory"
+
 while [[ $# -gt 0 ]]; do
     log_message "INFO" "Using Utility Script in Non-Interactive Mode"
     case "$1" in
@@ -275,6 +277,5 @@ printc "YELLOW" "-> Checking for Required Packages : whiptail..."
 verify_packages "whiptail"
 log_message "INFO" "Creating Temporary Directory"
 printc "YELLOW" "-> Creating Temporary Directory..."
-mkdir -p "${DIRECTORY_PATH}/tmp" || handle_error "Failed to create temporary directory"
 show_main_menu
 # End Utility Script

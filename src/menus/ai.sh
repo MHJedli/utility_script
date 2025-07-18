@@ -9,7 +9,7 @@ source "$SCRIPTS_PATH"
 
 show_ai_menu(){
     log_message "INFO" "Displaying AI Menu"
-    local option=$(whiptail --title "AI Menu" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "AI Menu" --menu "Choose an option" $HEIGHT $WIDTH 3 \
     "Frameworks" "Install Libraries like Pytorch and Tensorflow" \
     "Tools" "Install Python package managers and Web-Based notebooks" \
     "<-- Back" "" \
@@ -39,7 +39,7 @@ show_ai_menu(){
 # Frameworks Menu
 show_frameworks_menu(){
     log_message "INFO" "Displaying Frameworks Menu"
-    local option=$(whiptail --title "Frameworks Menu" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "Frameworks Menu" --menu "Choose an option" $HEIGHT $WIDTH 3 \
     "Pytorch" "Optimized Tensor Library for Deep Learning" \
     "TensorFlow" "Platform for creating and deploying ML Models" \
     "<-- Back" "" \
@@ -83,7 +83,7 @@ show_tensorflow_menu(){
 # Tools Menu
 show_tools_menu(){
     log_message "INFO" "Displaying Tools Menu"
-    local option=$(whiptail --title "Tools Menu" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "Tools Menu" --menu "Choose an option" $HEIGHT $WIDTH 3 \
     "Conda" "Package and Environment Manager for Python and other Languages" \
     "Jupyter" "Web-based interactive computing platform" \
     "<-- Back" "" \

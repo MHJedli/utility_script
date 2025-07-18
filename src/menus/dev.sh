@@ -9,7 +9,7 @@ source "$SCRIPTS_PATH"
 
 show_development_menu(){
     log_message "INFO" "Displaying Development Menu"
-    local option=$(whiptail --title "Development Menu" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "Development Menu" --menu "Choose an option" $HEIGHT $WIDTH 4 \
     "Mobile" "Develop Mobile apps and emulate them" \
     "Web" "Develop Web apps" \
     "Virtualization" "Manage your VMs and Containers" \
@@ -44,7 +44,7 @@ show_development_menu(){
 # Mobile Menu
 show_mobile_menu(){
     log_message "INFO" "Displaying Mobile Tools Menu"
-    local option=$(whiptail --title "Mobile Tools and Frameworks Menu" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "Mobile Tools and Frameworks Menu" --menu "Choose an option" $HEIGHT $WIDTH 4 \
     "Android Studio" "IDE and Android Emulator" \
     "Waydroid" "Android in a Linux Container" \
     "Flutter SDK" "Used for Cross-Platform Development (Mobile, Web, Desktop)" \
@@ -101,7 +101,7 @@ show_flutter_menu(){
 # Web Development Menu
 show_web_development_menu(){
     log_message "INFO" "Displaying Web Development Tools and Frameworks Menu"
-    local option=$(whiptail --title "Web Development Tools and Frameworks Menu" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "Web Development Tools and Frameworks Menu" --menu "Choose an option" $HEIGHT $WIDTH 3 \
     "Angular CLI" "   Used for FrontEnd Development and SPA" \
     "MongoDB" "   NoSQL Database for Web Apps" \
     "<-- Back" "" \
@@ -144,7 +144,7 @@ show_mongodb_menu(){
 # Virtualization Menu
 show_virtualization_menu(){
     log_message "INFO" "Displaying Virtualization Tools and Frameworks Menu"
-    local option=$(whiptail --title "Virtualization Tools and Frameworks Menu" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "Virtualization Tools and Frameworks Menu" --menu "Choose an option" $HEIGHT $WIDTH 4 \
     "Oracle VirtualBox" "Create Multiple VMs for testing Purposes" \
     "Docker" "Containerization Platform" \
     "Virtual Machine Manager" "Create near-native Performances VMs with QEMU/KVM" \

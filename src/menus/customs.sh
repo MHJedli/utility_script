@@ -9,7 +9,7 @@ source "$SCRIPTS_PATH"
 
 show_customs_menu(){
     log_message "INFO" "Displaying Customs Menu"
-    local option=$(whiptail --title "Customs Menu" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "Customs Menu" --menu "Choose an option" $HEIGHT $WIDTH 2 \
     "Theme Script" "Style your system with custom themes" \
     "<-- Back" "" \
     3>&1 1>&2 2>&3)

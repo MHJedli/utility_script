@@ -9,7 +9,7 @@ source "$SCRIPTS_PATH"
 
 show_system_tweaks_menu(){
     log_message "INFO" "Displaying System Tweaks Menu"
-    local option=$(whiptail --title "System Tweaks Menu" --menu "Choose an option" 30 80 16 \
+    local option=$(whiptail --title "System Tweaks Menu" --menu "Choose an option" $HEIGHT $WIDTH 5 \
     "PipeWire" "Install the Modern Sound System For Better Sound Quality" \
     "Keyboard RGB Backlight" "Fix Your RGB Backlight for Your Gaming PC" \
     "Spotify" "Install the Famous Streaming Platform" \
