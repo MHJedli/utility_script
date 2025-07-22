@@ -3,6 +3,7 @@
 # External Functions/Files
 DIRECTORY_PATH=$(pwd)
 UTILS="${DIRECTORY_PATH}/src/utils.sh"
+source "$SCRIPTS_PATH"
 source "$UTILS"
     
 LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
