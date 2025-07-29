@@ -39,7 +39,8 @@ scripts
 |   |       └── docker
 |   └── web
 |          ├── angular
-|          └── mongodb
+|          ├── mongodb
+|          └── nodejs
 ├── drivers
 │    ├── cuda
 |    |     ├── cuda_installer
@@ -61,16 +62,11 @@ scripts
 ```
 >[!note]
 > Current available scripts for Fedora or Fedora-Based Distributions :
+> - Dev Scripts
 > - AI Scripts
 > - Drivers Scripts
-> - Angular
-> - MongoDB
-> - Oracle VM
-> - Flutter
-> - Docker
 > - VS Code
 > - Wine
-> - Waydroid
 
 >[!note]
 > - The script can work in interactive and non-interactive mode
