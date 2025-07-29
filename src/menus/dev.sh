@@ -101,9 +101,10 @@ show_flutter_menu(){
 # Web Development Menu
 show_web_development_menu(){
     log_message "INFO" "Displaying Web Development Tools and Frameworks Menu"
-    local option=$(whiptail --title "Web Development Tools and Frameworks Menu" --menu "Choose an option" $HEIGHT $WIDTH 3 \
-    "Angular CLI" "   Used for FrontEnd Development and SPA" \
-    "MongoDB" "   NoSQL Database for Web Apps" \
+    local option=$(whiptail --title "Web Development Tools and Frameworks Menu" --menu "Choose an option" $HEIGHT $WIDTH 4 \
+    "Angular CLI" "  Used for FrontEnd Development and SPA" \
+    "MongoDB" "  NoSQL Database for Web Apps" \
+    "NodeJS" "  Run JavaScript Everywhere" \
     "<-- Back" "" \
     3>&1 1>&2 2>&3)
 
@@ -115,6 +116,10 @@ show_web_development_menu(){
         "MongoDB")
             log_message "INFO" "User chose MongoDB Menu"
             show_mongodb_menu
+            ;;
+        "NodeJS")
+            log_message "INFO" "User chose NodeJS Menu"
+            show_nodejs_menu
             ;;
         "<-- Back")
             log_message "INFO" "User chose to return to development Menu"
@@ -139,6 +144,12 @@ show_mongodb_menu(){
                "${scriptPaths["mongodb_installer"]}" \
                "${scriptPaths["mongodb_remover"]}" \
                "show_web_development_menu"
+}
+show_nodejs_menu(){
+    options_menu "NodeJS" \
+               "${scriptPaths["nodejs_installer"]}" \
+               "${scriptPaths["nodejs_remover"]}" \
+               "show_web_development_menu" 
 }
 
 # Virtualization Menu

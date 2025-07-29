@@ -12,6 +12,9 @@ declare -A scriptPaths=(
     ["mongodb_installer"]="${SCRIPT_DIR}/src/scripts/dev/web/mongodb/mongodb_installer.sh"
     ["mongodb_remover"]="${SCRIPT_DIR}/src/scripts/dev/web/mongodb/mongodb_remover.sh"
 
+    ["nodejs_installer"]="${SCRIPT_DIR}/src/scripts/dev/web/nodejs/nodejs_installer.sh"
+    ["nodejs_remover"]="${SCRIPT_DIR}/src/scripts/dev/web/nodejs/nodejs_remover.sh"
+
     ["android_studio_installer"]="${SCRIPT_DIR}/src/scripts/dev/mobile/android_studio/android_studio_installer.sh"
     ["android_studio_remover"]="${SCRIPT_DIR}/src/scripts/dev/mobile/android_studio/android_studio_remover.sh"
 
