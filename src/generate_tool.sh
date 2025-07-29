@@ -67,11 +67,11 @@ cat > "$remover_target_file" <<EOF
 #!/usr/bin/env bash
 
 # External Functions/Files
-DIRECTORY_PATH=$(pwd)
-UTILS="${DIRECTORY_PATH}/src/utils.sh"
-source "$UTILS"
+DIRECTORY_PATH=\$(pwd)
+UTILS="\${DIRECTORY_PATH}/src/utils.sh"
+source "\$UTILS"
     
-LOG_FILE="${DIRECTORY_PATH}/src/logfile.log"
+LOG_FILE="\${DIRECTORY_PATH}/src/logfile.log"
 
 trap 'handle_error "An unexpected error occurred."' ERR
 clear
@@ -99,18 +99,18 @@ else
     echo -n "Press [ENTER] To Continue..."
     read
 
-    log_message "INFO" "Removing ${tool_name} for ${DISTRIBUTION_NAME}"
-    printc "YELLOW" "-> Removing ${tool_name} for ${DISTRIBUTION_NAME}..."
-    if [[ "$DISTRIBUTION" == "ubuntu" || -n "$UBUNTU_BASE" ]]; then
+    log_message "INFO" "Removing ${tool_name} for \${DISTRIBUTION_NAME}"
+    printc "YELLOW" "-> Removing ${tool_name} for \${DISTRIBUTION_NAME}..."
+    if [[ "\$DISTRIBUTION" == "ubuntu" || -n "\$UBUNTU_BASE" ]]; then
         remove_for_ubuntu_or_based
-    elif [[ "$DISTRIBUTION" == "fedora" || -n "$FEDORA_BASE" ]]; then
+    elif [[ "\$DISTRIBUTION" == "fedora" || -n "\$FEDORA_BASE" ]]; then
         remove_for_fedora_or_based
     else
-        handle_error "Unsupported distribution: ${DISTRIBUTION}"
+        handle_error "Unsupported distribution: \${DISTRIBUTION}"
     fi
 
 
-    echo "${tool_name} Remover Script Execution Completed Successfully at $(date)" >> "$LOG_FILE"
+    echo "${tool_name} Remover Script Execution Completed Successfully at \$(date)" >> "\$LOG_FILE"
     print_msgbox "Success !" "${tool_name} Removed Successfully"
 
 fi
