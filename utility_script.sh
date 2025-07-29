@@ -21,13 +21,13 @@ log_message() {
     local log_level="$1"
     shift
     local message="$@"
-    echo "$(date '+%Y-%m-%d %H:%M:%S') [$log_level] $message" >> "$LOG_FILE"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') [${log_level}] ${message}" >> "$LOG_FILE"
 }
 
 show_system_info(){
     local distro_name=$(grep ^PRETTY_NAME= /etc/os-release | cut -d= -f2 | tr -d '"')
     local system_arch=$(uname -m)
-    echo ${distro_name} - ${system_arch}
+    echo "${distro_name} - ${system_arch}"
 }
 
 # Show Main Menu
@@ -134,29 +134,29 @@ take_action(){
     local tool=$2
     if [[ "$action" == "install" ]]; then
 
-        log_message "INFO" "Installing: $tool"
+        log_message "INFO" "Installing: ${tool}"
         if [[ ! -z "${scriptPaths["${tool}_installer"]}" && -f "${scriptPaths["${tool}_installer"]}" ]]; then
-            log_message "INFO" "Installer script found for: $tool"
+            log_message "INFO" "Installer script found for: ${tool}"
             . "${scriptPaths["${tool}_installer"]}"
         else
-            log_message "ERROR" "Installer script not found for: $tool"
-            echo "Installer script not found for: $tool"
+            log_message "ERROR" "Installer script not found for: ${tool}"
+            echo "Installer script not found for: ${tool}"
         fi
 
     elif [[ "$action" == "remove" ]]; then
 
-        log_message "INFO" "Removing: $tool"
+        log_message "INFO" "Removing: ${tool}"
         if [[ ! -z "${scriptPaths["${tool}_remover"]}" && -f "${scriptPaths["${tool}_remover"]}" ]]; then
-            log_message "INFO" "Remover script found for: $tool"
+            log_message "INFO" "Remover script found for: ${tool}"
             . "${scriptPaths["${tool}_remover"]}"
         else
-            log_message "ERROR" "Remover script not found for: $tool"
-            echo "Remover script not found for: $tool"
+            log_message "ERROR" "Remover script not found for: ${tool}"
+            echo "Remover script not found for: ${tool}"
         fi
 
     elif [[ "$action" == "generate" ]]; then
 
-        log_message "INFO" "Generating script for: $tool"
+        log_message "INFO" "Generating script for: ${tool}"
         . "$GENERATION_SCRIPT" "$tool"
     fi
 }
@@ -169,28 +169,28 @@ check_integrity(){
     local menus=("$DEV_MENU" "$AI_MENU" "$TWEAKS_MENU" "$DRIVERS_MENU" "$UTILITIES_MENU" "$CUSTOMS_MENU" )
     for menu in "${menus[@]}"; do
         if [[ ! -f "$menu" ]]; then
-            log_message "ERROR" "Menu file not found: $menu"
-            echo "Menu file not found: $menu"
+            log_message "ERROR" "Menu file not found: ${menu}"
+            echo "Menu file not found: ${menu}"
             exit 1
         fi
     done
 
     log_message "INFO" "2. Checking for Utils Definition"
     if [[ -f "$UTILS" ]]; then
-        log_message "INFO" "Utils file found: $UTILS"
+        log_message "INFO" "Utils file found: ${UTILS}"
     else
-        log_message "ERROR" "Utils file not found: $UTILS"
-        echo "Utils file not found: $UTILS"
+        log_message "ERROR" "Utils file not found: ${UTILS}"
+        echo "Utils file not found: ${UTILS}"
         exit 1
     fi
 
     log_message "INFO" "3. Checking for Script Definitions"
     if [[ -f "$SCRIPTS_PATH" ]]; then
-        log_message "INFO" "Script Paths file found: $SCRIPTS_PATH"
+        log_message "INFO" "Script Paths file found: ${SCRIPTS_PATH}"
         
     else
-        log_message "ERROR" "Script Paths file not found: $SCRIPTS_PATH"
-        echo "Script Paths file not found: $SCRIPTS_PATH"
+        log_message "ERROR" "Script Paths file not found: ${SCRIPTS_PATH}"
+        echo "Script Paths file not found: ${SCRIPTS_PATH}"
         exit 1
     fi
 

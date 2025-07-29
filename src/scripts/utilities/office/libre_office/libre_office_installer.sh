@@ -43,14 +43,14 @@ install_for_fedora_or_based(){
     log_message "INFO" "Downloading Libreoffice"
     printc "YELLOW" "-> Downloading Libreoffice..."
     local ver=25.2.1
-    local download_path=$WORK_DIR/tmp/
-    local download_link=https://download.documentfoundation.org/libreoffice/stable/${ver}/rpm/x86_64/LibreOffice_${ver}_Linux_x86-64_rpm.tar.gz
+    local download_path="${WORK_DIR}/tmp/"
+    local download_link="https://download.documentfoundation.org/libreoffice/stable/${ver}/rpm/x86_64/LibreOffice_${ver}_Linux_x86-64_rpm.tar.gz"
     wget -c -P "$download_path" "$download_link" || handle_error "Failed to download Libreoffice"
 
     log_message "INFO" "Installing Libreoffice"
     printc "YELLOW" "-> Installing Libreoffice..."
-    tar -xvf $download_path/LibreOffice_${ver}_Linux_x86-64_rpm.tar.gz
-    cd $download_path/LibreOffice_${ver}_Linux_x86-64_rpm && cd RPM/ && sudo dnf install *.rpm -y || handle_error "Failed to install Libreoffice"
+    tar -xvf "${download_path}/LibreOffice_${ver}_Linux_x86-64_rpm.tar.gz"
+    cd ${download_path}/LibreOffice_${ver}_Linux_x86-64_rpm && cd RPM/ && sudo dnf install *.rpm -y || handle_error "Failed to install Libreoffice"
     
 }
 

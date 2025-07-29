@@ -65,7 +65,7 @@ log_message() {
     local log_level="$1"
     shift
     local message="$@"
-    echo "$(date '+%Y-%m-%d %H:%M:%S') [$log_level] $message" >> "$LOG_FILE"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') [$log_level] ${message}" >> "$LOG_FILE"
 }
 
 # Function that handle errors
