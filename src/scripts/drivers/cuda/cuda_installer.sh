@@ -54,9 +54,10 @@ download_and_install(){
 install_cuda(){
 
     log_message "INFO" "Displaying NVIDIA CUDA Toolkit Installer Options Menu"
-    local cuda_options=$(whiptail --title "NVIDIA CUDA Toolkit Installer" --menu "Choose an option" 30 80 10 \
+    local cuda_options=$(whiptail --title "NVIDIA CUDA Toolkit Installer" --menu "Choose an option" $HEIGHT $WIDTH 13 \
+    "NVIDIA CUDA Toolkit Version 13.0.0" "" \
+    "NVIDIA CUDA Toolkit Version 12.9.1" "" \
     "NVIDIA CUDA Toolkit Version 12.8.1" "" \
-    "NVIDIA CUDA Toolkit Version 12.8.0" "" \
     "NVIDIA CUDA Toolkit Version 12.6.3" "" \
     "NVIDIA CUDA Toolkit Version 12.5.1" "" \
     "NVIDIA CUDA Toolkit Version 12.4.1" "" \
@@ -70,11 +71,14 @@ install_cuda(){
     3>&1 1>&2 2>&3)
     
     case $cuda_options in
+        "NVIDIA CUDA Toolkit Version 13.0.0")
+            download_and_install "13.0" "https://developer.download.nvidia.com/compute/cuda/13.0.0/local_installers/cuda_13.0.0_580.65.06_linux.run"
+            ;;
+        "NVIDIA CUDA Toolkit Version 12.9.1")
+            download_and_install "12.9" "https://developer.download.nvidia.com/compute/cuda/12.9.1/local_installers/cuda_12.9.1_575.57.08_linux.run"
+            ;;
         "NVIDIA CUDA Toolkit Version 12.8.1")
             download_and_install "12.8" "https://developer.download.nvidia.com/compute/cuda/12.8.1/local_installers/cuda_12.8.1_570.124.06_linux.run"
-            ;;
-        "NVIDIA CUDA Toolkit Version 12.8.0")
-            download_and_install "12.8" "https://developer.download.nvidia.com/compute/cuda/12.8.0/local_installers/cuda_12.8.0_570.86.10_linux.run"
             ;;
         "NVIDIA CUDA Toolkit Version 12.6.3")
             download_and_install "12.6" "https://developer.download.nvidia.com/compute/cuda/12.6.3/local_installers/cuda_12.6.3_560.35.05_linux.run"

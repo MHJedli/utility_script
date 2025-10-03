@@ -22,8 +22,9 @@ download_and_install(){
 install_driver(){
 
     log_message "INFO" "Displaying NVIDIA Driver Menu"
-    local driver_options=$(whiptail --title "NVIDIA Driver Installer" --menu "Choose a Driver Version" 30 80 10 \
-    "NVIDIA Driver Version 570 [Latest Driver Currently]" "" \
+    local driver_options=$(whiptail --title "NVIDIA Driver Installer" --menu "Choose a Driver Version" $HEIGHT $WIDTH 14 \
+    "NVIDIA Driver Version 580 [Latest Driver Currently]" "" \
+    "NVIDIA Driver Version 570" "" \
     "NVIDIA Driver Version 560" "" \
     "NVIDIA Driver Version 550" "" \
     "NVIDIA Driver Version 545" "" \
@@ -39,7 +40,10 @@ install_driver(){
     3>&1 1>&2 2>&3)
 
     case $driver_options in
-        "NVIDIA Driver Version 570 [Latest Driver Currently]")
+        "NVIDIA Driver Version 580 [Latest Driver Currently]")
+            download_and_install "580"
+            ;;
+        "NVIDIA Driver Version 570")
             download_and_install "570"
             ;;
         "NVIDIA Driver Version 560")
