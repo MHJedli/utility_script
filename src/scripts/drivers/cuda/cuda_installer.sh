@@ -14,15 +14,15 @@ download_and_install(){
 
     local cuda_version=$1
     local download_link=$2
-    local download_path="$(pwd)/tmp"
+    local download_path="${DIRECTORY_PATH}/tmp"
 
     log_message "INFO" "Downloading NVIDIA CUDA Toolkit Version ${cuda_version}"
     printc "YELLOW" "-> Downloading NVIDIA CUDA ToolKit Version ${cuda_version}"
-    wget -c -P "$download_path/" "$download_link"
+    wget -c "$download_link" -O "$download_path/cuda_${cuda_version}.run" || handle_error "Failed to Download NVIDIA CUDA Toolkit"
     
-    log_message "INFO" "Installing NVIDIA CUDA ToolKit in Silent Mode"
-    printc "YELLOW" "-> Installing NVIDIA CUDA ToolKit in Silent Mode..."
-    sudo sh "$download_path/cuda_${cuda_version}*.run" --silent --toolkit --toolkitpath=/usr/local/cuda-${cuda_version} || handle_error "Failed to Install NVIDIA CUDA Toolkit"
+    log_message "INFO" "Installing NVIDIA CUDA ToolKit Version ${cuda_version} in Silent Mode"
+    printc "YELLOW" "-> Installing NVIDIA CUDA ToolKit Version ${cuda_version} in Silent Mode..."
+    sudo sh "$download_path/cuda_${cuda_version}.run" --silent --toolkit --toolkitpath=/usr/local/cuda-${cuda_version} || handle_error "Failed to Install NVIDIA CUDA Toolkit"
 
     log_message "INFO" "Removing Old CUDA Path"
     printc "YELLOW" "-> Removing Old CUDA Path"
