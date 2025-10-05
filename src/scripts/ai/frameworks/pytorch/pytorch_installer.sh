@@ -172,10 +172,12 @@ install_pytorch(){
             ;;
         "CUDA")
             log_message "INFO" "Displaying CUDA Version Options Menu"
-            local cuda_versions=$(whiptail --title "CUDA Selection" --menu "Choose the Compute Platform CUDA version" 15 80 4 \
+            local cuda_versions=$(whiptail --title "CUDA Selection" --menu "Choose the Compute Platform CUDA version" $HEIGHT $WIDTH 6 \
             "11.8" "" \
             "12.4" "" \
             "12.6" "" \
+            "12.8" "" \
+            "12.9" "" \
             "<-- Back" "" \
             3>&1 1>&2 2>&3)
 
@@ -204,6 +206,22 @@ install_pytorch(){
                     log_message "INFO" "Testing CUDA Support in Pytorch"
                     test_cuda
                     ;;
+                "12.8")
+                    log_message "INFO" "Installing Pytorch with CUDA 12.8 Support"
+                    printc "YELLOW" "-> Installing Pytorch with CUDA 12.8 Support"
+                    pip3 install torch torchvision || handle_error "Failed to Install PyTorch with CUDA 12.8 Support"
+
+                    log_message "INFO" "Testing CUDA Support in Pytorch"
+                    test_cuda
+                    ;;
+                "12.9")
+                    log_message "INFO" "Installing Pytorch with CUDA 12.9 Support"
+                    printc "YELLOW" "-> Installing Pytorch with CUDA 12.9 Support"
+                    pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu129 || handle_error "Failed to Install PyTorch with CUDA 12.9 Support"
+
+                    log_message "INFO" "Testing CUDA Support in Pytorch"
+                    test_cuda
+                    ;;
                 "<-- Back")
                     log_message "INFO" "Returning to Compute Platform Options Menu"
                     install_pytorch
@@ -223,7 +241,7 @@ install_pytorch(){
 create_environment(){
 
     log_message "INFO" "Displaying the Environment Options Menu"
-    local options=$(whiptail --title "Creating Environment" --menu "Choose an option" 10 80 2 \
+    local options=$(whiptail --title "Creating Environment" --menu "Choose an option" $HEIGHT $WIDTH 2 \
     "Create a new Environment" "" \
     "Choose an existing Environment" "" \
     3>&1 1>&2 2>&3)
