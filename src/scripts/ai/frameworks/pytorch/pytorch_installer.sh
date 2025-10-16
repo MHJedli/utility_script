@@ -38,7 +38,7 @@ dry_run_check(){
     if ! command -v conda &> /dev/null; then
 
         log_message "WARN" "Conda Not Found, Install ?"
-        if whiptail --title "Conda NOT FOUND !" --yesno "Do you want to install Conda now ?" 8 78; then
+        if whiptail --title "Conda NOT FOUND !" --yesno "Do you want to install Conda now ?" $HEIGHT $WIDTH; then
 
             log_message "INFO" "Proceeding the Installation of Conda"
             printc "CYAN" "Proceeding the Installation of Conda..."
@@ -84,7 +84,7 @@ dry_run_check(){
     sleep 1
 
     log_message "INFO" "Verify NVIDIA Driver and CUDA Presence ?"
-    if whiptail --title "NVIDIA Driver and CUDA Check" --yesno "Do you plan to install Pytorch with CUDA Support? [REQUIRES NVIDIA GPU]" 8 78; then
+    if whiptail --title "NVIDIA Driver and CUDA Check" --yesno "Do you plan to install Pytorch with CUDA Support? [REQUIRES NVIDIA GPU]" $HEIGHT $WIDTH; then
 
             log_message "INFO" "2.1. Checking for NVIDIA Drivers"
             printc "YELLOW" "2.1. Checking for NVIDIA Drivers..."
@@ -92,7 +92,7 @@ dry_run_check(){
             if ! command -v nvidia-smi &> /dev/null; then
 
                 log_message "WARN" "NVIDIA Driver NOT found, Install ?"
-                if whiptail --title "NVIDIA Driver NOT FOUND !" --yesno "Do you Want to Install it ?" 8 78; then
+                if whiptail --title "NVIDIA Driver NOT FOUND !" --yesno "Do you Want to Install it ?" $HEIGHT $WIDTH; then
 
                     log_message "INFO" "Proceeding the Installation of NVIDIA"
                     printc "CYAN" "Proceeding the Installation of NVIDIA..."
@@ -119,7 +119,7 @@ dry_run_check(){
             if ! nvcc --version &> /dev/null; then
 
                 log_message "WARN" "NVIDIA CUDA Toolkit NOT found. Install ?"
-                if whiptail --title "CUDA Toolkit NOT FOUND !" --yesno "Do you Want to Install it ?" 8 78; then
+                if whiptail --title "CUDA Toolkit NOT FOUND !" --yesno "Do you Want to Install it ?" $HEIGHT $WIDTH; then
 
                     log_message "INFO" "Proceeding the Installation of NVIDIA CUDA Toolkit"
                     printc "CYAN" "Proceeding the Installation of NVIDIA CUDA Toolkit..."
@@ -156,7 +156,7 @@ dry_run_check(){
 install_pytorch(){
 
     log_message "INFO" "Displaying Compute Platform Options Menu"
-    local compute_option=$(whiptail --title "Pytorch Installer Script" --menu "Choose The Compute Platform" 10 80 2 \
+    local compute_option=$(whiptail --title "Pytorch Installer Script" --menu "Choose The Compute Platform" $HEIGHT $WIDTH 2 \
     "CPU" "" \
     "CUDA" "[REQUIRES NVIDIA GPU]" \
     3>&1 1>&2 2>&3)
@@ -172,12 +172,13 @@ install_pytorch(){
             ;;
         "CUDA")
             log_message "INFO" "Displaying CUDA Version Options Menu"
-            local cuda_versions=$(whiptail --title "CUDA Selection" --menu "Choose the Compute Platform CUDA version" $HEIGHT $WIDTH 6 \
+            local cuda_versions=$(whiptail --title "CUDA Selection" --menu "Choose the Compute Platform CUDA version" $HEIGHT $WIDTH 7 \
             "11.8" "" \
             "12.4" "" \
             "12.6" "" \
             "12.8" "" \
             "12.9" "" \
+            "13.0" "" \
             "<-- Back" "" \
             3>&1 1>&2 2>&3)
 
@@ -222,6 +223,14 @@ install_pytorch(){
                     log_message "INFO" "Testing CUDA Support in Pytorch"
                     test_cuda
                     ;;
+                "13.0")
+                    log_message "INFO" "Installing Pytorch with CUDA 13.0 Support"
+                    printc "YELLOW" "-> Installing Pytorch with CUDA 13.0 Support"
+                    pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu130 || handle_error "Failed to Install PyTorch with CUDA 12.9 Support"
+
+                    log_message "INFO" "Testing CUDA Support in Pytorch"
+                    test_cuda
+                    ;;
                 "<-- Back")
                     log_message "INFO" "Returning to Compute Platform Options Menu"
                     install_pytorch
@@ -249,7 +258,7 @@ create_environment(){
     case $options in
         "Create a new Environment")
             log_message "INFO" "User chose to Create a new environment"
-            local new_env=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
+            local new_env=$(whiptail --inputbox "Type Your Environment Name" $HEIGHT $WIDTH --title "Create a new Environment" 3>&1 1>&2 2>&3)
             local exit_status=$?
             if [ $exit_status = 0 ]; then
 
@@ -257,8 +266,8 @@ create_environment(){
 				if [[ -z $new_env ]]; then
 
                     log_message "WARN" "NULL Value String Detected from the InputBox"
-					whiptail --title "WARNING" --msgbox \
-					"      You Typed an Empty Name " \ 10 40
+                    print_msgbox "WARNING !" "You Typed an Empty Name !"
+
                     log_message "INFO" "Returning to the Environment Options Menu"
 					create_environment
 
@@ -283,7 +292,7 @@ create_environment(){
 
         "Choose an existing Environment")
             log_message "User chose to use an existing environment"
-            local your_env=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
+            local your_env=$(whiptail --inputbox "Type Your Environment Name" $HEIGHT $WIDTH --title "Create a new Environment" 3>&1 1>&2 2>&3)
             local exit_status=$?
             if [ $exit_status = 0 ]; then
 
@@ -291,8 +300,7 @@ create_environment(){
 				if [[ -z $your_env ]]; then
 
                     log_message "WARN" "NULL Value String Detected from the InputBox"
-					whiptail --title "WARNING" --msgbox \
-					"      You Typed an Empty Name " \ 10 40
+                    print_msgbox "WARNING !" "You Typed an Empty Name !"
 
                     log_message "INFO" "Returning to the Environment Options Menu"
 					create_environment
@@ -342,12 +350,9 @@ create_environment(){
 echo "Continue script execution in Pytorch Installation at $(date)" >> "$LOG_FILE"
 
 log_message "INFO" "Displaying Pytorch Installation Requirements"
-whiptail --msgbox \
-"
-Before Proceeding to the installation of Pytorch, make sure that :
+print_msgbox "NOTE" "Before Proceeding to the installation of Pytorch, make sure that :
 1. Conda is Installed on your machine
-2. The base conda environment of current shell session is (base) 
-" \ 10 80
+2. The base conda environment of current shell session is (base)"
 
 dry_run_check
 
