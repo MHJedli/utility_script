@@ -13,7 +13,7 @@ clear
 remove_nodejs(){
     log_message "INFO" "Removing NPM and NVM Installation"
     printc "YELLOW" "-> Removing NPM and NVM Installation..."
-    rm -rf "$HOME/.nvm" "$HOME/.npm"   
+    rm -rf "${HOME}/.nvm" "${HOME}/.npm"   
 }
 
 # Begin nodejs Removal

@@ -38,7 +38,7 @@ install_waydroid_for_ubuntu_or_based(){
 }
 
 install_waydroid_for_fedora_or_based(){
- echo "NONO"
+ echo "To be Implemented..."
 }
 
 init_waydroid(){
@@ -58,12 +58,12 @@ init_waydroid(){
 
 check_cpu_name(){
 
-    local CPU_NAME=$(lscpu | grep "Model name" | awk -F: '{ print $2 }' | xargs)
-    if [[ -z "$CPU_NAME" ]]; then
+    local cpu_name=$(lscpu | grep "Model name" | awk -F: '{ print $2 }' | xargs)
+    if [[ -z "$cpu_name" ]]; then
         handle_error "Failed to detect CPU Name"
     fi
 
-    echo $CPU_NAME
+    echo $cpu_name
 }
 
 post_installation_steps(){
@@ -81,7 +81,7 @@ post_installation_steps(){
     if [[ -d ${DIRECTORY_PATH}/tmp/waydroid_script ]]; then
         log_message "INFO" "Removing existing waydroid_script directory"
         printc "YELLOW" "-> Removing existing waydroid_script directory..."
-        rm -rf ${DIRECTORY_PATH}/tmp/waydroid_script || handle_error "Failed to remove existing waydroid_script directory"
+        rm -rf "${DIRECTORY_PATH}/tmp/waydroid_script" || handle_error "Failed to remove existing waydroid_script directory"
     fi
 
     git clone https://github.com/casualsnek/waydroid_script ${DIRECTORY_PATH}/tmp/waydroid_script || handle_error "Failed to clone waydroid_script repository"
@@ -91,17 +91,17 @@ post_installation_steps(){
 
     log_message "INFO" "Checking CPU"
     printc "YELLOW" "-> Checking CPU..."
-    local CPU_NAME=$(check_cpu_name)
+    local cpu_name=$(check_cpu_name)
 
-    log_message "INFO" "Detected CPU: $CPU_NAME"
-    printc "GREEN" "-> Detected CPU: $CPU_NAME"
-    if [[ "$CPU_NAME" == *"Intel"* ]]; then
+    log_message "INFO" "Detected CPU: $cpu_name"
+    printc "GREEN" "-> Detected CPU: $cpu_name"
+    if [[ "$cpu_name" == *"Intel"* ]]; then
         log_message "INFO" "Installing libhoudini arm translation layer"
         printc "YELLOW" "-> Installing libhoudini arm translation layer..."
         sudo venv/bin/python3 main.py install libhoudini || handle_error "Failed to install libhoudini arm translation layer"
         
     elif
-     [[ "$CPU_NAME" == *"AMD"* ]]; then
+     [[ "$cpu_name" == *"AMD"* ]]; then
         log_message "INFO" "Installing libndk arm translation layer"
         printc "YELLOW" "-> Installing libndk arm translation layer..."
         sudo venv/bin/python3 main.py install libndk || handle_error "Failed to install libndk arm translation layer"
@@ -110,10 +110,8 @@ post_installation_steps(){
     print_msgbox "IMPORTANT" "
     Before we finish, we need to fix the Google Play Certification:
     1. Open Waydroid from Application Menu and then come here
-    Press OK to when done...
+    Press OK when Waydroid is opened...
     "
-
-
     print_msgbox "IMPORTANT" "$(sudo venv/bin/python3 main.py certified)"
 
 }

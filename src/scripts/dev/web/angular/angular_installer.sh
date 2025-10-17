@@ -13,7 +13,7 @@ clear
 install_angular(){
 
     log_message "INFO" "Displaying Angular Installer Options Menu"
-    if whiptail --title "Angular Installer" --yesno "Do you want to install The Latest Version of Angular CLI ?" 8 78; then
+    if whiptail --title "Angular Installer" --yesno "Do you want to install The Latest Version of Angular CLI ?" $HEIGHT $WIDTH; then
 
         log_message "INFO" "Installing Latest Angular Version"
         printc "YELLOW" "-> Installing Latest Angular Version..."
@@ -30,7 +30,7 @@ install_angular(){
     else
 
         log_message "INFO" "Displaying Available Angular Versions Menu"
-        local option=$(whiptail --title "Angular Installer" --menu "Choose a Version to Install" 30 80 3 \
+        local option=$(whiptail --title "Angular Installer" --menu "Choose a Version to Install" $HEIGHT $WIDTH 3 \
         "Angular CLI 18" "" \
         "Angular CLI 17" "" \
         "Angular CLI 16" "" \
@@ -136,17 +136,12 @@ if check_internet; then
         install_packages_for_fedora_or_based
     fi
 
-    log_message "INFO" "Checking Installed Node and NPM Versions"
-    printc "YELLOW" "-> Checking Installed Node and NPM Versions..."
-    node -v || handle_error "Failed to Print Installed Node Version"
-    npm -v || handle_error "Failed to Print Installed NPM Version"
-
     log_message "INFO" "Installing Angular"
     printc "YELLOW" "-> Installing Angular..."
     install_angular
 
     log_message "INFO" "Displaying Angular Version Check Menu"
-    if whiptail --title "Angular Installed Successfully" --yesno "Do Want to check your Installed Version ?" 8 78; then
+    if whiptail --title "Angular Installed Successfully" --yesno "Do Want to check your Installed Version ?" $HEIGHT $WIDTH; then
         log_message "INFO" "Printing Installed Angular Version"
         ng version || handle_error "Failed to Print Installed Angular Version"
     fi

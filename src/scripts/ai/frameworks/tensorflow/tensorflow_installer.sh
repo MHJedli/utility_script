@@ -24,7 +24,7 @@ dry_run_check(){
     if ! command -v conda &> /dev/null; then
 
         log_message "WARN" "Conda Not Found, Install ?"
-        if whiptail --title "Conda NOT FOUND !" --yesno "Do you want to install Conda now ?" 8 78; then
+        if whiptail --title "Conda NOT FOUND !" --yesno "Do you want to install Conda now ?" $HEIGHT $WIDTH; then
 
 			log_message "INFO" "Proceeding with the Installation of Conda"
             printc "CYAN" "Proceeding with the Installation of Conda..."
@@ -71,7 +71,7 @@ dry_run_check(){
     printc "YELLOW" "2. Checking for CUDA Toolkit and NVIDIA Drivers..."
 	sleep 1
     log_message "INFO" "Verify NVIDIA Driver and CUDA Presence ?"
-    if whiptail --title "NVIDIA Driver and CUDA Check" --yesno "Do you plan to install Tensorflow with CUDA Support? [REQUIRES NVIDIA GPU]" 8 78; then
+    if whiptail --title "NVIDIA Driver and CUDA Check" --yesno "Do you plan to install Tensorflow with CUDA Support? [REQUIRES NVIDIA GPU]" $HEIGHT $WIDTH; then
 
             log_message "INFO" "2.1. Checking for NVIDIA Drivers"
             printc "YELLOW" "2.1. Checking for NVIDIA Drivers..."
@@ -79,7 +79,7 @@ dry_run_check(){
             if ! command -v nvidia-smi &> /dev/null; then
 
                 log_message "WARN" "NVIDIA Driver NOT found, Install?"
-                if whiptail --title "NVIDIA Driver NOT FOUND!" --yesno "Do you want to install it?" 8 78; then
+                if whiptail --title "NVIDIA Driver NOT FOUND!" --yesno "Do you want to install it?" $HEIGHT $WIDTH; then
 
 					log_message "INFO" "Proceeding with the Installation of NVIDIA"
                     printc "CYAN" "Proceeding with the Installation of NVIDIA..."
@@ -107,7 +107,7 @@ dry_run_check(){
             if ! nvcc --version &> /dev/null; then
 
                 log_message "WARN" "NVIDIA CUDA Toolkit NOT found. Install ?"
-                if whiptail --title "CUDA Toolkit NOT FOUND !" --yesno "Do you Want to Install it ?" 8 78; then
+                if whiptail --title "CUDA Toolkit NOT FOUND !" --yesno "Do you Want to Install it ?" $HEIGHT $WIDTH; then
 
 					log_message "INFO" "Proceeding with the Installation of NVIDIA CUDA Toolkit"
                     printc "CYAN" "Proceeding with the Installation of NVIDIA CUDA Toolkit..."
@@ -145,7 +145,7 @@ dry_run_check(){
 install_tensorflow(){
 
 	log_message "INFO" "Displaying The Compute Platform Menu"
-    local compute_options=$(whiptail --title "Pytorch Installer Script" --menu "Choose The Compute Platform" 10 80 2 \
+    local compute_options=$(whiptail --title "Pytorch Installer Script" --menu "Choose The Compute Platform" $HEIGHT $WIDTH 2 \
     "CPU" "" \
     "CUDA" "[REQUIRES NVIDIA GPU]" \
     3>&1 1>&2 2>&3)
@@ -157,12 +157,9 @@ install_tensorflow(){
 			python3 -m pip install tensorflow || handle_error "Failed to Install Tensorflow with CPU Support"
 
 			log_message "INFO" "Verifying TensorFlow Installation with CPU Support"
-			whiptail --msgbox \
-			"
-			-> Verifying TensorFlow With CPU Support Installation
+			print_msgbox "NOTE" "-> Verifying TensorFlow With CPU Support Installation
 			-> By Executing python -c 'import tensorflow as tf; print(tf.random.normal([5, 5]))'
-			-> If a result is returned, then tensorflow is installed 
-			" \ 10 80
+			-> If a result is returned, then tensorflow is installed"
 			python -c "import tensorflow as tf; print(tf.random.normal([5, 5]))" || handle_error "Failed to check if tensorflow is installed"
 
 			echo -n "Press [ENTER] To Continue..."
@@ -171,12 +168,9 @@ install_tensorflow(){
 
         "CUDA")
 			log_message "INFO" "User chose to Installing Tensorflow with CUDA Support"
-			whiptail --msgbox \
-			"
-			For Tensorflow with CUDA Support to work, Make sure that you have :
+			print_msgbox "NOTE" "For Tensorflow with CUDA Support to work, Make sure that you have :
 			1. NVIDIA Driver Installed on your Machine
-			2. NVIDIA CUDA Toolkit Installed on your Machine 
-			" \ 10 80
+			2. NVIDIA CUDA Toolkit Installed on your Machine"
 
 			log_message "INFO" "Installing cuDNN Package"
 			printc "YELLOW" "-> Installing cuDNN Package..."
@@ -187,13 +181,9 @@ install_tensorflow(){
 			python3 -m pip install tensorflow[and-cuda] || handle_error "Failed to Install Tensorflow with CUDA Support"
 
 			log_message "INFO" "Verifying TensorFlow Installation with CUDA Support"
-			whiptail --msgbox \
-			"
-			Verifying TensorFlow Installation with CUDA Support,
-			by Executing :
+			print_msgbox "NOTE" "Verifying TensorFlow Installation with CUDA Support, by Executing :
 			-> python -c \"import tensorflow as tf; print(tf.test.is_built_with_cuda())\"
-			If Returned True, then Tensorflow is installed with CUDA Support
-			" \ 15 90
+			If Returned True, then Tensorflow is installed with CUDA Support"
 			python -c "import tensorflow as tf; print(tf.test.is_built_with_cuda())" || handle_error "Failed to check if Tensorflow with CUDA Support is installed"
 			echo -n "Press [ENTER] to continue..."
 			read
@@ -207,7 +197,7 @@ install_tensorflow(){
 create_environment(){
 
 	log_message "INFO" "Displaying Creating Environment Menu"
-    local options=$(whiptail --title "Creating Environment" --menu "Choose an option" 10 80 2 \
+    local options=$(whiptail --title "Creating Environment" --menu "Choose an option" $HEIGHT $WIDTH 2 \
     "Create a new Environment" "" \
     "Choose an existing Environment" "" \
     3>&1 1>&2 2>&3)
@@ -215,7 +205,7 @@ create_environment(){
     case $options in
         "Create a new Environment")
 			log_message "INFO" "User chose to Create a new Environment"
-            local new_env=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
+            local new_env=$(whiptail --inputbox "Type Your Environment Name" $HEIGHT $WIDTH --title "Create a new Environment" 3>&1 1>&2 2>&3)
             local exit_status=$?
             if [ $exit_status = 0 ]; then
 
@@ -224,7 +214,7 @@ create_environment(){
 
                     log_message "WARN" "NULL Value String Detected from the InputBox"
 					whiptail --title "WARNING" --msgbox \
-					"      You Typed an Empty Name " \ 10 40
+					"      You Typed an Empty Name " \ $HEIGHT $WIDTH
                     log_message "INFO" "Returning to the Environment Options Menu"
 					create_environment
 
@@ -256,7 +246,7 @@ create_environment(){
 
         "Choose an existing Environment")
 			log_message "INFO" "User chose an Existing Environment"
-            local your_env=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
+            local your_env=$(whiptail --inputbox "Type Your Environment Name" $HEIGHT $WIDTH --title "Create a new Environment" 3>&1 1>&2 2>&3)
             local exit_status=$?
             if [ $exit_status = 0 ]; then
 
@@ -265,7 +255,7 @@ create_environment(){
 
                     log_message "WARN" "NULL Value String Detected from the InputBox"
 					whiptail --title "WARNING" --msgbox \
-					"      You Typed an Empty Name " \ 10 40
+					"      You Typed an Empty Name " \ $HEIGHT $WIDTH
                     log_message "INFO" "Returning to the Environment Options Menu"
 					create_environment
 
@@ -298,8 +288,7 @@ create_environment(){
                 else
 				
 					log_message "WARN" "${YOUR_ENV} Does NOT Exists"
-					whiptail --title "WARNING" --msgbox \
-					"${your_env} Does NOT Exists !" \ 10 60
+					print_msgbox "WARNING !" "${your_env} Does NOT Exists !"
                     create_environment
 
                 fi
@@ -320,12 +309,9 @@ create_environment(){
 echo "Continue script execution in Tensorflow Installation at $(date)" >> "$LOG_FILE"
 
 log_message "INFO" "Displaying The Tensorflow Installer Requirements"
-whiptail --msgbox \
-"
-Before Proceeding to the installation of Tensorflow, make sure that :
+print_msgbox "NOTE" "Before Proceeding to the installation of Tensorflow, make sure that :
 1. Conda is Installed on your machine
-2. The base conda environment of current shell session is (base) 
-" \ 10 80
+2. The base conda environment of current shell session is (base)"
 
 dry_run_check
 

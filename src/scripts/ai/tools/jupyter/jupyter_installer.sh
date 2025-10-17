@@ -23,7 +23,7 @@ dry_run_check(){
     if ! command -v conda &> /dev/null; then
 
         log_message "WARN" "Conda Not Found, Install ?"
-        if whiptail --title "Conda NOT FOUND !" --yesno "Do you want to install Conda now ?" 8 78; then
+        if whiptail --title "Conda NOT FOUND !" --yesno "Do you want to install Conda now ?" $HEIGHT $WIDTH; then
 
             log_message "INFO" "Proceeding the Installation of Conda"
             printc "CYAN" "Proceeding the Installation of Conda..."
@@ -73,7 +73,7 @@ dry_run_check(){
 create_environment(){
 
     log_message "INFO" "Displaying the Environment Options Menu"
-    local options=$(whiptail --title "Creating Environment" --menu "Choose an option" 10 80 2 \
+    local options=$(whiptail --title "Creating Environment" --menu "Choose an option" $HEIGHT $WIDTH 2 \
     "Create a new Environment" "" \
     "Choose an existing Environment" "" \
     3>&1 1>&2 2>&3)
@@ -81,7 +81,7 @@ create_environment(){
     case $options in
         "Create a new Environment")
             log_message "INFO" "User chose to Create a new environment"
-            local new_env=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
+            local new_env=$(whiptail --inputbox "Type Your Environment Name" $HEIGHT $WIDTH --title "Create a new Environment" 3>&1 1>&2 2>&3)
             local exit_status=$?
             if [ $exit_status = 0 ]; then
 
@@ -89,8 +89,8 @@ create_environment(){
 				if [[ -z $new_env ]]; then
 
                     log_message "WARN" "NULL Value String Detected from the InputBox"
-					whiptail --title "WARNING" --msgbox \
-					"      You Typed an Empty Name " \ 10 40
+                    print_msgbox "WARNING !" "You Typed an Empty Name"
+
                     log_message "INFO" "Returning to the Environment Options Menu"
 					create_environment
 
@@ -115,7 +115,7 @@ create_environment(){
 
         "Choose an existing Environment")
             log_message "User chose to use an existing environment"
-            local your_env=$(whiptail --inputbox "Type Your Environment Name" 8 39 --title "Create a new Environment" 3>&1 1>&2 2>&3)
+            local your_env=$(whiptail --inputbox "Type Your Environment Name" $HEIGHT $WIDTH --title "Create a new Environment" 3>&1 1>&2 2>&3)
             local exit_status=$?
             if [ $exit_status = 0 ]; then
 
@@ -123,8 +123,7 @@ create_environment(){
 				if [[ -z $your_env ]]; then
 
                     log_message "WARN" "NULL Value String Detected from the InputBox"
-					whiptail --title "WARNING" --msgbox \
-					"      You Typed an Empty Name " \ 10 40
+                    print_msgbox "WARNING !" "You Typed an Empty Name"
 
                     log_message "INFO" "Returning to the Environment Options Menu"
 					create_environment
@@ -186,12 +185,9 @@ install_jupyter(){
 echo "Continue script execution in Jupyter Installation at $(date)" >> "$LOG_FILE"
 
 log_message "INFO" "Displaying Jupyter Installation Requirements"
-whiptail --msgbox \
-"
-Before Proceeding to the installation of Jupyter, make sure that :
+print_msgbox "NOTE" "Before Proceeding to the installation of Jupyter, make sure that :
 1. Conda is Installed on your machine
-2. The base conda environment of current shell session is (base) 
-" \ 10 80
+2. The base conda environment of current shell session is (base)"
 
 dry_run_check
 

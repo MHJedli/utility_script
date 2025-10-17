@@ -14,7 +14,7 @@ clear
 echo "Continue script execution in Conda Removal at $(date)" >> "$LOG_FILE"
 
 log_message "YELLOW" "Showing Conda Remover Menu"
-OPTIONS_LIST=$(whiptail --title "Conda Remover" --menu "What do you Want to Remove ?" 30 80 2 \
+OPTIONS_LIST=$(whiptail --title "Conda Remover" --menu "What do you Want to Remove ?" $HEIGHT $WIDTH 2 \
 "Miniconda" "" \
 "Anaconda" "" \
 3>&1 1>&2 2>&3)

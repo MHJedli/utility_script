@@ -13,7 +13,7 @@ clear
 # Begin Flutter Removal
 echo "Continue script execution in Flutter Removal at $(date)" >> "$LOG_FILE"
 
-FLUTTER_PATH=$(whiptail --inputbox "Type the path where the flutter is located :" 8 39 --title "Flutter Path" 3>&1 1>&2 2>&3)
+FLUTTER_PATH=$(whiptail --inputbox "Type the path where the flutter is located :" $HEIGHT $WIDTH --title "Flutter Path" 3>&1 1>&2 2>&3)
 EXIT_STATUS=$?
 if [ $EXIT_STATUS = 0 ]; then
 
@@ -27,18 +27,18 @@ if [ $EXIT_STATUS = 0 ]; then
 
     else
 
-        log_message "INFO" "Flutter Path provided: $FLUTTER_PATH"
-        printc "GREEN" "-> Flutter Path provided: $FLUTTER_PATH"
+        log_message "INFO" "Flutter Path provided: ${FLUTTER_PATH}"
+        printc "GREEN" "-> Flutter Path provided: ${FLUTTER_PATH}"
         DEFAULT_FLUTTER_PATH="${HOME}/${FLUTTER_PATH}/flutter"
 
     fi
 
-    log_message "INFO" "Checking if Flutter is installed at $DEFAULT_FLUTTER_PATH"
-    printc "YELLOW" "-> Checking if Flutter is installed at $DEFAULT_FLUTTER_PATH"
+    log_message "INFO" "Checking if Flutter is installed at ${DEFAULT_FLUTTER_PATH}"
+    printc "YELLOW" "-> Checking if Flutter is installed at ${DEFAULT_FLUTTER_PATH}"
     if [[ -d "$DEFAULT_FLUTTER_PATH" ]]; then
 
-        log_message "INFO" "Flutter is installed at $DEFAULT_FLUTTER_PATH"
-        printc "GREEN" "Flutter is installed at $DEFAULT_FLUTTER_PATH"
+        log_message "INFO" "Flutter is installed at ${DEFAULT_FLUTTER_PATH}"
+        printc "GREEN" "Flutter is installed at ${DEFAULT_FLUTTER_PATH}"
 
         log_message "INFO" "Deleting Flutter"
         printc "YELLOW" "-> Deleting Flutter..."
@@ -62,7 +62,7 @@ if [ $EXIT_STATUS = 0 ]; then
         source ~/.bashrc
 
     else
-        handle_error "Flutter not found at $DEFAULT_FLUTTER_PATH"
+        handle_error "Flutter not found at ${DEFAULT_FLUTTER_PATH}"
     fi
 fi
 # End Flutter Removal

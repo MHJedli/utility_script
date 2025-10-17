@@ -51,16 +51,16 @@ install_for_ubuntu_or_based(){
     sudo systemctl enable mongod || handle_error "Failed to enable MongoDB service"
     sudo systemctl start mongod || handle_error "Failed to start MongoDB service"
 
-    if whiptail --title "MongoDB Installation" --yesno "Do you want to Install MongoDB Compass (GUI for MongoDB)?" 10 60; then
+    if whiptail --title "MongoDB Installation" --yesno "Do you want to Install MongoDB Compass (GUI for MongoDB)?" $HEIGHT $WIDTH; then
         log_message "INFO" "Downloading MongoDB Compass"
         printc "YELLOW" "-> Downloading MongoDB Compass..."
         local compass_download_url="https://downloads.mongodb.com/compass/mongodb-compass_1.46.2_amd64.deb"
-        local download_path="$DIRECTORY_PATH/tmp/"
+        local download_path="${DIRECTORY_PATH}/tmp/"
         wget -c -P $download_path $compass_download_url || handle_error "Failed to download MongoDB Compass"
 
         log_message "INFO" "Installing MongoDB Compass"
         printc "YELLOW" "-> Installing MongoDB Compass..."
-        sudo apt install -y $download_path/mongodb-compass_1.46.2_amd64.deb 
+        sudo apt install -y ${download_path}/mongodb-compass_1.46.2_amd64.deb 
         log_message "INFO" "MongoDB Compass installed successfully"
         print_msgbox "Success" "MongoDB Compass installed successfully"
     fi
@@ -102,12 +102,12 @@ gpgkey=https://www.mongodb.org/static/pgp/server-8.0.asc" | sudo tee /etc/yum.re
         log_message "INFO" "Downloading MongoDB Compass"
         printc "YELLOW" "-> Downloading MongoDB Compass..."
         local compass_download_url="https://downloads.mongodb.com/compass/mongodb-compass-1.46.2.x86_64.rpm"
-        local download_path="$DIRECTORY_PATH/tmp/"
+        local download_path="${DIRECTORY_PATH}/tmp/"
         wget -c -P $download_path $compass_download_url || handle_error "Failed to download MongoDB Compass"
 
         log_message "INFO" "Installing MongoDB Compass"
         printc "YELLOW" "-> Installing MongoDB Compass..."
-        sudo dnf install $download_path/mongodb-compass-1.46.2.x86_64.rpm -y || handle_error "Failed to install MongoDB Compass"
+        sudo dnf install ${download_path}/mongodb-compass-1.46.2.x86_64.rpm -y || handle_error "Failed to install MongoDB Compass"
         log_message "INFO" "MongoDB Compass installed successfully"
         print_msgbox "Success" "MongoDB Compass installed successfully"
     fi

@@ -12,10 +12,9 @@ clear
 
 install_oracle_vm_for_ubuntu_or_based(){
 
-    local system_release=$(cat /etc/issue)
     local codename=$(. /etc/os-release && echo "$UBUNTU_CODENAME")
     local download_link="https://download.virtualbox.org/virtualbox/7.1.4/virtualbox-7.1_7.1.4-165100~Ubuntu~${codename}_amd64.deb"
-    local download_path="$(pwd)/tmp"
+    local download_path="${DIRECTORY_PATH}/tmp"
 
     log_message "INFO" "Refreshing Package Cache"
     printc "YELLOW" "-> Refreshing Package Cache..."
@@ -26,13 +25,13 @@ install_oracle_vm_for_ubuntu_or_based(){
     echo -n "Press [ENTER] To Continue..."
     read
 
-    log_message "INFO" "Downloading Oracle VM for ${system_release:0:-6}"
-    printc "YELLOW" "-> Downloading Oracle VM for ${system_release:0:-6}..."
-    wget -c "$download_link" -O "$download_path/oracle_for_ubuntu_${codename}.deb"  || handle_error "Failed to Download Oracle VM"
+    log_message "INFO" "Downloading Oracle VM for ${DISTRIBUTION_NAME}"
+    printc "YELLOW" "-> Downloading Oracle VM for ${DISTRIBUTION_NAME}..."
+    wget -c "$download_link" -O "${download_path}/oracle_for_ubuntu_${codename}.deb"  || handle_error "Failed to Download Oracle VM"
 
     log_message "INFO" "Installing Oracle VM"
     printc "YELLOW" "-> Installing Oracle VM..."
-    sudo apt install "$download_path/oracle_for_ubuntu_${codename}.deb" || handle_error "Failed to Install Oracle VM"
+    sudo apt install "${download_path}/oracle_for_ubuntu_${codename}.deb" || handle_error "Failed to Install Oracle VM"
 
 }
 
@@ -85,7 +84,7 @@ if check_internet; then
 
     else
 
-        handle_error "Unsupported Distribution: $DISTRIBUTION"
+        handle_error "Unsupported Distribution: ${DISTRIBUTION}"
 
     fi
 

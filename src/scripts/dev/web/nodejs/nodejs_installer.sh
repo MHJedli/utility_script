@@ -61,7 +61,7 @@ if check_internet; then
 
     log_message "INFO" "Removing Previous NVM and NPM Installation"
     printc "YELLOW" "-> Removing Previous NVM and NPM Installation..."
-    rm -rf "$HOME/.nvm" "$HOME/.npm"
+    rm -rf "${HOME}/.nvm" "${HOME}/.npm"
 
     install_nodejs
 

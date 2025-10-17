@@ -46,7 +46,7 @@ install_other_flutter_version(){
     done
 
     log_message "INFO" "Displaying Flutter SDK Versions Menu"
-    local option=$(whiptail --title "Flutter SDK Installer" --menu "Choose an option" 30 80 10 "${flutter_versions_options[@]}" 3>&1 1>&2 2>&3)
+    local option=$(whiptail --title "Flutter SDK Installer" --menu "Choose an option" $HEIGHT $WIDTH 10 "${flutter_versions_options[@]}" 3>&1 1>&2 2>&3)
     if [[ $? -ne 0 ]]; then
         handle_error "User exited the menu"
     fi
@@ -77,7 +77,7 @@ install_latest_flutter_version(){
 install_flutter(){
 
     log_message "INFO" "Displaying Flutter SDK Menu"
-    if whiptail --title "Flutter SDK Installer" --yesno "Do you want to install The Latest Version of Flutter SDK ?" 8 78; then
+    if whiptail --title "Flutter SDK Installer" --yesno "Do you want to install The Latest Version of Flutter SDK ?" $HEIGHT $WIDTH; then
 
         install_latest_flutter_version
     else

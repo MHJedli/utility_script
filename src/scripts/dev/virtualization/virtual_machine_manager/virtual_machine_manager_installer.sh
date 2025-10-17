@@ -86,7 +86,7 @@ if check_internet; then
 
     else
 
-        handle_error "Unsupported Distribution: $DISTRIBUTION"
+        handle_error "Unsupported Distribution: ${DISTRIBUTION}"
 
     fi
 

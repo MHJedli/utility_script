@@ -64,7 +64,7 @@ install_anaconda(){
 
 choose_menu(){
     log_message "INFO" "Displaying Available Options"
-    local option=$(whiptail --title "Conda Installer Script" --menu "What Do you want to Install ?" 30 80 2 \
+    local option=$(whiptail --title "Conda Installer Script" --menu "What Do you want to Install ?" $HEIGHT $WIDTH 2 \
     "Miniconda" "Minimal Installer ( 120MB+ Download Size )" \
     "Anaconda" "Larger Distribution ( 1GB+ Download Size )" \
     3>&1 1>&2 2>&3)
@@ -110,8 +110,7 @@ if check_internet; then
 
     echo "Conda Script Completed Successfully at $(date)" >> "$LOG_FILE"
     print_msgbox "Success !" "Conda Script Completed Successfully"
-
-    exec bash
+    print_msgbox "Note !" "Please Restart your Terminal to Apply Changes"
 
 else
 
