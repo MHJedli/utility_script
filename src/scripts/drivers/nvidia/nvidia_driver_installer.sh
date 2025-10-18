@@ -130,7 +130,7 @@ install_nvidia_driver_for_fedora_or_based(){
 
     log_message "INFO" "Purging Current NVIDIA Installation if Existed"
     printc "YELLOW" "-> Purging Current NVIDIA Installation if Existed..."
-    sudo dnf remove nvidia* --allowerasing -y || handle_error "Failed to Purge NVIDIA"
+    sudo dnf remove nvidia* -y || handle_error "Failed to Purge NVIDIA"
 
     log_message "INFO" "Refreshing Package Cache"
     printc "YELLOW" "-> Refreshing Package Cache..."
