@@ -74,11 +74,7 @@ rootless_docker(){
     printc "YELLOW" "-> Setting Up Rootless Docker..."
     sudo groupadd docker
     sudo usermod -aG docker $USER
-    newgrp docker
 
-    log_message "INFO" "Verifying Rootless Docker"
-    printc "YELLOW" "-> Verifying Rootless Docker..."
-    docker run hello-world || handle_error "Failed to Verify Rootless Docker"
 }
 
 # Begin Docker Installation
@@ -107,6 +103,10 @@ if check_internet; then
     
     echo "Script Execution in Docker Installation Ended Successfully at $(date)" >> "$LOG_FILE"
     print_msgbox "Success !" "Docker Installed Successfully"
+    if whiptail --title "Reboot Required" --yesno "Reboot is required to apply changes. Do you want to reboot now ?" $HEIGHT $WIDTH; then
+        echo "Rebooting..."
+        reboot
+    fi
 
 else
 
