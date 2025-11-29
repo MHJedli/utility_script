@@ -41,6 +41,13 @@ declare -A scriptPaths=(
     ["cuda_remover"]="${SCRIPT_DIR}/src/scripts/drivers/cuda/cuda_remover.sh"
 
     ["cuda_switcher"]="${SCRIPT_DIR}/src/scripts/drivers/cuda/cuda_switcher.sh"
+
+    # Toolkits Scripts
+    ["intel_oneapi_base_toolkit_installer"]="${SCRIPT_DIR}/src/scripts/toolkits/intel_oneapi/intel_oneapi_base_toolkit/intel_oneapi_base_toolkit_installer.sh"
+    ["intel_oneapi_base_toolkit_remover"]="${SCRIPT_DIR}/src/scripts/toolkits/intel_oneapi/intel_oneapi_base_toolkit/intel_oneapi_base_toolkit_remover.sh"
+
+    ["intel_oneapi_hpc_toolkit_installer"]="${SCRIPT_DIR}/src/scripts/toolkits/intel_oneapi/intel_oneapi_hpc_toolkit/intel_oneapi_hpc_toolkit_installer.sh"
+    ["intel_oneapi_hpc_toolkit_remover"]="${SCRIPT_DIR}/src/scripts/toolkits/intel_oneapi/intel_oneapi_hpc_toolkit/intel_oneapi_hpc_toolkit_remover.sh"
     
     # AI Scripts
     ["jupyter_installer"]="${SCRIPT_DIR}/src/scripts/ai/tools/jupyter/jupyter_installer.sh"
