@@ -11,7 +11,9 @@
         ├── ai
         ├── dev
         ├── drivers
-        └── tweaks
+        ├── toolkits
+        ├── tweaks
+        └── utilities
 
 ```
 *  src : Directory for storing ressources <br>
@@ -42,10 +44,15 @@ scripts
 |          ├── mongodb
 |          └── nodejs
 ├── drivers
-│    ├── cuda
-|    |     ├── cuda_installer
-|    |     └── cuda_switcher
 │    └── nvidia
+├── toolkits
+|    ├── intel_oneapi
+|    |     ├── intel_oneapi_base_toolkit
+|    |     └── intel_oneapi_hpc_toolkit
+|    └── cuda
+|          ├── cuda_installer
+|          ├── cuda_remover
+|          └── cuda_switcher
 ├── tweaks 
 |    ├── keyboard_rgb_fix
 |    ├── spotify
