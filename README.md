@@ -11,6 +11,7 @@
         ├── ai
         ├── dev
         ├── drivers
+        ├── physics
         ├── toolkits
         ├── tweaks
         └── utilities
@@ -45,6 +46,8 @@ scripts
 |          └── nodejs
 ├── drivers
 │    └── nvidia
+├── physics
+|    └── qe_gipaw
 ├── toolkits
 |    ├── intel_oneapi
 |    |     ├── intel_oneapi_base_toolkit
