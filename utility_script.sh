@@ -7,11 +7,13 @@ DEV_MENU="${DIRECTORY_PATH}/src/menus/dev.sh"
 AI_MENU="${DIRECTORY_PATH}/src/menus/ai.sh"
 TWEAKS_MENU="${DIRECTORY_PATH}/src/menus/tweaks.sh"
 DRIVERS_MENU="${DIRECTORY_PATH}/src/menus/drivers.sh"
+PHYSICS_MENU="${DIRECTORY_PATH}/src/menus/physics.sh"
 TOOLKITS_MENU="${DIRECTORY_PATH}/src/menus/toolkits.sh"
 UTILITIES_MENU="${DIRECTORY_PATH}/src/menus/utilities.sh"
 CUSTOMS_MENU="${DIRECTORY_PATH}/src/menus/customs.sh"
 SCRIPTS_PATH="${DIRECTORY_PATH}/src/scripts/scripts_path.sh"
 GENERATION_SCRIPT="${DIRECTORY_PATH}/src/generate_tool.sh"
+
 # LOG File
 LOG_FILE="src/logfile.log"
 
@@ -35,11 +37,12 @@ show_system_info(){
 show_main_menu(){
     local system_info=$(show_system_info)
     log_message "INFO" "Displaying The Main Menu"
-    local option=$(whiptail --title "Linux Utility Script" --menu "Choose an option\n(Currently using : ${system_info})" $HEIGHT $WIDTH 8 \
+    local option=$(whiptail --title "Linux Utility Script" --menu "Choose an option\n(Currently using : ${system_info})" $HEIGHT $WIDTH 9 \
     "Development" "Install Development Apps like Android Studio and Angular" \
     "Utilities" "Install Daily Use Apps like Office Apps, IDE, ..." \
     "AI" "Install Scientific Tools Like TensorFlow and Pytorch" \
     "Drivers" "Install FOSS/Proprietary Drivers Like NVIDIA Drivers" \
+    "Physics Toolbox" "Install Some Programs for Physics reseach" \
     "Toolkits" "Install Toolkits for High Performance Calculations" \
     "System Tweaks" "Install Some Goodies for Your System" \
     "Customs" "Install Custom Tools and Scripts" \
@@ -66,6 +69,10 @@ show_main_menu(){
         "Toolkits")
             log_message "INFO" "User chose the Toolkits Menu"
             source "$TOOLKITS_MENU"
+            ;;
+        "Physics Toolbox")
+            log_message "INFO" "User chose the Physics Toolbox Menu"
+            source "$PHYSICS_MENU"
             ;;
         "System Tweaks")
             log_message "INFO" "User chose the System Tweaks Menu"
