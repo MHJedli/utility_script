@@ -33,6 +33,10 @@ declare -A scriptPaths=(
     ["docker_installer"]="${SCRIPT_DIR}/src/scripts/dev/virtualization/docker/docker_installer.sh"
     ["docker_remover"]="${SCRIPT_DIR}/src/scripts/dev/virtualization/docker/docker_remover.sh"
 
+    # Physics scripts
+    ["qe_gipaw_installer"]="${SCRIPT_DIR}/src/scripts/physics/qe_gipaw/qe_gipaw_installer.sh"
+    ["qe_gipaw_remover"]="${SCRIPT_DIR}/src/scripts/physics/qe_gipaw/qe_gipaw_remover.sh"
+    
     # Drivers Scripts
     ["nvidia_driver_installer"]="${SCRIPT_DIR}/src/scripts/drivers/nvidia/nvidia_driver_installer.sh"
     ["nvidia_driver_remover"]="${SCRIPT_DIR}/src/scripts/drivers/nvidia/nvidia_driver_remover.sh"
