@@ -22,8 +22,9 @@ download_and_install(){
 install_driver(){
 
     log_message "INFO" "Displaying NVIDIA Driver Menu"
-    local driver_options=$(whiptail --title "NVIDIA Driver Installer" --menu "Choose a Driver Version" $HEIGHT $WIDTH 14 \
-    "NVIDIA Driver Version 580 [Latest Driver Currently]" "" \
+    local driver_options=$(whiptail --title "NVIDIA Driver Installer" --menu "Choose a Driver Version" $HEIGHT $WIDTH 15 \
+    "NVIDIA Driver Version 590 [Latest Driver Currently]" "" \
+    "NVIDIA Driver Version 580" "" \
     "NVIDIA Driver Version 570" "" \
     "NVIDIA Driver Version 560" "" \
     "NVIDIA Driver Version 550" "" \
@@ -40,7 +41,10 @@ install_driver(){
     3>&1 1>&2 2>&3)
 
     case $driver_options in
-        "NVIDIA Driver Version 580 [Latest Driver Currently]")
+        "NVIDIA Driver Version 590 [Latest Driver Currently]")
+            download_and_install "590"
+            ;;
+        "NVIDIA Driver Version 580")
             download_and_install "580"
             ;;
         "NVIDIA Driver Version 570")
@@ -132,22 +136,24 @@ install_nvidia_driver_for_fedora_or_based(){
     printc "YELLOW" "-> Purging Current NVIDIA Installation if Existed..."
     sudo dnf remove nvidia* -y || handle_error "Failed to Purge NVIDIA"
 
-    log_message "INFO" "Refreshing Package Cache"
-    printc "YELLOW" "-> Refreshing Package Cache..."
+    log_message "INFO" "Updating system"
+    printc "YELLOW" "-> Updating system..."
     sudo dnf update -y || handle_error "Failed to Refresh Package Cache"
+
+    log_message "INFO" "Installing Kernel Headers and dev tools"
+    printc "YELLOW" "-> Installing Kernel Headers and dev tools..."
+    sudo dnf install -y kernel-devel kernel-headers gcc make dkms acpid \
+                        libglvnd-glx libglvnd-opengl libglvnd-devel pkgconfig || handle_error "Failed to install Kernel Headers and dev tools"
 
     log_message "INFO" "Enabling RPM Fusion Repository"
     printc "YELLOW" "-> Enabling RPM Fusion Repository..."
-    sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm -y || handle_error "Failed to Enable RPM Fusion Repository"
-    sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y || handle_error "Failed to Enable RPM Fusion Repository"
+    sudo dnf install -y \
+                        https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+                        https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm || handle_error "Failed to enable RPM Fusion Repository"
 
     log_message "INFO" "Installing NVIDIA Driver"
     printc "YELLOW" "-> Installing NVIDIA Driver..."
-    sudo dnf install akmod-nvidia -y || handle_error "Failed to Install NVIDIA Driver"
-
-    log_message "INFO" "Installing nvidia-smi"
-    printc "YELLOW" "-> Installing nvidia-smi..."
-    sudo dnf install xorg-x11-drv-nvidia-cuda -y || handle_error "Failed to Install nvidia-smi"
+    sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda || handle_error "Failed to Install NVIDIA Driver"
 
 }
 

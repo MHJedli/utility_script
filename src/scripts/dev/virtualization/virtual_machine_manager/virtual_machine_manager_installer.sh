@@ -31,22 +31,6 @@ install_virtual_machine_manager_for_ubuntu_or_based(){
     printc "YELLOW" "-> Installing Virtual Machine Manager..."
     sudo apt install virt-manager -y || handle_error "Failed to Install Virtual Machine Manager"
 
-}
-
-install_virtual_machine_manager_for_fedora_or_based(){
-
-    log_message "INFO" "Updating System Packages"
-    printc "YELLOW" "-> Updating System Packages..."
-    sudo dnf update -y || handle_error "Failed to Update System Packages"
-
-    log_message "INFO" "Installing Virtual Machine Manager"
-    printc "YELLOW" "-> Installing Virtual Machine Manager..."
-    sudo dnf install @virtualization -y || handle_error "Failed to Install Virtual Machine Manager"
-
-}
-
-setup_configurations(){
-
     log_message "INFO" "Configuring libvirt to use system URI"
     printc "YELLOW" "-> Configuring libvirt to use system URI..."
     echo 'export LIBVIRT_DEFAULT_URI="qemu:///system"' >> ~/.bashrc || handle_error "Failed to set LIBVIRT_DEFAULT_URI"
@@ -55,6 +39,39 @@ setup_configurations(){
     printc "YELLOW" "-> Configuring rootless libvirt and kvm..."
     sudo usermod -a -G kvm $(id -un) || handle_error "Failed to add user to kvm group"
     sudo usermod -a -G libvirt $(id -un) || handle_error "Failed to add user to libvirt group"
+
+}
+
+install_virtual_machine_manager_for_fedora_or_based(){
+
+    log_message "INFO" "Updating System Packages"
+    printc "YELLOW" "-> Updating System Packages..."
+    sudo dnf update -y || handle_error "Failed to Update System Packages"
+
+    log_message "INFO" "Installing Required Dependencies"
+    printc "YELLOW" "-> Installing Required Dependencies..."
+    sudo dnf install -y \
+    vim wget curl openssl zip htop lm_sensors git \
+    terminus-fonts-console python3 python3-pip || handle_error "Failed to install required dependencies"
+
+
+    log_message "INFO" "Installing Virtualization packages"
+    printc "YELLOW" "-> Installing Virtualization packages..."
+    sudo dnf install -y \
+    qemu-kvm libvirt virt-install \
+    guestfs-tools libguestfs-tools bridge-utils || handle_error "Failed to Install Virtualization packages"
+
+    log_message "INFO" "Installing Virtualization Desktop Interface"
+    printc "YELLOW" "-> Installing Virtualization Desktop Interface..."
+    sudo dnf install -y libgovirt virt-manager || handle_error "Failed to Install Virtualization Desktop Interface"
+
+    log_message "INFO" "Setting up permissions"
+    printc "YELLOW" "-> Setting up permissions..."
+    sudo restorecon -R -vF /var/lib/libvirt || handle_error "Failed to setup permissions"
+
+    log_message "INFO" "Enabling libvirt service"
+    printc "YELLOW" "-> ..."
+    sudo systemctl enable --now libvirtd || handle_error "Failed to enable libvirt service"
 
 }
 
@@ -90,11 +107,14 @@ if check_internet; then
 
     fi
 
-    setup_configurations
-
     echo "Virtual Machine Manager Script Execution Completed Successfully at $(date)" >> "$LOG_FILE"
-    print_msgbox "Success !" "Virtual Machine Manager Installed Successfully"
-    print_msgbox "NOTE" "Reboot Your System to Apply Changes"
+    if whiptail --title "Virtual Machine Manager Installed" --yesno "Do you Want to reboot now ?" 8 78; then
+        echo "Rebooting..."
+        reboot
+    else
+        print_msgbox "Success !" "Virtual Machine Manager Installed Successfully"
+        print_msgbox "NOTE" "Reboot Your System to Apply Changes"
+    fi
 
 else
 
