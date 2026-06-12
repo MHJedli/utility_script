@@ -48,7 +48,11 @@ install_quantum_espresso(){
                 SCALAPACK_LIBS="-lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64" \
                 FFT_LIBS="-lfftw3" \
                 FFT_INCLUDE="/usr/include" \
-                LIBDIRS="/usr/lib/x86_64-linux-gnu /opt/intel/oneapi/mkl/${intelmkl_version}/lib/intel64" || handle_error "Error while configuring Quantum Espresso Version ${SELECTED_QE_VERSION} Installation"
+                LIBDIRS="/usr/lib/x86_64-linux-gnu /opt/intel/oneapi/mkl/${intelmkl_version}/lib/intel64" \
+                F90="ifx" \
+                CC="mpiicx" \
+                MPIF90="/opt/intel/oneapi/${intelmkl_version}/bin/mpiifx" \
+                FC=$(which ifx) || handle_error "Error while configuring Quantum Espresso Version ${SELECTED_QE_VERSION} Installation"
     sed -i 's/^DFLAGS *=/DFLAGS = -D__FFTW /' make.inc
     sudo ldconfig
 
