@@ -76,7 +76,7 @@ install_gipaw(){
 
     log_message "INFO" "Installing GIPAW v${SELECTED_QE_VERSION}"
     printc "YELLOW" "-> Installing GIPAW v${SELECTED_QE_VERSION}..."
-    tar -xf $DIRECTORY_PATH/tmp/qe-gipaw-${SELECTED_QE_VERSION}.tar.bz2 -C $HOME
+    tar -xf $DIRECTORY_PATH/tmp/qe-gipaw-${SELECTED_QE_VERSION}.tar.bz2 -C $HOME || handle_error "Error while extracting GIPAW"
     cd $HOME/qe-gipaw-${SELECTED_QE_VERSION}
     ./configure --with-qe-source="../q-e-qe-${SELECTED_QE_VERSION}" || handle_error "Error while configuring GIPAW Installation"
     make all -j$(nproc) || handle_error "Error while compiling GIPAW"
@@ -104,7 +104,7 @@ if check_internet; then
     
     log_message "INFO" "Verifying required packages"
     printc "YELLOW" "-> Verifying required packages..."
-    verify_packages "jq" "make" "git" "unzip" "curl" "libfftw3-dev"
+    verify_packages "jq" "make" "git" "unzip" "curl" "libfftw3-dev" "bzip2"
 
     install_quantum_espresso
     install_gipaw
